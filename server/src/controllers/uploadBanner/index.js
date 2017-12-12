@@ -12,7 +12,7 @@ const {
 
 const tempPath = name => ({
   archive: path.resolve(__dirname, `..`, `..`, `..`, `tmp/archives/${uuid()}--${name}`),
-  decompose: path.resolve(__dirname, `..`, `..`, `..`, `tmp/decompress/${uuid()}`)
+  decompose: path.resolve(__dirname, `..`, `..`, `..`, `tmp/decompress/${uuid()}--${name}`)
 })
 
 async function lastLoaded(ctx) {
@@ -21,7 +21,7 @@ async function lastLoaded(ctx) {
 
   await fs.rename(files.archive.path, archive)
   await decompress(archive, decompose)
-  ctx.body = folderTree(decompose)
+  ctx.body = await folderTree(decompose)
 }
 
 module.exports = (router, path) => router.post(
