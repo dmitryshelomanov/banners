@@ -9,6 +9,7 @@ const {
   folderTree
 } = require('../../helpers')
 
+
 const tempPath = name => ({
   archive: path.resolve(__dirname, `..`, `..`, `..`, `tmp/archives/${uuid()}--${name}`),
   decompose: path.resolve(__dirname, `..`, `..`, `..`, `tmp/decompress/${uuid()}`)
@@ -17,6 +18,7 @@ const tempPath = name => ({
 async function lastLoaded(ctx) {
   const { files } = ctx.request
   const { archive, decompose } = tempPath(files.archive.name)
+
   await fs.rename(files.archive.path, archive)
   await decompress(archive, decompose)
   ctx.body = folderTree(decompose)
