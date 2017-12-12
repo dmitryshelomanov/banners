@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 
-const wlexWrap = styled.div`
+export const FlexWrap = styled.div`
   display: flex;
   justify-content: ${props => props.jc};
   align-items: ${props => props.ai};
@@ -11,7 +11,7 @@ const wlexWrap = styled.div`
   height: ${props => props.height};
   flex-direction: ${props => props.fd};
 `
-wlexWrap.propTypes = {
+FlexWrap.propTypes = {
   jc: PropTypes.string,
   ai: PropTypes.string,
   width: PropTypes.oneOfType([
@@ -25,12 +25,10 @@ wlexWrap.propTypes = {
   fd: PropTypes.string
 }
 
-wlexWrap.defaultProps = {
+FlexWrap.defaultProps = {
   width: 'auto',
   height: 'auto',
   jc: 'flex-start',
   ai: 'flex-start',
   fd: 'row'
 }
-
-export default wlexWrap

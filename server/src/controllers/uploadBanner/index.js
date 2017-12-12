@@ -4,6 +4,7 @@ const path = require('path')
 const {
   isZipFile,
   notEmptyFile,
+  maxSizeFile,
   uuid,
   decompress,
   folderTree
@@ -26,5 +27,5 @@ async function lastLoaded(ctx) {
 
 module.exports = (router, path) => router.post(
   path,
-  notEmptyFile, isZipFile, lastLoaded
+  notEmptyFile, maxSizeFile(600), isZipFile, lastLoaded
 )

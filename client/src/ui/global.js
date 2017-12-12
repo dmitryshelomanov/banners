@@ -1,7 +1,7 @@
 import { injectGlobal } from 'styled-components'
 
 
-export default () => injectGlobal`
+export const globalStyles = () => injectGlobal`
   @import url('https://fonts.googleapis.com/css?family=Exo+2');
   body {
     width: 100vw;

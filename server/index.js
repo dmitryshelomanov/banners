@@ -3,7 +3,9 @@ const Router = require('koa-router')
 const debug = require('debug')('banner:index')
 const middleware = require('./src/middleware')
 
-const { uploadBanner } = require('./src/controllers')
+const { 
+  uploadBanner
+} = require('./src/controllers')
 
 const router = new Router()
 const app = new Koa()
