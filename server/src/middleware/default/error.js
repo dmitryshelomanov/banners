@@ -3,7 +3,7 @@ exports.init = app => app.use(async (ctx, next) => {
     await next()
   }
   catch (error) {
-    ctx.status = error.status
-    ctx.body = error.message
+    ctx.status = error.status || 500
+    ctx.body = error.message || error
   }
 })
