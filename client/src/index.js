@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import { ThemeProvider } from 'styled-components'
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
+import { injectGlobal } from './components/ui'
+
+
+injectGlobal()
 
 const theme = {}
 

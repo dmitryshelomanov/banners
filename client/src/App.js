@@ -1,13 +1,17 @@
-import React, { Component } from 'react';
-import { injectGlobal } from './components/ui'
+import React, { Component } from 'react'
+import {
+  RootContainer,
+  FlexWrap
+} from './components/ui'
+import ArchiveTree from './components/archiveTree'
 
-injectGlobal()
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-      </div>
+      <RootContainer>
+        <ArchiveTree />
+      </RootContainer>
     )
   }
 }

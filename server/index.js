@@ -1,21 +1,19 @@
 const Koa = require('koa')
 const Router = require('koa-router')
-const debuger = require('debug')
-const logger = require('koa-logger')
-const parser = require('koa-bodyparser')
+const debug = require('debug')('banner:index')
+const middleware = require('./src/middleware')
 
-const router = new Router({})
+const { uploadBanner } = require('./src/controllers')
+
+const router = new Router()
 const app = new Koa()
 
-router.get('/', (ctx) => {
-  ctx.body = 'Hello koa'
-})
+uploadBanner(router, '/upload')
 
-router.get('/zip', (ctx) => {
-  ctx.body = 'zip'
-})
+middleware(app)
 
-app
-  .use(parser())
+app  
   .use(router.routes())
-  .listen(8000)
+  .listen(8000, () => { 
+    debug('server run on port: 8000')
+  })
