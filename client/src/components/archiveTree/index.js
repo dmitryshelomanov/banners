@@ -5,7 +5,7 @@ import {
   Button,
   UploadBtn
 } from '../ui'
-import WithUploadFile from '../../hocs/withUploadFile'
+import WithUploadFile from '../../hocs/with-upload-file'
 
 
 const ButtonWithHoc = WithUploadFile(UploadBtn)
