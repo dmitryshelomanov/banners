@@ -17,6 +17,7 @@ export class RenderTree extends Component {
       this.props.onAddImage({
         url,
         path: img.path,
+        originalSize: img.size,
         name: url.split('\\')[0] 
       })
     }

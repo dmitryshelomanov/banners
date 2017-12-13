@@ -6,6 +6,8 @@ const decompress = require('./handlers/decompress')
 const folderTree = require('./handlers/folderTree')
 const tempPath = require('./tempPath')
 const compressImage = require('./handlers/compress-img')
+const copyFolder = require('./handlers/copy-folder')
+const compressPercent = require('./handlers/getPecent')
 
 
 module.exports = {
@@ -16,5 +18,7 @@ module.exports = {
   folderTree,
   maxSizeFile,
   tempPath,
-  compressImage
+  compressImage,
+  copyFolder,
+  compressPercent
 }

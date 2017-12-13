@@ -5,19 +5,20 @@ const {
   isZipFile,
   notEmptyFile,
   maxSizeFile,
-  uuid,
   decompress,
   folderTree,
-  tempPath
+  tempPath,
+  copyFolder
 } = require('../../helpers')
 
 
 async function lastLoaded(ctx) {
   const { files } = ctx.request
-  const { archive, decompose } = tempPath(files.archive.name)
+  const { archive, decompose, process } = tempPath(files.archive.name)
 
   await fs.rename(files.archive.path, archive)
   await decompress(archive, decompose)
+  await copyFolder(decompose, process())
   ctx.body = await folderTree(decompose)
 }
 
