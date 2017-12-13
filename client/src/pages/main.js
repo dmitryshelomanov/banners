@@ -13,7 +13,7 @@ export class Main extends Component {
       <RootContainer>
         <FlexWrap
           fd="column"
-          width="50%"
+          width="100%"
         >
           <ArchiveBlock />
           <CompressImage />

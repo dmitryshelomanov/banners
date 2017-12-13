@@ -19,7 +19,7 @@ export class ArchiveUpload extends Component {
       >
         <Caption>Загрузите архив</Caption>
         <Button 
-          text="+"
+          text="Загрузить"
         />
       </FlexWrap>
     )

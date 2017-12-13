@@ -13,6 +13,11 @@ export const Button = styled(btn)`
   outline: none;
   border: none;
   text-align: center;
-  padding: 10px 15px;
-  cursor: pointer
+  padding: 10px 20px;
+  cursor: pointer;
+  background: #47a4a5;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+  border-color: #47A4A5
 `

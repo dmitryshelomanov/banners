@@ -1,14 +1,26 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
 import { 
   TreeField,
   FlexWrap,
-  Text
+  Text,
+  FolderIcon,
+  FilesIcon
 } from '../'
 
 
 const extensions = [
   '.jpg', '.png'
 ]
+
+const Folder = Text.extend`
+  border-bottom: 1px solid #eaecef;
+  padding: 10px 0;
+  box-sizing: border-box;
+  margin: 0;
+  color: #0366d6;
+  cursor: pointer
+`
 
 export class RenderTree extends Component {
   addImage = img => {
@@ -30,11 +42,16 @@ export class RenderTree extends Component {
         fd="column"
         style={{ paddingLeft: folders.type === 'directory' ? padding * 10 : 0 }}
       >
-        <Text
+        <Folder
           onClick={() => this.addImage(folders)}
         >
+          {
+            folders.type === 'directory' 
+              ? <FolderIcon />
+              : <FilesIcon />
+          }
           {folders.name}
-        </Text>
+        </Folder>
         <FlexWrap
           fd="column"
           style={{ paddingLeft: folders.type === 'directory' ? padding * 10 : 0 }}

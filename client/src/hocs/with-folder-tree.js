@@ -7,10 +7,14 @@ export default WrapClass => {
   class WithFolderTree extends Component { 
     render() { 
       return (
-        <WrapClass
-          folders={this.props.folders}
-          onAddImage={this.props.onAddImage}
-        />
+        <div>
+          {
+            this.props.folders.name && <WrapClass
+              folders={this.props.folders}
+              onAddImage={this.props.onAddImage}
+            />
+          }
+        </div>
       )
     }
   }
