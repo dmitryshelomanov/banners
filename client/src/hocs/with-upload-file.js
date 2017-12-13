@@ -8,12 +8,12 @@ export default BaseClass => {
   class withUploadFile extends Component {
     _onChangeInput = ({ target }) => {
       let form = new FormData
+
       form.append('archive', target.files[0])
       this.props.onUploadFile(form)
     }
 
     render() {
-      console.log(BaseClass)
       return (
         <BaseClass
           _changeInput={this._onChangeInput}

@@ -7,18 +7,18 @@ const initialState = {
   treeFolders: {}
 }
 
-export const treeFolder = (state = initialState, actions) => {
+export const archiveUpload = (state = initialState, actions) => {
   switch(actions.type) {
-    case types.TREE_FETCH: return {
+    case types.ARCHIVE_FETCH: return {
       ...state,
       isLoading: true
     }
-    case types.TREE_END: return {
+    case types.ARCHIVE_END: return {
       ...state,
       isLoading: false,
       treeFolders: typeof actions.payload === 'string' ? state.treeFolders : actions.payload
     }
-    case types.TREE_ERROR: return {
+    case types.ARCHIVE_ERROR: return {
       ...state,
       isLoading: false,
       isError: true

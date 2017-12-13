@@ -1,6 +1,9 @@
 import { combineReducers } from 'redux'
-import { treeFolder } from './reducers/tree-folder'
+import { archiveUpload } from './reducers/tree-folder'
+import { carousel } from './reducers/carousel'
+
 
 export const reducers = combineReducers({
-  treeFolder
+  archiveUpload,
+  carousel
 })

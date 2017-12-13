@@ -7,14 +7,10 @@ const {
   maxSizeFile,
   uuid,
   decompress,
-  folderTree
+  folderTree,
+  tempPath
 } = require('../../helpers')
 
-
-const tempPath = name => ({
-  archive: path.resolve(__dirname, `..`, `..`, `..`, `tmp/archives/${uuid()}--${name}`),
-  decompose: path.resolve(__dirname, `..`, `..`, `..`, `tmp/decompress/${uuid()}--${name}`)
-})
 
 async function lastLoaded(ctx) {
   const { files } = ctx.request
@@ -27,5 +23,5 @@ async function lastLoaded(ctx) {
 
 module.exports = (router, path) => router.post(
   path,
-  notEmptyFile, maxSizeFile(600), isZipFile, lastLoaded
+  notEmptyFile, maxSizeFile(3000), isZipFile, lastLoaded
 )

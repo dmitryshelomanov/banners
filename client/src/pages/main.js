@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import {
-  TreeRenderHoc as TreeRender,
-  RootContainer
+  RootContainer,
+  ArchiveBlock,
+  CompressImage,
+  FlexWrap
 } from '../ui'
 
 
@@ -9,7 +11,13 @@ export class Main extends Component {
   render() {
     return (
       <RootContainer>
-        <TreeRender />
+        <FlexWrap
+          fd="column"
+          width="50%"
+        >
+          <ArchiveBlock />
+          <CompressImage />
+        </FlexWrap>
       </RootContainer>
     )
   }

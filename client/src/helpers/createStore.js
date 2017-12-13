@@ -11,6 +11,6 @@ import fetch from './middleware/fetch'
 export const store = createStore(
   reducers,
   applyMiddleware(
-    logger, thunk, fetch
+    thunk, logger, fetch
   )
 )

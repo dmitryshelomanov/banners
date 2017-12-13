@@ -4,7 +4,7 @@ import * as types from '../types'
 
 export const uploadFile = file => dispatch => {
   dispatch({
-    type: types.TREE,
+    type: types.ARCHIVE,
     request: () => axios.post(`http://localhost:8000/upload`, file)
   })
 }

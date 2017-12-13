@@ -5,11 +5,13 @@ import PropTypes from 'prop-types'
 
 export const FlexWrap = styled.div`
   display: flex;
+  padding: ${props => props.padding};
   justify-content: ${props => props.jc};
   align-items: ${props => props.ai};
   width: ${props => props.width};
   height: ${props => props.height};
   flex-direction: ${props => props.fd};
+  box-sizing: border-box;
 `
 FlexWrap.propTypes = {
   jc: PropTypes.string,
@@ -22,7 +24,8 @@ FlexWrap.propTypes = {
     PropTypes.string,
     PropTypes.number
   ]),
-  fd: PropTypes.string
+  fd: PropTypes.string,
+  padding: PropTypes.number
 }
 
 FlexWrap.defaultProps = {
@@ -30,5 +33,6 @@ FlexWrap.defaultProps = {
   height: 'auto',
   jc: 'flex-start',
   ai: 'flex-start',
-  fd: 'row'
+  fd: 'row',
+  padding: 0
 }

@@ -4,7 +4,7 @@ import { injectGlobal } from 'styled-components'
 export const globalStyles = () => injectGlobal`
   @import url('https://fonts.googleapis.com/css?family=Exo+2');
   body {
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     margin: 0;
     padding: 0;
@@ -12,7 +12,7 @@ export const globalStyles = () => injectGlobal`
   }
   #root {
     width: 100%;
-    heigth: 100%
+    height: 100%
   }
   input[type=file] {
     display: none

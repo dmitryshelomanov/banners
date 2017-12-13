@@ -1,4 +1,4 @@
-exports.init = app => app.use(async (ctx, next) => {
+module.exports = async (ctx, next) => {
   try {
     await next()
   }
@@ -6,4 +6,4 @@ exports.init = app => app.use(async (ctx, next) => {
     ctx.status = error.status || 500
     ctx.body = error.message || error
   }
-})
+}

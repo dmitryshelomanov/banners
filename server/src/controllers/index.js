@@ -1,6 +1,8 @@
-const uploadBanner = require('./uploadBanner')
+const uploadBanner = require('./upload-banner')
+const compressImg = require('./compress-img')
 
 
 module.exports = {
-  uploadBanner
+  uploadBanner,
+  compressImg
 }

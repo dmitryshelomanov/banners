@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Button } from '../atoms'
+import {
+  Button,
+  FlexWrap
+} from '../'
 
 
 export class UploadBtn extends Component {
@@ -20,14 +23,14 @@ export class UploadBtn extends Component {
   render() {
     const { className, text, _changeInput, ...rest } = this.props
     return (
-      <div>
+      <FlexWrap>
         <input type="file" ref="files" />
         <Button
           onClick={this._handleInputFile}
           text={text}
           {...rest}
         />
-      </div>
+      </FlexWrap>
     )
   }
 }
