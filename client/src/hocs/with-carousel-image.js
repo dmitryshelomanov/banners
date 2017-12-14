@@ -5,9 +5,11 @@ import { connect } from 'react-redux'
 export default WrapClass => { 
   class WithCarouselImage extends Component {
     render() {
+      const { carousel, ...rest } = this.props
       return (
         <WrapClass
-          carousel={this.props.carousel}
+          carousel={carousel}
+          {...rest}
         />
       )
     }

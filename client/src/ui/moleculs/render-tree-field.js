@@ -24,8 +24,11 @@ const Folder = Text.extend`
 
 export class RenderTree extends Component {
   addImage = img => {
-    if (img.type === 'file' && extensions.indexOf(img.extension) !== -1) { 
+    if (img.type === 'file' &&
+        extensions.indexOf(img.extension) !== -1) {
+
       let url = img.path.split('decompress\\')[1]
+      url = url.replace(/[\\]+/ig, '/')
       this.props.onAddImage({
         url,
         path: img.path,
@@ -40,7 +43,9 @@ export class RenderTree extends Component {
     return (
       <FlexWrap
         fd="column"
-        style={{ paddingLeft: folders.type === 'directory' ? padding * 10 : 0 }}
+        style={{
+          paddingLeft: folders.type === 'directory' ? padding * 10 : 0
+        }}
       >
         <Folder
           onClick={() => this.addImage(folders)}

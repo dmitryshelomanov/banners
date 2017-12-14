@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {
   FlexWrap,
   Text,
-  Carousel
+  Carousel,
 } from '../'
 import WithCarouselImg from '../../hocs/with-carousel-image'
 

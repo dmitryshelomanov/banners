@@ -16,16 +16,19 @@ async function compressImg(ctx) {
   const { quality } = ctx.query
   debug(`compress img with body -`, body)
 
-  let pathWithOutName = body.url.split('\\')
+  let pathWithOutName = body.url.split('/')
   pathWithOutName.pop()
 
   const { process } = tempPath()
 
   await compressImage(body.path, process(pathWithOutName.join('\\')), quality || defaultQuality)
   let { size } = await fs.stat(process(body.url))
+
   ctx.body = {
+    name: body.name,
     quality: quality || defaultQuality,
     newSize: size,
+    originalSize: body.originalSize,
     percentCompress: compressPercent(body.originalSize, size)
   }
 }

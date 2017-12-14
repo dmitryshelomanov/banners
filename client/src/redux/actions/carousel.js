@@ -12,3 +12,10 @@ export const addImageToCarousel = image => dispatch => {
     request: () => axios.post(`http://127.0.0.1:8000/compress/img`, image)
   })
 }
+
+export const compressActiveImage = (image, q) => dispatch => { 
+  dispatch({
+    type: types.COMPRESS,
+    request: () => axios.post(`http://127.0.0.1:8000/compress/img?quality=${q}`, image)
+  })
+}
