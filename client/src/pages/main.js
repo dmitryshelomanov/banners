@@ -3,7 +3,8 @@ import {
   RootContainer,
   ArchiveBlock,
   CompressImage,
-  FlexWrap
+  FlexWrap,
+  ShowBanner
 } from '../ui'
 
 
@@ -17,6 +18,7 @@ export class Main extends Component {
         >
           <ArchiveBlock />
           <CompressImage />
+          <ShowBanner/>
         </FlexWrap>
       </RootContainer>
     )

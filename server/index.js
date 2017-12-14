@@ -4,7 +4,8 @@ const debug = require('debug')('banner:index')
 const middleware = require('./src/middleware')
 const { 
   uploadBanner,
-  compressImg
+  compressImg,
+  showBanner
 } = require('./src/controllers')
 
 const router = new Router()
@@ -12,6 +13,7 @@ const app = new Koa()
 
 compressImg(router, '/compress/img')
 uploadBanner(router, '/upload')
+showBanner(router, '/show/banner')
 
 middleware(app)
 

@@ -1,0 +1,87 @@
+<style>
+  #imageContainer{
+  overflow:hidden;
+  width:200px;
+  height:200px;
+  cursor:move;
+}
+
+#image{
+  width:1000px;
+}
+</style>
+
+<div id="imageContainer" >
+  <img id="image" draggable="false" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk4ORy7pQpQ8mQ_yJtjdWua4BbjFKF9-uPFa0tb3D_KEGzOlm3" />
+</div>
+
+<script>
+const imageContainer = document.querySelector('#imageContainer')
+let pressed = false
+imageContainer.addEventListener('mousedown', e => {
+  window.startCoords = grabImage(e)
+  pressed = true
+})
+imageContainer.onmouseup = e => {
+  pressed = false
+}
+imageContainer.onmousemove = e => moveImage(e);
+
+  
+const grabImage = (e) => {
+	const startCoords = {
+  	x: e.layerX,
+    y: e.layerY
+  }
+  return startCoords
+}
+
+const moveImage = e => {
+	const { startCoords } = window
+  if (!pressed) return
+	const endCoords = {
+  	x: e.layerX,
+    y: e.layerY
+  }
+  //Расстояние
+  const distance = {
+  	// По оси X
+		x: Math.abs(endCoords.x - startCoords.x), // Расстояние которое прошла мышка по оси Х, во время того как ты зажал мышку и типо двигал картинку\
+    y: Math.abs(endCoords.y - startCoords.y), // The same
+  }
+  
+  const direction = {
+    x: (endCoords.x < startCoords.x) ? 'right' : 'left',
+    y: (endCoords.y < startCoords.y) ? 'down' : 'up',
+  }
+	
+  const toX = (direction.x === 'right') ? imageContainer.scrollLeft + distance.x : imageContainer.scrollLeft - distance.x
+  const toY = (direction.y === 'down') ? imageContainer.scrollTop + distance.y : imageContainer.scrollTop - distance.y
+
+  
+  document.getElementById('imageContainer').scrollTo(toX, toY)
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

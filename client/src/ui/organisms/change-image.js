@@ -22,20 +22,14 @@ class Change extends Component {
     super(props)
     this.state = {
       isPressed: false,
-      oldX: 0,
-      oldY: 0,
-      oldScale: 1,
-      swipeSpeed: 10,
-      currentLeft: 0,
-      currentTop: 0,
-      lastMove: Date.now()
+      lastCoords: {
+        x: 0, y: 0
+      }
     }
   }
   
-  componentDidUpdate() {
+ componentDidUpdate() {
     if (this.cloneWrap && this.originalWrap) {
-      this.originalImage = this.originalWrap.querySelector('img')
-      this.cloneImage = this.cloneWrap.querySelector('img')
       this.addEventListener()
     }
   }
@@ -57,45 +51,52 @@ class Change extends Component {
   }
 
   imageHandleDown = (e) => {
-    this.setState({ isPressed: true }, () => {
-      this.originalWrap.onmousemove = this.mouseMove
-    })
+    this.setState({ 
+      isPressed: true,
+      lastCoords: {
+        x: e.layerX, y: e.layerY
+      }
+    }, () => this.originalWrap.onmousemove = this.mouseMove )
   }
 
-  imageHandleUp = () => { 
+  imageHandleUp = (e) => {
     this.setState({ isPressed: false })
+    return false
   }
 
   mouseMove = (e) => {
     if (!this.state.isPressed) return
-    this.moveX(e)
-    this.moveY(e)
+    this.grabStage(
+      e,
+      [this.originalWrap, this.cloneWrap]
+    )
   }
 
-  moveX = (e) => {
-    const { offsetX, offsetY, px, py } = this.getMouseCoord(e)
+  grabStage = (e, containers) => {
+    const { layerX: endX, layerY: endY } = e
+    const { x: startX, y: startY } = this.state.lastCoords
+    const initialContainer = containers[0]
 
-    this.originalImage.style.left = `${offsetX}px`
-    this.cloneImage.style.left = `${offsetX}px`
+    const distance = { 
+      x: Math.abs(endX - startX), 
+      y: Math.abs(endY - startY) 
+    }
+
+    if (distance.x === 0 && distance.y === 0) return false
+
+    const direction = {
+      x: (endX < startX) ? 'right' : 'left',
+      y: (endY < startY) ? 'down' : 'up',
+    }
+  
+    const toX = (direction.x === 'right') ? initialContainer.scrollLeft + distance.x : initialContainer.scrollLeft - distance.x
+    const toY = (direction.y === 'down') ? initialContainer.scrollTop + distance.y : initialContainer.scrollTop - distance.y
+
+    containers.forEach((i) => {
+      i.scrollTo(toX, toY)
+    })
   }
-
-  moveY = (e) => {
-    const { offsetX, offsetY, px, py } = this.getMouseCoord(e)
-
-    this.originalImage.style.top = `${offsetY}px`
-    this.cloneImage.style.top = `${offsetY}px`
-  }
-
-  scale = (e) => {
-
-  }
-
-  getMouseCoord = (e) => ({
-    px: e.x,
-		py: e.y,
-		offsetX: e.offsetX,
-		offsetY: e.offsetY
-  })
+  
 
   render() {
     const { carousel, onCompress } = this.props

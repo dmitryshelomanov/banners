@@ -8,7 +8,8 @@ import updateSystem from '../../helpers/updateSystem'
 
 
 const InfoWithStyle = FlexWrap.extend`
-  background: red;
+  top: 0;
+  left: 0;
   position: relative;
   background: #40a1a2;
   color: #fff;
@@ -26,12 +27,11 @@ class Image extends Component {
     return (
       <FlexWrap
         fd="column"
-        width="100%"
-        innerRef={nestedRef && nestedRef}
+        width="43%"
       >
         <InfoWithStyle
           className={"info"}
-          width="90%"
+          width="100%"
         >
           {
             isOrigin && imageActive.info
@@ -40,10 +40,13 @@ class Image extends Component {
           }
         </InfoWithStyle>
         <FlexWrap
+          width="100%"
+          height="350px"
           className={className}
-          width="90%"
+          innerRef={nestedRef && nestedRef}
         >
           <img
+            width="auto"
             src={`http://localhost:8000/${folder}/${imageActive.url}?v=${v}`}
             draggable={false}
           />
@@ -55,7 +58,6 @@ class Image extends Component {
 
 const withStyle = styled(Image) `
   display: flex;
-  height: 350px;
   overflow: hidden;
   border: 1px solid #CCCCCC;
   background: #FFFFFF url(http://optimizilla.com/images/grid3x.png) repeat;
@@ -64,10 +66,7 @@ const withStyle = styled(Image) `
   align-items: center;
   justify-content: center;
   & img {
-    width: auto;
-    margin: 0;
     position: absolute;
-    transition: all .1s
   }
 `
 

@@ -10,7 +10,7 @@ import {
 
 
 const extensions = [
-  '.jpg', '.png'
+  '.jpg', '.png', '.jpeg'
 ]
 
 const Folder = Text.extend`
