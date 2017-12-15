@@ -1,22 +1,33 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   FlexWrap,
   Text,
   Carousel,
+  CarouselItem
 } from '../'
-import WithCarouselImg from '../../hocs/with-carousel-image'
+import WithActiveImage from '../../hocs/with-active-image'
 
 
-const WithCarouselImgHoc = WithCarouselImg(Carousel)
+const ItemWithActive = WithActiveImage(CarouselItem)
 
-export class CompressImage extends Component {
+class CompressImageWrap extends Component {
   render() {
     return (
       <FlexWrap
         width="100%"
       >
-        <WithCarouselImgHoc />
+        <Carousel
+          component={<ItemWithActive />}
+          carousel={this.props.carousel}
+        />
       </FlexWrap>
     )
   }
 }
+
+export const CompressImage = connect(
+  state => ({
+    carousel: state.carousel
+  })
+)(CompressImageWrap)

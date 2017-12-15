@@ -11,7 +11,16 @@ export const Range = styled.input.attrs({
 }) `
   -webkit-appearance: slider-vertical;
   writing-mode: bt-lr;
-  outline: none
+  outline: none;
+  overflow: hidden;
+  width: 80px;
+  background-color: #9a905d;
+  & ::-webkit-slider-runnable-track {
+    height: 10px;
+    -webkit-appearance: none;
+    color: #13bba4;
+    margin-top: -1px;
+  }
 `
 
 Range.propTypes = {

@@ -12,33 +12,35 @@ const Image = FlexWrap.extend`
   background-position: center;
 `
 
-const carouselItem = ({
-  className, img, ids, activeImage, ...rest
-}) => (
-  <FlexWrap
-    width="140px"
-    height="146px"
-    ai="center"
-    jc="center"
-    className={`${className} ${activeImage === ids && 'active'}`}
-    {...rest}  
-  >
+const carouselItem = ({ 
+  className, img, activeImage, ids, ...rest
+}) => {
+  return (
     <FlexWrap
-      className="percent"
-      width="100%"
-      height="100%"
+      width="140px"
+      height="146px"
       ai="center"
       jc="center"
-    > 
-      {img.info && `-${img.info.percentCompress}%`}
-    </FlexWrap> 
-    <Image
-      width="90%"
-      height="90%"
-      url={`http://localhost:8000/decompress/${img.url}`}
-    />
-  </FlexWrap>
-)
+      className={`${className} ${activeImage === ids && 'active'}`}
+      {...rest}
+    >
+      <FlexWrap
+        className="percent"
+        width="100%"
+        height="100%"
+        ai="center"
+        jc="center"
+      >
+        {img.info && `-${img.info.percentCompress}%`}
+      </FlexWrap>
+      <Image
+        width="90%"
+        height="90%"
+        url={`http://localhost:8000/decompress/${img.url}`}
+      />
+    </FlexWrap>
+  )
+}
 
 export const CarouselItem = styled(carouselItem)`
   position: relative;

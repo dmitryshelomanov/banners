@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import WithCarouselImage from '../../hocs/with-carousel-image'
+import { connect } from 'react-redux'
 import { 
   FlexWrap
 } from '../'
@@ -16,14 +16,21 @@ const InfoWithStyle = FlexWrap.extend`
   padding: 15px;
 `
 
-class Image extends Component { 
+class Image extends Component {
+  componentWillUpdate(nextProps) {
+    const imageActiveOld = this.props.carousel.images[this.props.carousel.activeImage]
+    const imageActiveNext = nextProps.carousel.images[nextProps.carousel.activeImage]
+
+    if (this.props.carousel.activeImage !== nextProps.carousel.activeImage) this.img.removeAttribute('style')
+  }
+
   render() { 
     const { className, carousel, isOrigin, nestedRef } = this.props
 
     const folder = isOrigin ? 'decompress' : 'process'
     const v = Math.floor(Math.random() * 2000)
     const imageActive = carousel.images[carousel.activeImage]
-  
+
     return (
       <FlexWrap
         fd="column"
@@ -39,35 +46,39 @@ class Image extends Component {
               : `Сжатый ( ${updateSystem(imageActive.info.newSize)} )kb`
           }
         </InfoWithStyle>
-        <FlexWrap
-          width="100%"
-          height="350px"
+        <div
           className={className}
-          innerRef={nestedRef && nestedRef}
+          ref={nestedRef && nestedRef}
         >
           <img
-            width="auto"
+            ref={c => this.img = c}  
             src={`http://localhost:8000/${folder}/${imageActive.url}?v=${v}`}
             draggable={false}
           />
-        </FlexWrap>
+        </div>
       </FlexWrap>
     )
   }
 }
 
-const withStyle = styled(Image) `
-  display: flex;
+const withStyle = styled(Image)`
+  display: block;
   overflow: hidden;
-  border: 1px solid #CCCCCC;
+  border: none;
   background: #FFFFFF url(http://optimizilla.com/images/grid3x.png) repeat;
   position: relative;
   cursor: move;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  height: 350px;
   & img {
-    position: absolute;
+    position: relative;
+    display: block;
+    margin: 0 auto
   }
 `
 
-export const ImageReview = WithCarouselImage(withStyle)
+export const ImageReview = connect(
+  state => ({
+    carousel: state.carousel
+  })
+)(withStyle)

@@ -11,6 +11,11 @@ module.exports = (name) => {
       return !folder
         ? path.resolve(__dirname, `..`, `..`, `tmp/process/${uuidMain}--${name}`)
         : path.resolve(__dirname, `..`, `..`, `tmp/process/${folder}`) 
+    },
+    compress(folder = null) { 
+      return !folder
+      ? path.resolve(__dirname, `..`, `..`, `tmp/compress/${uuidMain}--${name}`)
+      : path.resolve(__dirname, `..`, `..`, `tmp/compress/${folder}`) 
     }
   }
 }

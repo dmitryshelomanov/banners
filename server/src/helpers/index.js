@@ -8,6 +8,7 @@ const tempPath = require('./tempPath')
 const compressImage = require('./handlers/compress-img')
 const copyFolder = require('./handlers/copy-folder')
 const compressPercent = require('./handlers/getPecent')
+const compressFolder = require('./handlers/compress-folder')
 
 
 module.exports = {
@@ -20,5 +21,6 @@ module.exports = {
   tempPath,
   compressImage,
   copyFolder,
-  compressPercent
+  compressPercent,
+  compressFolder
 }

@@ -24,7 +24,7 @@ export default WrapClass => {
       carousel: state.carousel
     }),
     dispatch => ({
-      onSetActiveImage: ids => { 
+      onSetActiveImage: ids => {
         dispatch({ type: types.CAROUSEL_SET_ACTIVE_IMAGE, payload: ids })
       }
     })

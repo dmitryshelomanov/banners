@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { 
   Text,
   FlexWrap,
   Image,
   ChangeImage
 } from '../'
-import { CarouselItem } from './carousel-item'
-import WithActiveImage from '../../hocs/with-active-image'
-
 
 const CarouselWrap = FlexWrap.extend`
   width: 100%;
@@ -20,12 +17,12 @@ const CarouselWrap = FlexWrap.extend`
   box-sizing: border-box;
 `
 
-const CarouselItemHoc = WithActiveImage(CarouselItem)
-
 export class Carousel extends Component {
   render() {
     const { images } = this.props.carousel
-    return (
+    const { component, carousel } = this.props
+
+    return (  
       <FlexWrap
         fd="column"
         width="100%"
@@ -35,11 +32,12 @@ export class Carousel extends Component {
       >
         <CarouselWrap>
           {
-            images.length > 0 && images.map((item, key) => (
-              <CarouselItemHoc
-                key={key}
-                ids={key}
-              />
+            images.map((i, k) => (
+              React.cloneElement(component, {
+                key: k,
+                ids: k,
+                carousel
+              })
             ))
           }
         </CarouselWrap>

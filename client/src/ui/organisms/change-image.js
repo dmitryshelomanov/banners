@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
 import {
   FlexWrap,
   ImageReview,
@@ -24,11 +23,16 @@ class Change extends Component {
       isPressed: false,
       lastCoords: {
         x: 0, y: 0
-      }
+      },
+      isUpdate: false
     }
   }
-  
- componentDidUpdate() {
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return true
+  }
+
+  componentDidUpdate() {
     if (this.cloneWrap && this.originalWrap) {
       this.addEventListener()
     }
@@ -39,9 +43,11 @@ class Change extends Component {
   }
 
   addEventListener = () => {
-    this.originalWrap.addEventListener('mousedown', this.imageHandleDown)
-    this.originalWrap.addEventListener('mouseup', this.imageHandleUp)
-    this.originalWrap.addEventListener('mousewheel', this.scale)
+    [this.originalWrap, this.cloneWrap].forEach((i) => { 
+      i.addEventListener('mousedown', this.imageHandleDown)
+      i.addEventListener('mouseup', this.imageHandleUp)
+      i.addEventListener('mousewheel', this.scale)
+    })
   }
 
   removeListeners = () => { 
@@ -56,7 +62,9 @@ class Change extends Component {
       lastCoords: {
         x: e.layerX, y: e.layerY
       }
-    }, () => this.originalWrap.onmousemove = this.mouseMove )
+    }, () => { 
+      [this.originalWrap, this.cloneWrap].forEach(i => i.onmousemove = this.mouseMove)
+    })
   }
 
   imageHandleUp = (e) => {
@@ -77,7 +85,7 @@ class Change extends Component {
     const { x: startX, y: startY } = this.state.lastCoords
     const initialContainer = containers[0]
 
-    const distance = { 
+    const distance = {
       x: Math.abs(endX - startX), 
       y: Math.abs(endY - startY) 
     }
@@ -97,6 +105,21 @@ class Change extends Component {
     })
   }
   
+  scale = (e) => {
+    e.preventDefault()
+    const ratio = (w, h) => w / h === 0 ? 1 : w / h
+    const operation = (value1, value2) => e.deltaY < 0 ? (value1 + value2) : (value1 - value2)
+    const el = [this.originalWrap, this.cloneWrap]
+
+    for (let i = 0; i < el.length; i++) {
+      let img = el[i].querySelector('img')
+      let r = ratio(img.width, img.height)
+      let newW = operation(img.width, 15)
+
+      img.style.width = `${newW}px`
+      img.style.height = `${newW / r}px`
+    }
+  }
 
   render() {
     const { carousel, onCompress } = this.props

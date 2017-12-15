@@ -12,7 +12,7 @@ export const globalStyles = () => injectGlobal`
   }
   #root {
     width: 100%;
-    height: 100%
+    height: auto
   }
   input[type=file] {
     display: none
