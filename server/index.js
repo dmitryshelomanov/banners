@@ -9,6 +9,7 @@ const {
   compressImg,
   showBanner,
   compressArchive,
+  parseBanner
 } = require('./src/controllers')
 
 
@@ -18,6 +19,7 @@ const app = new Koa()
 compressImg(router, `/compress/img`)
 uploadBanner(router, `/upload`)
 compressArchive(router, `/compress/archive`)
+parseBanner(router, `/parse/banner`)
 
 router.post(`/base64`, async (ctx) => {
   const { body } = ctx.request
@@ -36,6 +38,8 @@ router.post(`/base64`, async (ctx) => {
 
   ctx.body = body.data.lenght
 })
+
+
 
 router.get(`/test`, async (ctx) => {
   const { process } = tempPath()

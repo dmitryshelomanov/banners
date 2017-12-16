@@ -18,7 +18,7 @@ export class Main extends Component {
         >
           <ArchiveBlock />
           <CompressImage />
-          <ShowBanner/>
+          {/* <ShowBanner/> */}
         </FlexWrap>
       </RootContainer>
     )
