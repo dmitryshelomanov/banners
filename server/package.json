@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "dev": "cross-env DEBUG=banner:* nodemon index.js"
+    "dev": "cross-env DEBUG=banner:* nodemon index.js",
+    "test:lint": "eslint . "
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
@@ -22,5 +23,9 @@
     "koa2-formidable": "^1.0.2",
     "webpage": "^0.3.0",
     "zip-folder": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.13.1",
+    "eslint-config-atomix-base": "^5.1.1"
   }
 }

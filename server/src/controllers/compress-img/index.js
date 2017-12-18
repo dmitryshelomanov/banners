@@ -4,36 +4,38 @@ const path = require('path')
 const {
   tempPath,
   compressImage,
-  compressPercent
+  compressPercent,
 } = require('../../helpers')
 const {
-  defaultQuality
+  defaultQuality,
 } = require('../../config')
 
 
 async function compressImg(ctx) {
   const { body } = ctx.request
   const { quality } = ctx.query
-  debug(`compress img with body -`, body)
 
-  let pathWithOutName = body.url.split('/')
+  debug(`compress img with body - ${body}`)
+
+  const pathWithOutName = body.url.split('/')
+
   pathWithOutName.pop()
 
   const { process } = tempPath()
 
   await compressImage(body.path, process(pathWithOutName.join('\\')), quality || defaultQuality)
-  let { size } = await fs.stat(process(body.url))
+  const { size } = await fs.stat(process(body.url))
 
   ctx.body = {
     name: body.name,
     quality: quality || defaultQuality,
     newSize: size,
     originalSize: body.originalSize,
-    percentCompress: compressPercent(body.originalSize, size)
+    percentCompress: compressPercent(body.originalSize, size),
   }
 }
 
-module.exports = (router, path) => router.post(
-  path,
+module.exports = (router, uri) => router.post(
+  uri,
   compressImg
 )

@@ -8,5 +8,5 @@ module.exports = {
   uploadBanner,
   compressImg,
   compressArchive,
-  parseBanner
+  parseBanner,
 }

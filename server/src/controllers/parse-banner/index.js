@@ -1,40 +1,40 @@
 const debug = require('debug')('banner:controller:parser-banner')
 const fs = require('fs-extra')
 const cheerio = require('cheerio')
-const { 
-  tempPath
+const {
+  tempPath,
 } = require('../../helpers')
 
+/* eslint-disable consistent-return */
 
 function parser(str) {
-  let src = this.attr('src')
-  if (
-    /http.*/.test(src) ||
-    src == undefined
-  ) return
+  const src = this.attr('src')
 
-  this.attr(`src`, str)
+  if (/http.*/.test(src) || src === 'undefined') return
+
+  this.attr('src', str)
 }
 
 async function parserBanner(ctx) {
   const { banner } = ctx.query
-  debug(`parser banner with query`, banner)
+
+  debug('parser banner with query', banner)
 
   const { process } = tempPath()
-  let path = process(`${banner}\\240x400.html`)
+  const pathBanner = process(`${banner}/240x400.html`)
 
-  if (!await fs.exists(path)) {
+  if (!await fs.exists(pathBanner)) {
     ctx.status = 404
-    return ctx.body = `file ${banner} not found in ${path}`
+    ctx.body = `file ${banner} not found in ${pathBanner}`
+    return
   }
 
-  let $ = cheerio.load(
-    await fs.readFile(path)
-  )
+  const $ = cheerio.load(await fs.readFile(pathBanner))
 
   ctx.set('Content-type', 'text/plane')
-  $(`script`).each(function (e) {
-    $this = $(this)
+  $('script').each(function each() {
+    const $this = $(this)
+
     parser.call($this, `http://localhost:8000/process/${banner}/${$this.attr('src')}`)
   })
 
@@ -43,5 +43,5 @@ async function parserBanner(ctx) {
 
 module.exports = (router, path) => router.get(
   path,
-  parserBanner
+  parserBanner,
 )

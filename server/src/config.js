@@ -1,3 +1,3 @@
 module.exports = {
-  defaultQuality: 80
+  defaultQuality: 80,
 }

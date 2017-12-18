@@ -4,5 +4,5 @@ const debug = require('debug')('banner:helpers:copy-folder')
 
 module.exports = async (input, output) => {
   debug(`copy folder from ${input} to ${output}`)
-  return await fs.copy(input, output)
+  await fs.copy(input, output)
 }
