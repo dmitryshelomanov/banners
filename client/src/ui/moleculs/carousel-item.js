@@ -14,10 +14,10 @@ const Image = FlexWrap.extend`
 `
 
 const carouselItem = ({
-  className, img, activeImage, ids, ...rest
+  className, img, activeImage, ids, width, ...rest
 }) => (
   <FlexWrap
-    width="140px"
+    width={width}
     height="146px"
     ai="center"
     jc="center"
@@ -49,6 +49,7 @@ carouselItem.propTypes = {
   }).isRequired,
   activeImage: PropTypes.number,
   ids: PropTypes.number.isRequired,
+  width: PropTypes.string.isRequired,
 }
 
 carouselItem.defaultProps = {
