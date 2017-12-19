@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 
 
 export const Image = styled.img.attrs({
-  src: props => props.src
+  src: props => props.src,
+  max: props => props.mw,
 })`
-  display: flex;
   width: ${props => props.width};
   max-width: 200px;
   height: auto;
@@ -15,9 +15,10 @@ export const Image = styled.img.attrs({
 
 Image.propTypes = {
   src: PropTypes.string.isRequired,
-  width: PropTypes.string
+  width: PropTypes.string,
 }
 
 Image.defaultProps = {
-  width: '100%'
+  width: 'auto',
+  mw: 'none',
 }

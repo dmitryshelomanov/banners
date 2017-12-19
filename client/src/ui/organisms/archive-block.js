@@ -3,21 +3,17 @@ import WithFolderTree from '../../hocs/with-folder-tree'
 import {
   ArchiveUpload,
   FlexWrap,
-  RenderTree
+  RenderTree,
 } from '../'
 
 
 const RenderTreeHoc = WithFolderTree(RenderTree)
 
-export class ArchiveBlock extends Component {
-  render() {
-    return (
-      <FlexWrap
-        fd="column"
-      >
-        <ArchiveUpload />
-        <RenderTreeHoc />
-      </FlexWrap>
-    )
-  }
-}
+export const ArchiveBlock = () => (
+  <FlexWrap
+    fd="column"
+  >
+    <ArchiveUpload />
+    <RenderTreeHoc />
+  </FlexWrap>
+)

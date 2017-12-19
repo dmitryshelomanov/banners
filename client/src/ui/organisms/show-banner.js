@@ -1,48 +1,74 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { connect } from 'react-redux'
 import {
   FlexWrap,
-  Text,
   Button,
   Caption,
 } from '../'
 
 
-export class ShowBanner extends Component {
+class ShowBanner extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      html: null
+      html: null,
     }
   }
-  async componentDidMount() {
-    let data = await axios.get(`http://localhost:8000/test`)
-    this.setState({ html: `${data.data}` })
+
+  async componentWillMount() {
+    try {
+      const data = await axios.get(`http://localhost:8000/parse/banner?banner=${this.props.archive.name}`)
+
+      this.setState({ html: `${data.data}` })
+    }
+    catch (error) {
+      throw error
+    }
   }
+
+  bannerReady = () => {
+
+  }
+
   render() {
     return (
-      <FlexWrap
-        width="100%"
-        fd="column"
-      >
-        <Caption>
-          Итоговый баннер
-        </Caption>
-        <Button
-          text="перезагрузить"
-          onClick={this.reloadBanner}
-        />
+      <div>
         {
-          this.state.html &&         <iframe 
-          id="main"
-          srcDoc={`${this.state.html}`} 
-          width="100%"
-          height="500px"
-          frameBorder="0"
-          ref={c => this.banner = c}
-        />
+          !this.state.html !== <FlexWrap
+            width="100%"
+            fd="column"
+          >
+            <Caption>
+              Итоговый баннер
+            </Caption>
+            <Button
+              text="перезагрузить"
+              onClick={this.reloadBanner}
+            />
+            <FlexWrap
+              width="100%"
+              jc="space-around"
+            >
+              <iframe
+                title="banner"
+                onLoad={this.bannerReady}
+                srcDoc={`${this.state.html}`}
+                width="100%"
+                height="500px"
+                frameBorder="0"
+                ref={(c) => {
+                  this.banner = c
+                }}
+              />
+            </FlexWrap>
+          </FlexWrap>
         }
-      </FlexWrap>
+      </div>
     )
   }
 }
+
+export const ShowBannerWithArchive = connect(state => ({
+  archive: state.archiveUpload.treeFolders,
+}))(ShowBanner)

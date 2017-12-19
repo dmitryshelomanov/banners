@@ -8,7 +8,7 @@ export const Range = styled.input.attrs({
   min: props => props.min,
   max: props => props.max,
   step: props => props.step,
-}) `
+})`
   -webkit-appearance: slider-vertical;
   writing-mode: bt-lr;
   outline: none;
@@ -26,5 +26,5 @@ export const Range = styled.input.attrs({
 Range.propTypes = {
   min: PropTypes.number,
   max: PropTypes.number,
-  step: PropTypes.number
+  step: PropTypes.number,
 }

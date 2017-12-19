@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { 
-  Text,
+import PropTypes from 'prop-types'
+import {
   FlexWrap,
 } from '../'
+
 
 const Image = FlexWrap.extend`
   background: url(${props => props.url});
@@ -12,34 +13,46 @@ const Image = FlexWrap.extend`
   background-position: center;
 `
 
-const carouselItem = ({ 
+const carouselItem = ({
   className, img, activeImage, ids, ...rest
-}) => {
-  return (
+}) => (
+  <FlexWrap
+    width="140px"
+    height="146px"
+    ai="center"
+    jc="center"
+    className={`${className} ${activeImage === ids && 'active'}`}
+    {...rest}
+  >
     <FlexWrap
-      width="140px"
-      height="146px"
+      className="percent"
+      width="100%"
+      height="100%"
       ai="center"
       jc="center"
-      className={`${className} ${activeImage === ids && 'active'}`}
-      {...rest}
     >
-      <FlexWrap
-        className="percent"
-        width="100%"
-        height="100%"
-        ai="center"
-        jc="center"
-      >
-        {img.info && `-${img.info.percentCompress}%`}
-      </FlexWrap>
-      <Image
-        width="90%"
-        height="90%"
-        url={`http://localhost:8000/decompress/${img.url}`}
-      />
+      {img.info && `-${img.info.percentCompress}%`}
     </FlexWrap>
-  )
+    <Image
+      width="90%"
+      height="90%"
+      url={`http://localhost:8000/decompress/${img.url}`}
+    />
+  </FlexWrap>
+)
+
+carouselItem.propTypes = {
+  className: PropTypes.string.isRequired,
+  img: PropTypes.shape({
+    url: PropTypes.string,
+    info: PropTypes.object,
+  }).isRequired,
+  activeImage: PropTypes.number,
+  ids: PropTypes.number.isRequired,
+}
+
+carouselItem.defaultProps = {
+  activeImage: null,
 }
 
 export const CarouselItem = styled(carouselItem)`

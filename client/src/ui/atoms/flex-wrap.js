@@ -18,14 +18,14 @@ FlexWrap.propTypes = {
   ai: PropTypes.string,
   width: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.number
+    PropTypes.number,
   ]),
   height: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.number
+    PropTypes.number,
   ]),
   fd: PropTypes.string,
-  padding: PropTypes.number
+  padding: PropTypes.number,
 }
 
 FlexWrap.defaultProps = {
@@ -34,5 +34,5 @@ FlexWrap.defaultProps = {
   jc: 'flex-start',
   ai: 'flex-start',
   fd: 'row',
-  padding: 0
+  padding: 0,
 }

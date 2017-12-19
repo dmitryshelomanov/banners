@@ -21,3 +21,7 @@ export const Button = styled(btn)`
   font-weight: bold;
   border-color: #47A4A5
 `
+btn.propTypes = {
+  className: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+}

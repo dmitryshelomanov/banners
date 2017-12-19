@@ -5,5 +5,5 @@ import { carousel } from './reducers/carousel'
 
 export const reducers = combineReducers({
   archiveUpload,
-  carousel
+  carousel,
 })

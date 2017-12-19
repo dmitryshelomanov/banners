@@ -8,8 +8,9 @@ export const Caption = styled.h1`
   padding: 0;
   font-size: ${props => props.size};
 `
+
 Caption.propTypes = {
-  size: PropTypes.number
+  size: PropTypes.number,
 }
 
 Caption.defaultProps = {

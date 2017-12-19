@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { 
-  TreeField,
+import PropTypes from 'prop-types'
+import {
   FlexWrap,
   Text,
   FolderIcon,
-  FilesIcon
+  FilesIcon,
 } from '../'
 
+/* eslint-disable react/no-array-index-key */
 
 const extensions = [
-  '.jpg', '.png', '.jpeg'
+  '.jpg', '.png', '.jpeg',
 ]
 
 const Folder = Text.extend`
@@ -23,35 +24,36 @@ const Folder = Text.extend`
 `
 
 export class RenderTree extends Component {
-  addImage = img => {
-    if (img.type === 'file' &&
-        extensions.indexOf(img.extension) !== -1) {
-
+  addImage = (img) => {
+    if (img.type === 'file'
+        && extensions.indexOf(img.extension) !== -1) {
       let url = img.path.split('decompress\\')[1]
+
       url = url.replace(/[\\]+/ig, '/')
       this.props.onAddImage({
         url,
         path: img.path,
         originalSize: img.size,
-        name: url.split('\\')[0] 
+        name: url.split('\\')[0],
       })
     }
   }
 
   render() {
-    const { folders, padding = 0, onAddImage } = this.props
+    const { folders, padding, onAddImage } = this.props
+
     return (
       <FlexWrap
         fd="column"
         style={{
-          paddingLeft: folders.type === 'directory' ? padding * 10 : 0
+          paddingLeft: folders.type === 'directory' ? padding * 10 : 0,
         }}
       >
         <Folder
           onClick={() => this.addImage(folders)}
         >
           {
-            folders.type === 'directory' 
+            folders.type === 'directory'
               ? <FolderIcon />
               : <FilesIcon />
           }
@@ -75,4 +77,19 @@ export class RenderTree extends Component {
       </FlexWrap>
     )
   }
+}
+
+RenderTree.propTypes = {
+  folders: PropTypes.shape({
+    name: PropTypes.string,
+    children: PropTypes.array,
+    type: PropTypes.string,
+    size: PropTypes.number,
+  }).isRequired,
+  padding: PropTypes.number,
+  onAddImage: PropTypes.func.isRequired,
+}
+
+RenderTree.defaultProps = {
+  padding: 0,
 }

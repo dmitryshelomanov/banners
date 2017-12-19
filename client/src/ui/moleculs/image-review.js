@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { 
-  FlexWrap
+import PropTypes from 'prop-types'
+import {
+  FlexWrap,
 } from '../'
-import updateSystem from '../../helpers/updateSystem'
+import updateSystem from '../../helpers/update-system'
 
+/* eslint-disable no-magic-numbers */
 
 const InfoWithStyle = FlexWrap.extend`
   top: 0;
@@ -16,15 +18,12 @@ const InfoWithStyle = FlexWrap.extend`
   padding: 15px;
 `
 
-class Image extends Component {
+class ImageWrap extends Component {
   componentWillUpdate(nextProps) {
-    const imageActiveOld = this.props.carousel.images[this.props.carousel.activeImage]
-    const imageActiveNext = nextProps.carousel.images[nextProps.carousel.activeImage]
-
     if (this.props.carousel.activeImage !== nextProps.carousel.activeImage) this.img.removeAttribute('style')
   }
 
-  render() { 
+  render() {
     const { className, carousel, isOrigin, nestedRef } = this.props
 
     const folder = isOrigin ? 'decompress' : 'process'
@@ -37,21 +36,21 @@ class Image extends Component {
         width="43%"
       >
         <InfoWithStyle
-          className={"info"}
+          className="info"
           width="100%"
         >
-          {
-            isOrigin && imageActive.info
-              ? `Исходный ( ${updateSystem(imageActive.info.originalSize)} )kb`
-              : `Сжатый ( ${updateSystem(imageActive.info.newSize)} )kb`
-          }
+          {isOrigin && imageActive.info && `Исходный ( ${updateSystem(imageActive.info.originalSize)} )kb`}
+          {!isOrigin && imageActive.info && `Сжатый ( ${updateSystem(imageActive.info.newSize)} )kb`}
         </InfoWithStyle>
         <div
           className={className}
           ref={nestedRef && nestedRef}
         >
           <img
-            ref={c => this.img = c}  
+            alt="img"
+            ref={(c) => {
+              this.img = c
+            }}
             src={`http://localhost:8000/${folder}/${imageActive.url}?v=${v}`}
             draggable={false}
           />
@@ -61,7 +60,23 @@ class Image extends Component {
   }
 }
 
-const withStyle = styled(Image)`
+ImageWrap.propTypes = {
+  className: PropTypes.string.isRequired,
+  isOrigin: PropTypes.bool.isRequired,
+  nestedRef: PropTypes.oneOfType([
+    PropTypes.func,
+  ]),
+  carousel: PropTypes.shape({
+    activeImage: PropTypes.number,
+    images: PropTypes.array,
+  }).isRequired,
+}
+
+ImageWrap.defaultProps = {
+  nestedRef: () => { },
+}
+
+const withStyle = styled(ImageWrap)`
   display: block;
   overflow: hidden;
   border: none;
@@ -77,8 +92,6 @@ const withStyle = styled(Image)`
   }
 `
 
-export const ImageReview = connect(
-  state => ({
-    carousel: state.carousel
-  })
-)(withStyle)
+export const ImageReview = connect(state => ({
+  carousel: state.carousel,
+}))(withStyle)

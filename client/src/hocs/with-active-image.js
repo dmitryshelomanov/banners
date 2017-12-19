@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import * as types from '../redux/types'
 
 
-export default WrapClass => { 
-  class WithActiveImage extends Component {
+export default (WrapClass) => {
+  class WithActiveImage extends PureComponent {
     render() {
       const { ids, onSetActiveImage, carousel, ...rest } = this.props
 
@@ -19,14 +20,25 @@ export default WrapClass => {
       )
     }
   }
+
+  WithActiveImage.propTypes = {
+    ids: PropTypes.number.isRequired,
+    onSetActiveImage: PropTypes.func.isRequired,
+    carousel: PropTypes.shape({
+      name: PropTypes.string,
+      images: PropTypes.array,
+      activeImage: PropTypes.number,
+    }).isRequired,
+  }
+
   return connect(
     state => ({
-      carousel: state.carousel
+      carousel: state.carousel,
     }),
     dispatch => ({
-      onSetActiveImage: ids => {
+      onSetActiveImage: (ids) => {
         dispatch({ type: types.CAROUSEL_SET_ACTIVE_IMAGE, payload: ids })
-      }
-    })
+      },
+    }),
   )(WithActiveImage)
 }

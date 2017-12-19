@@ -2,6 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 
-export const Text = styled.p`
-  font-size: 12px;
+export const CarouselBtn = styled.div`
+  display: block
 `

@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import {
   FlexWrap,
   ImageReview,
-  Range
+  Range,
 } from '../'
 import { compressActiveImage } from '../../redux/actions/carousel'
 
@@ -22,14 +23,9 @@ class Change extends Component {
     this.state = {
       isPressed: false,
       lastCoords: {
-        x: 0, y: 0
+        x: 0, y: 0,
       },
-      isUpdate: false
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return true
   }
 
   componentDidUpdate() {
@@ -43,31 +39,33 @@ class Change extends Component {
   }
 
   addEventListener = () => {
-    [this.originalWrap, this.cloneWrap].forEach((i) => { 
+    [this.originalWrap, this.cloneWrap].forEach((i) => {
       i.addEventListener('mousedown', this.imageHandleDown)
       i.addEventListener('mouseup', this.imageHandleUp)
       i.addEventListener('mousewheel', this.scale)
     })
   }
 
-  removeListeners = () => { 
+  removeListeners = () => {
     this.originalWrap.removeEventListener('mousedown', this.imageHandleDown)
     this.originalWrap.removeEventListener('mouseup', this.imageHandleUp)
     this.originalWrap.removeEventListener('mousewheel', this.scale)
   }
 
   imageHandleDown = (e) => {
-    this.setState({ 
+    this.setState({
       isPressed: true,
       lastCoords: {
-        x: e.layerX, y: e.layerY
-      }
-    }, () => { 
-      [this.originalWrap, this.cloneWrap].forEach(i => i.onmousemove = this.mouseMove)
+        x: e.layerX, y: e.layerY,
+      },
+    }, () => {
+      [this.originalWrap, this.cloneWrap].forEach((i) => {
+        i.onmousemove = this.mouseMove
+      })
     })
   }
 
-  imageHandleUp = (e) => {
+  imageHandleUp = () => {
     this.setState({ isPressed: false })
     return false
   }
@@ -76,7 +74,7 @@ class Change extends Component {
     if (!this.state.isPressed) return
     this.grabStage(
       e,
-      [this.originalWrap, this.cloneWrap]
+      [this.originalWrap, this.cloneWrap],
     )
   }
 
@@ -86,8 +84,8 @@ class Change extends Component {
     const initialContainer = containers[0]
 
     const distance = {
-      x: Math.abs(endX - startX), 
-      y: Math.abs(endY - startY) 
+      x: Math.abs(endX - startX),
+      y: Math.abs(endY - startY),
     }
 
     if (distance.x === 0 && distance.y === 0) return false
@@ -96,7 +94,7 @@ class Change extends Component {
       x: (endX < startX) ? 'right' : 'left',
       y: (endY < startY) ? 'down' : 'up',
     }
-  
+
     const toX = (direction.x === 'right') ? initialContainer.scrollLeft + distance.x : initialContainer.scrollLeft - distance.x
     const toY = (direction.y === 'down') ? initialContainer.scrollTop + distance.y : initialContainer.scrollTop - distance.y
 
@@ -104,7 +102,7 @@ class Change extends Component {
       i.scrollTo(toX, toY)
     })
   }
-  
+
   scale = (e) => {
     e.preventDefault()
     const ratio = (w, h) => w / h === 0 ? 1 : w / h
@@ -112,9 +110,9 @@ class Change extends Component {
     const el = [this.originalWrap, this.cloneWrap]
 
     for (let i = 0; i < el.length; i++) {
-      let img = el[i].querySelector('img')
-      let r = ratio(img.width, img.height)
-      let newW = operation(img.width, 15)
+      const img = el[i].querySelector('img')
+      const r = ratio(img.width, img.height)
+      const newW = operation(img.width, 15)
 
       img.style.width = `${newW}px`
       img.style.height = `${newW / r}px`
@@ -134,22 +132,26 @@ class Change extends Component {
             width="100%"
           >
             <ImageReview
-              isOrigin={true}
-              nestedRef={(comp) => this.originalWrap = comp}
+              isOrigin
+              nestedRef={(comp) => {
+                this.originalWrap = comp
+              }}
             />
             <ImageReview
               isOrigin={false}
-              nestedRef={(comp) => this.cloneWrap = comp}
+              nestedRef={(comp) => {
+                this.cloneWrap = comp
+              }}
             />
             <Range
               min={0}
               step={1}
               max={100}
-              innerRef={(comp) => this.range = comp}
+              innerRef={(comp) => {
+                this.range = comp
+              }}
               onMouseUp={() => {
-                onCompress(
-                  carousel.images[activeImage], this.range.value
-                )
+                onCompress(carousel.images[activeImage], this.range.value)
               }}
             />
           </Wrap>
@@ -159,13 +161,21 @@ class Change extends Component {
   }
 }
 
+Change.propTypes = {
+  carousel: PropTypes.shape({
+    activeImage: PropTypes.number,
+    images: PropTypes.array,
+  }).isRequired,
+  onCompress: PropTypes.func.isRequired,
+}
+
 export const ChangeImage = connect(
   state => ({
-    carousel: state.carousel
+    carousel: state.carousel,
   }),
   dispatch => ({
-    onCompress: (img, q) => { 
+    onCompress: (img, q) => {
       dispatch(compressActiveImage(img, q))
-    }
-  })
+    },
+  }),
 )(Change)

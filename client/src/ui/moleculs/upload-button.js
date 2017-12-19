@@ -3,31 +3,36 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import {
   Button,
-  FlexWrap
+  FlexWrap,
 } from '../'
 
-
+// /* eslint-disable no-return-assign */
 export class UploadBtn extends Component {
   componentDidMount() {
-    this.refs.files.addEventListener('change', this.props._changeInput)
+    this.files.addEventListener('change', this.props.changeInput)
   }
 
   componentWillUnmount() {
-    this.refs.files.removeEventListener('change', this.props._changeInput)
+    this.files.removeEventListener('change', this.props.changeInput)
   }
 
-  _handleInputFile = () => {
-    this.refs.files.click()
+  handleInputFile = () => {
+    this.files.click()
   }
 
   render() {
-    const { className, text, _changeInput, ...rest } = this.props
+    const { className, changeInput, ...rest } = this.props
+
     return (
       <FlexWrap>
-        <input type="file" ref="files" />
+        <input
+          type="file"
+          ref={(c) => {
+            this.files = c
+          }}
+        />
         <Button
-          onClick={this._handleInputFile}
-          text={text}
+          onClick={this.handleInputFile}
           {...rest}
         />
       </FlexWrap>
@@ -37,5 +42,5 @@ export class UploadBtn extends Component {
 
 UploadBtn.propTypes = {
   text: PropTypes.string.isRequired,
-  _changeInput: PropTypes.func.isRequired
+  changeInput: PropTypes.func.isRequired,
 }
