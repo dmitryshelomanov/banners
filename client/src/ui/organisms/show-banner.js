@@ -35,34 +35,36 @@ class ShowBanner extends Component {
     return (
       <div>
         {
-          !this.state.html !== <FlexWrap
-            width="100%"
-            fd="column"
-          >
-            <Caption>
-              Итоговый баннер
-            </Caption>
-            <Button
-              text="перезагрузить"
-              onClick={this.reloadBanner}
-            />
+          this.state.html && (
             <FlexWrap
               width="100%"
-              jc="space-around"
+              fd="column"
             >
-              <iframe
-                title="banner"
-                onLoad={this.bannerReady}
-                srcDoc={`${this.state.html}`}
-                width="100%"
-                height="500px"
-                frameBorder="0"
-                ref={(c) => {
-                  this.banner = c
-                }}
+              <Caption>
+                Итоговый баннер
+              </Caption>
+              <Button
+                text="перезагрузить"
+                onClick={this.reloadBanner}
               />
+              <FlexWrap
+                width="100%"
+                jc="space-around"
+              >
+                <iframe
+                  title="banner"
+                  onLoad={this.bannerReady}
+                  srcDoc={`${this.state.html}`}
+                  width="100%"
+                  height="500px"
+                  frameBorder="0"
+                  ref={(c) => {
+                    this.banner = c
+                  }}
+                />
+              </FlexWrap>
             </FlexWrap>
-          </FlexWrap>
+          )
         }
       </div>
     )

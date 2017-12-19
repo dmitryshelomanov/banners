@@ -60,7 +60,7 @@ class Change extends Component {
       },
     }, () => {
       [this.originalWrap, this.cloneWrap].forEach((i) => {
-        i.onmousemove = this.mouseMove
+        i.addEventListener('onmousemove', () => this.mouseMove)
       })
     })
   }
@@ -101,6 +101,7 @@ class Change extends Component {
     containers.forEach((i) => {
       i.scrollTo(toX, toY)
     })
+    return true
   }
 
   scale = (e) => {
@@ -128,33 +129,33 @@ class Change extends Component {
         width="100%"
       >
         {
-          activeImage !== null && <Wrap
-            width="100%"
-          >
-            <ImageReview
-              isOrigin
-              nestedRef={(comp) => {
-                this.originalWrap = comp
-              }}
-            />
-            <ImageReview
-              isOrigin={false}
-              nestedRef={(comp) => {
-                this.cloneWrap = comp
-              }}
-            />
-            <Range
-              min={0}
-              step={1}
-              max={100}
-              innerRef={(comp) => {
-                this.range = comp
-              }}
-              onMouseUp={() => {
-                onCompress(carousel.images[activeImage], this.range.value)
-              }}
-            />
-          </Wrap>
+          activeImage !== null && (
+            <Wrap width="100%">
+              <ImageReview
+                isOrigin
+                nestedRef={(comp) => {
+                  this.originalWrap = comp
+                }}
+              />
+              <ImageReview
+                isOrigin={false}
+                nestedRef={(comp) => {
+                  this.cloneWrap = comp
+                }}
+              />
+              <Range
+                min={0}
+                step={1}
+                max={100}
+                innerRef={(comp) => {
+                  this.range = comp
+                }}
+                onMouseUp={() => {
+                  onCompress(carousel.images[activeImage], this.range.value)
+                }}
+              />
+            </Wrap>
+          )
         }
       </FlexWrap>
     )
