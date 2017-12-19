@@ -6,11 +6,12 @@ const {
 } = require('../../helpers')
 
 /* eslint-disable consistent-return */
+/* eslint-disable eqeqeq */
 
 function parser(str) {
   const src = this.attr('src')
 
-  if (/http.*/.test(src) || src === 'undefined') return
+  if (/http.*/.test(src) || src == undefined) return
 
   this.attr('src', str)
 }
