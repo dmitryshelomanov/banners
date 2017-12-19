@@ -20,6 +20,7 @@ async function lastLoaded(ctx) {
   await fs.rename(files.archive.path, archive)
   await decompress(archive, decompose)
   await copyFolder(decompose, process())
+
   ctx.body = await folderTree(decompose)
 }
 

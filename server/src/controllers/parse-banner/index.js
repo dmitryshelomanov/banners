@@ -24,7 +24,7 @@ async function parserBanner(ctx) {
   const pathBanner = process(`${banner}/240x400.html`)
 
   if (!await fs.exists(pathBanner)) {
-    ctx.status = 404
+    ctx.status = 204
     ctx.body = `file ${banner} not found in ${pathBanner}`
     return
   }

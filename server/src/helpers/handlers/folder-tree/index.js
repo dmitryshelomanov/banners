@@ -4,5 +4,7 @@ const dirTree = require('directory-tree')
 
 module.exports = async (path) => {
   debug(`tree folder for ${path}`)
-  await dirTree(path)
+  const tree = await dirTree(path)
+
+  return tree
 }
