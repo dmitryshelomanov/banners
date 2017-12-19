@@ -18,7 +18,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "test:lint": "eslint . "
+    "test:lint": "eslint . ",
+    "precommit": "yarn test:lint",
+    "prepush": "yarn test:lint"
   },
   "devDependencies": {
     "babel-eslint": "^8.0.3",
