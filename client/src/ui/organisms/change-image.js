@@ -28,6 +28,11 @@ class Change extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextStore) {
+    if (nextStore.isPressed !== this.state.isPressed) return false
+    return true
+  }
+
   componentDidUpdate() {
     if (this.cloneWrap && this.originalWrap) {
       this.addEventListener()
@@ -60,7 +65,7 @@ class Change extends Component {
       },
     }, () => {
       [this.originalWrap, this.cloneWrap].forEach((i) => {
-        i.addEventListener('onmousemove', () => this.mouseMove)
+        i.addEventListener('mousemove', this.mouseMove)
       })
     })
   }

@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
+import { setGifImage } from '../../redux/actions/gif'
 import {
   FlexWrap,
   Button,
   Caption,
 } from '../'
 
+
+const BnnerWrap = FlexWrap.extend`
+  margin: 25px 0
+`
 
 class ShowBanner extends Component {
   constructor(props) {
@@ -16,45 +21,53 @@ class ShowBanner extends Component {
     }
   }
 
-  async componentWillMount() {
-    try {
-      const data = await axios.get(`http://localhost:8000/parse/banner?banner=${this.props.archive.name}`)
+  getData = async () => {
+    const data = await axios.get(`http://localhost:8000/parse/banner?banner=${this.props.archive.name}`)
 
-      this.setState({ html: `${data.data}` })
-    }
-    catch (error) {
-      throw error
-    }
+    this.setState({ html: `${data.data}` })
   }
 
-  bannerReady = () => {
+  getDataURL = () => {
+    if (!this.banner) return
+    const doc = this.banner.contentDocument || this.banner.contentWindow.document
+    const canvas = doc.getElementById('canvas')
 
+    this.props.setImageFromGif(canvas.toDataURL('image/jpeg', 1), canvas.width)
   }
 
   render() {
     return (
-      <div>
+      <BnnerWrap
+        width="100%"
+        fd="column"
+      >
+        <FlexWrap>
+          {
+            this.state.html
+              ? <Button
+                text="перезагрузить баннер"
+              />
+              : <Button
+                text="посмотреть баннер"
+                onClick={this.getData}
+              />
+          }
+        </FlexWrap>
         {
           this.state.html && (
             <FlexWrap
               width="100%"
               fd="column"
             >
-              <Caption>
-                Итоговый баннер
-              </Caption>
-              <Button
-                text="перезагрузить"
-                onClick={this.reloadBanner}
-              />
               <FlexWrap
                 width="100%"
-                jc="space-around"
+                fd="column"
+                ai="center"
               >
                 <iframe
                   title="banner"
                   onLoad={this.bannerReady}
-                  srcDoc={`${this.state.html}`}
+                  srcDoc={this.state.html}
                   width="100%"
                   height="500px"
                   frameBorder="0"
@@ -62,15 +75,26 @@ class ShowBanner extends Component {
                     this.banner = c
                   }}
                 />
+                <Button
+                  text="взять картинку"
+                  onClick={this.getDataURL}
+                />
               </FlexWrap>
             </FlexWrap>
           )
         }
-      </div>
+      </BnnerWrap>
     )
   }
 }
 
-export const ShowBannerWithArchive = connect(state => ({
-  archive: state.archiveUpload.treeFolders,
-}))(ShowBanner)
+export const ShowBannerWithArchive = connect(
+  state => ({
+    archive: state.archiveUpload.treeFolders,
+  }),
+  dispatch => ({
+    setImageFromGif: (base64, w) => {
+      dispatch(setGifImage(base64, w))
+    },
+  }),
+)(ShowBanner)

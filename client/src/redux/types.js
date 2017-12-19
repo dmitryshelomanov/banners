@@ -11,3 +11,5 @@ export const COMPRESS = 'COMPRESS/compress'
 export const COMPRESS_FETCH = 'COMPRESS/compress_FETCH'
 export const COMPRESS_END = 'COMPRESS/compress_END'
 export const COMPRESS_ERROR = 'COMPRESS/compress_ERROR'
+
+export const GIF_SET_IMAGE = 'GIF/set_image'

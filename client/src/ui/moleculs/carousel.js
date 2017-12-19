@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
   FlexWrap,
-  ChangeImage,
 } from '../'
 
 /* eslint-disable react/no-array-index-key */
@@ -40,8 +39,7 @@ export class Carousel extends Component {
     this.setState({ currentSlide: this.state.currentSlide + this.state.slideNext })
   }
 
-  prevSlide = (e) => {
-    e.preventDefault()
+  prevSlide = () => {
     if (this.state.currentSlide <= 0) return
     this.setState({ currentSlide: this.state.currentSlide - this.state.slideNext })
   }
@@ -50,16 +48,15 @@ export class Carousel extends Component {
     const { carousel, component } = this.props
     const { width, currentSlide } = this.state
     const transform = `${-(width * currentSlide)}px`
-    const len = carousel.images.length
+    const len = carousel.images ? carousel.images.length : carousel.length
+    const data = carousel.images ? carousel.images : carousel
 
     return (
       <FlexWrap
         fd="column"
         width="100%"
-        onClick={this.nextSlide}
-        onContextMenu={this.prevSlide}
         style={{
-          visibility: carousel.images.length > 0 ? 'visible' : 'hidden',
+          visibility: len > 0 ? 'visible' : 'hidden',
         }}
       >
         <CarouselWrap
@@ -74,18 +71,17 @@ export class Carousel extends Component {
             }}
           >
             {
-              carousel.images.map((i, k) => (
+              data.map((i, k) => (
                 React.cloneElement(component, {
                   key: k,
                   ids: k,
-                  carousel,
+                  carousel: i,
                   width: `${width}px`,
                 })
               ))
             }
           </CarouselInner>
         </CarouselWrap>
-        <ChangeImage />
       </FlexWrap>
     )
   }
@@ -93,10 +89,13 @@ export class Carousel extends Component {
 
 Carousel.propTypes = {
   component: PropTypes.element.isRequired,
-  carousel: PropTypes.shape({
-    activeImage: PropTypes.number,
-    images: PropTypes.array,
-  }).isRequired,
+  carousel: PropTypes.oneOfType([
+    PropTypes.shape({
+      activeImage: PropTypes.number,
+      images: PropTypes.array,
+    }),
+    PropTypes.array,
+  ]).isRequired,
   width: PropTypes.number,
 }
 

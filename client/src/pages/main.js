@@ -6,6 +6,7 @@ import {
   FlexWrap,
   ShowBannerWithArchive,
   CarouselBtn,
+  GifImages,
 } from '../ui'
 
 
@@ -17,7 +18,8 @@ export const Main = () => (
     >
       <ArchiveBlock />
       <CompressImage />
-      {/* <ShowBannerWithArchive/> */}
+      <ShowBannerWithArchive />
+      <GifImages />
     </FlexWrap>
   </RootContainer>
 )
