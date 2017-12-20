@@ -18,5 +18,9 @@ module.exports = (name) => {
         ? path.resolve(__dirname, '..', '..', `tmp/compress/${uuidMain}--${name}`)
         : path.resolve(__dirname, '..', '..', `tmp/compress/${folder}`)
     },
+    gif(fileName = 0) {
+      return path.resolve(__dirname, '..', '..', `tmp/gif/${fileName}`)
+    },
+    readyGif: path.resolve(__dirname, '..', '..', 'tmp/gif/'),
   }
 }

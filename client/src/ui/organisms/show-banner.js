@@ -35,6 +35,10 @@ class ShowBanner extends Component {
     this.props.setImageFromGif(canvas.toDataURL('image/jpeg', 1), canvas.width)
   }
 
+  reloadBanner = () => {
+    this.banner.contentWindow.location.reload()
+  }
+
   render() {
     return (
       <BnnerWrap
@@ -46,6 +50,7 @@ class ShowBanner extends Component {
             this.state.html
               ? <Button
                 text="перезагрузить баннер"
+                onClick={this.reloadBanner}
               />
               : <Button
                 text="посмотреть баннер"

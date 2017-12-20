@@ -17,7 +17,7 @@ const CarouselWrap = FlexWrap.extend`
 `
 
 const CarouselInner = FlexWrap.extend`
-  transition: transform .5s
+  transition: transform 5s
 `
 
 export class Carousel extends Component {

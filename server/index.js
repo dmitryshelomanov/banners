@@ -7,7 +7,8 @@ const {
   compressImg,
   compressArchive,
   parseBanner,
-  base64Convert,
+  uploadImageForGif,
+  generatedGif,
 } = require('./src/controllers')
 
 
@@ -18,7 +19,8 @@ compressImg(router, '/compress/img')
 uploadBanner(router, '/upload')
 compressArchive(router, '/compress/archive')
 parseBanner(router, '/parse/banner')
-base64Convert(router, '/base64')
+uploadImageForGif(router, '/upload/image')
+generatedGif(router, '/gif/generated')
 
 middleware(app)
 

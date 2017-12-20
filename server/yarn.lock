@@ -1285,6 +1285,10 @@ get-stream@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-3.0.0.tgz#8e943d1358dc37555054ecbe2edb05aa174ede14"
 
+gifencoder@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/gifencoder/-/gifencoder-1.1.0.tgz#50e7d98c4b0cf97edd0d885d7e1b997f88802de3"
+
 glob-base@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/glob-base/-/glob-base-0.3.0.tgz#dbb164f6221b1c0b1ccf82aea328b497df0ea3c4"

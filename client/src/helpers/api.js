@@ -39,6 +39,18 @@ class API {
 
     return data
   }
+
+  async uploadImageForGif(base64) {
+    const data = await this.request.post('upload/image', base64)
+
+    return data
+  }
+
+  async gifGenerated(name) {
+    const data = await this.request.post('gif/generated', name)
+
+    return data
+  }
 }
 
 export const api = new API()
