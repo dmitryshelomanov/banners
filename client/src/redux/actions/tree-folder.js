@@ -1,10 +1,11 @@
-import axios from 'axios'
 import * as types from '../types'
 
-
-export const uploadFile = file => (dispatch) => {
-  dispatch({
-    type: types.ARCHIVE,
-    request: () => axios.post('http://localhost:8000/upload', file),
-  })
+/* eslint-disable func-names */
+export function uploadFile(file) {
+  return async function (dispatch, getState, { api }) {
+    dispatch({
+      type: types.ARCHIVE,
+      request: () => api.uploadArchive(file),
+    })
+  }
 }

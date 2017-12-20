@@ -7,9 +7,10 @@ import thunk from 'redux-thunk'
 import { reducers } from '../redux'
 import fetch from './middleware/fetch'
 import nextDispatch from './middleware/next-dispatch'
+import { api } from './api'
 
 
 export const store = createStore(
   reducers,
-  applyMiddleware(thunk, logger, fetch, nextDispatch),
+  applyMiddleware(thunk.withExtraArgument({ api }), logger, fetch, nextDispatch),
 )

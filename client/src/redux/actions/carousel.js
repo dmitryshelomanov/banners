@@ -1,21 +1,24 @@
-import axios from 'axios'
 import * as types from '../types'
 
-
-export const addImageToCarousel = image => (dispatch) => {
-  dispatch({
-    type: types.CAROUSEL_ADD,
-    payload: image,
-    nextDispatch: () => ({
-      type: types.COMPRESS,
-      request: () => axios.post('http://127.0.0.1:8000/compress/img', image),
-    }),
-  })
+/* eslint-disable func-names */
+export function addImageToCarousel(image) {
+  return async function (dispatch, getState, { api }) {
+    dispatch({
+      type: types.CAROUSEL_ADD,
+      payload: image,
+      nextDispatch: () => ({
+        type: types.COMPRESS,
+        request: () => api.compressImage(image),
+      }),
+    })
+  }
 }
 
-export const compressActiveImage = (image, q) => (dispatch) => {
-  dispatch({
-    type: types.COMPRESS,
-    request: () => axios.post(`http://127.0.0.1:8000/compress/img?quality=${q}`, image),
-  })
+export function compressActiveImage(image, q) {
+  return async function (dispatch, getState, { api }) {
+    dispatch({
+      type: types.COMPRESS,
+      request: () => api.compressActiveImage(image, q),
+    })
+  }
 }
