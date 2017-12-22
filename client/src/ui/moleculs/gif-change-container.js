@@ -1,12 +1,27 @@
 import React, { Component } from 'react'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
   FlexWrap,
+  RangeVertical,
 } from '../'
 import { api } from '../../helpers/api'
 
+const fade = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+
+`
+
+const ImageWrap = styled.div`
+  opacity: 0;
+  animation: ${fade} 1s forwards;
+`
 
 class GifChangeContainer extends Component {
   constructor(props) {
@@ -17,6 +32,7 @@ class GifChangeContainer extends Component {
       defaultWidth: 0,
       defaultHeight: 0,
       image: null,
+      quality: 100,
     }
     this.image = new Image()
     this.image.src = props.carousel.base64
@@ -42,7 +58,7 @@ class GifChangeContainer extends Component {
     try {
       const { data } = await api.uploadImageForGif({
         data: carousel.base64,
-        nameFile: `${archiveName}/${ids}`,
+        nameFile: `${ids}.jpg`,
         nameFolder: archiveName,
       })
 
@@ -56,6 +72,16 @@ class GifChangeContainer extends Component {
     }
   }
 
+  compressImage = async (img, q) => {
+    try {
+      await api.compressGifImage(img, q)
+      this.setState({ isLoading: false })
+    }
+    catch (error) {
+      throw error
+    }
+  }
+
   render() {
     const { className } = this.props
     const {
@@ -64,31 +90,57 @@ class GifChangeContainer extends Component {
       isLoading,
       image,
       isError,
+      quality,
     } = this.state
 
     return (
       <FlexWrap
-        width={`${defaultWidth}px`}
-        height={`${defaultHeight}px`}
         className={className}
         ai="center"
         jc="center"
       >
         {
           isLoading && (
-            <img
-              className="preloader"
-              src="https://www.oraclefitness.com/uploads/8/5/5/6/85569856/39_4_orig.gif"
-              alt="preloader"
-            />
+            <FlexWrap
+              width={`${defaultWidth}px`}
+              height={`${defaultHeight}px`}
+              ai="center"
+              jc="center"
+            >
+              <img
+                className="preloader"
+                src="https://www.oraclefitness.com/uploads/8/5/5/6/85569856/39_4_orig.gif"
+                alt="preloader"
+              />
+            </FlexWrap>
           )
         }
         {
           !isLoading && (
-            <img
-              src={`http://localhost:8000/${image.url}`}
-              alt="img"
-            />
+            <ImageWrap>
+              <img
+                width={`${defaultWidth}px`}
+                height={`${defaultHeight}px`}
+                src={`http://localhost:8000/gif/${image.url}?v${Math.random()}`}
+                alt="img"
+              />
+              <RangeVertical
+                min={0}
+                step={1}
+                max={100}
+                value={quality}
+                onChange={() => {
+                  this.setState({ quality: this.range.value })
+                }}
+                innerRef={(comp) => {
+                  this.range = comp
+                }}
+                onMouseUp={() => {
+                  this.setState({ isLoading: true })
+                  this.compressImage(image, this.range.value)
+                }}
+              />
+            </ImageWrap>
           )
         }
       </FlexWrap>

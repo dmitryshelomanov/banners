@@ -23,6 +23,11 @@ export const Range = styled.input.attrs({
   }
 `
 
+export const RangeVertical = Range.extend`
+  -webkit-appearance: slider-horizontal;
+`
+
+
 Range.propTypes = {
   min: PropTypes.number,
   max: PropTypes.number,

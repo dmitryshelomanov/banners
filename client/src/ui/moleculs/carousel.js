@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
   FlexWrap,
+  CarouselBtn,
 } from '../'
 
 /* eslint-disable react/no-array-index-key */
@@ -12,12 +13,13 @@ const CarouselWrap = FlexWrap.extend`
   transition: all .5s;
   border-top: 2px solid #47A4A5;
   background-color: #F0FAFA;
-  padding: 15px;
+  padding: 15px 40px;
   box-sizing: border-box;
+  position: relative;
 `
 
 const CarouselInner = FlexWrap.extend`
-  transition: transform 5s
+  transition: transform .5s
 `
 
 export class Carousel extends Component {
@@ -25,14 +27,14 @@ export class Carousel extends Component {
     super(props)
     this.state = {
       currentSlide: 0,
-      slideNext: 2,
+      slideNext: 1,
       width: props.width,
     }
   }
 
   nextSlide = () => {
     const { carousel } = this.props
-    const len = carousel.images.length
+    const len = carousel.images ? carousel.images.length : carousel.length
     const wrapperWidth = this.wrap.getBoundingClientRect().width
 
     if (len * this.state.width < wrapperWidth) return
@@ -64,6 +66,10 @@ export class Carousel extends Component {
             this.wrap = c
           }}
         >
+          <CarouselBtn
+            onClick={this.prevSlide}
+            isLeft
+          />
           <CarouselInner
             width={`${width * len}px`}
             style={{
@@ -81,6 +87,9 @@ export class Carousel extends Component {
               ))
             }
           </CarouselInner>
+          <CarouselBtn
+            onClick={this.nextSlide}
+          />
         </CarouselWrap>
       </FlexWrap>
     )

@@ -21,6 +21,8 @@ module.exports = (name) => {
     gif(fileName = 0) {
       return path.resolve(__dirname, '..', '..', `tmp/gif/${fileName}`)
     },
-    readyGif: path.resolve(__dirname, '..', '..', 'tmp/gif/'),
+    gifOriginal(fileName = 0) {
+      return path.resolve(__dirname, '..', '..', `tmp/gif-original/${fileName}`)
+    },
   }
 }
