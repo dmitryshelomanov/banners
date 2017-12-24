@@ -10,6 +10,7 @@ const copyFolder = require('./handlers/copy-folder')
 const compressPercent = require('./handlers/get-pecent')
 const compressFolder = require('./handlers/compress-folder')
 const folderExists = require('./handlers/file-exists')
+const gifEncoder = require('./handlers/gif-encoder')
 
 
 module.exports = {
@@ -25,4 +26,5 @@ module.exports = {
   compressPercent,
   compressFolder,
   folderExists,
+  gifEncoder,
 }

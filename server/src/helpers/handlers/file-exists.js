@@ -7,8 +7,13 @@ module.exports = path => async (ctx, next) => {
   const { nameFolder } = body
   const pathFolder = path(nameFolder)
 
-
   debug(`file exists with folder path - ${pathFolder}`)
+  if (!nameFolder) {
+    ctx.status = 404
+    ctx.body = 'nameFolder is undefined'
+    return
+  }
+  
   try {
     const folder = await fs.exists(pathFolder)
 
