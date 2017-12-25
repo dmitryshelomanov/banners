@@ -4,10 +4,6 @@ const fs = require('fs')
 const debug = require('debug')('banner:helpers:gif-encoder')
 
 
-function replacePath(path) {
-  return path.replace(/gif-original/, 'gif')
-}
-
 module.exports = function wrapGif(imgData, pathReadyGif) {
   const { w, h, data, repeat } = imgData
   const gif = new GIFEncoder(w, h)
@@ -22,7 +18,7 @@ module.exports = function wrapGif(imgData, pathReadyGif) {
   return function addToGif(img) {
     debug('add to gif with counter - ', counter)
 
-    getPixels(replacePath(data[counter].path), (error, pixels) => {
+    getPixels(data[counter].path, (error, pixels) => {
       if (error) {
         throw error
       }
