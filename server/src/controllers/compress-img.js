@@ -9,7 +9,9 @@ const {
   defaultQuality,
 } = require('../config')
 
-
+/**
+ * сжатие изображения
+ */
 async function compressImg(ctx) {
   const { body } = ctx.request
   const { quality, isGif } = ctx.query

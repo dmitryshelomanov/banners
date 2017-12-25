@@ -10,7 +10,10 @@ const {
   copyFolder,
 } = require('../helpers')
 
-
+/**
+ * Загрузка архива на сервер
+ * Возврат дерева каталога
+ */
 async function lastLoaded(ctx) {
   const { files } = ctx.request
   const { archive, decompose, process } = tempPath(files.archive.name)

@@ -5,7 +5,10 @@ const {
   compressFolder,
 } = require('../helpers')
 
-
+/**
+ * Сжатие архива что бы узнать вес
+ * @param {*} ctx
+ */
 async function compressArchive(ctx) {
   const { body } = ctx.request
 

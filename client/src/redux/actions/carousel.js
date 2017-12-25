@@ -1,6 +1,10 @@
 import * as types from '../types'
-
 /* eslint-disable func-names */
+
+/**
+ * добавление изображения в карусель
+ * @param {*} image
+ */
 export function addImageToCarousel(image) {
   return async function (dispatch, getState, { api }) {
     dispatch({
@@ -14,6 +18,11 @@ export function addImageToCarousel(image) {
   }
 }
 
+/**
+ * сжатие изображения в карусели
+ * @param {*} image
+ * @param {*} q
+ */
 export function compressActiveImage(image, q) {
   return async function (dispatch, getState, { api }) {
     dispatch({

@@ -5,7 +5,10 @@ const {
   gifEncoder,
 } = require('../helpers')
 
-
+/**
+ * генерация гиф
+ * @param {*} ctx
+ */
 async function generatedGif(ctx) {
   const { body } = ctx.request
   const { gifReady } = tempPath()

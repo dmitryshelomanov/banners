@@ -1,6 +1,11 @@
 import * as types from '../types'
-
 /* eslint-disable func-names */
+
+/**
+ * Добавлениие картинки в формате base64
+ * @param {*} base64
+ * @param {*} w
+ */
 export function setGifImage(base64, w) {
   return function (dispatch) {
     dispatch({
@@ -10,6 +15,11 @@ export function setGifImage(base64, w) {
   }
 }
 
+/**
+ * Генерация гиф
+ * @param {*} imgData данные
+ * @param {*} nameFolder имя папки
+ */
 export function gifGenerated(imgData, nameFolder) {
   return function (dispatch, getState, { api }) {
     dispatch({
@@ -19,6 +29,10 @@ export function gifGenerated(imgData, nameFolder) {
   }
 }
 
+/**
+ * Указание размера для гифки
+ * @param {*} size обьект содержащий высоты и ширину
+ */
 export function setSize(size) {
   return function (dispatch) {
     dispatch({
@@ -28,6 +42,9 @@ export function setSize(size) {
   }
 }
 
+/**
+ * Создание массива с данными для генерации гиф
+ */
 export function setGifData({ path, delay, ids }) {
   return function (dispatch, getState) {
     const gifData = getState().gifs.data

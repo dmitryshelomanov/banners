@@ -6,7 +6,10 @@ const {
   copyFolder,
 } = require('../helpers')
 
-
+/**
+ * Сохраниние картинки для гиф
+ * @param {*} ctx
+ */
 async function uploadImageForGif(ctx) {
   const { body } = ctx.request
   const { gif, gifOriginal } = tempPath()
