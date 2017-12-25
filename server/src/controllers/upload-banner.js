@@ -26,7 +26,7 @@ async function lastLoaded(ctx) {
   ctx.body = await folderTree(decompose)
 }
 
-module.exports = (router, uri) => router.post(
+module.exports = (router, method, uri) => router[method](
   uri,
   notEmptyFile, maxSizeFile(3000), isZipFile, lastLoaded
 )

@@ -26,7 +26,7 @@ async function generatedGif(ctx) {
   }
 }
 
-module.exports = (router, url) => router.post(
+module.exports = (router, method, url) => router[method](
   url,
   folderExists(tempPath().gifReady), generatedGif
 )

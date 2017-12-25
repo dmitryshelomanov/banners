@@ -42,7 +42,7 @@ async function parserBanner(ctx) {
   ctx.body = $.html()
 }
 
-module.exports = (router, path) => router.get(
+module.exports = (router, method, path) => router[method](
   path,
   parserBanner,
 )

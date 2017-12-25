@@ -39,7 +39,7 @@ async function uploadImageForGif(ctx) {
   }
 }
 
-module.exports = (router, url) => router.post(
+module.exports = (router, method, url) => router[method](
   url,
   folderExists(tempPath().gif), folderExists(tempPath().gifOriginal), uploadImageForGif
 )

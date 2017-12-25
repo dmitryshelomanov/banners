@@ -40,7 +40,7 @@ async function compressImg(ctx) {
   }
 }
 
-module.exports = (router, uri) => router.post(
+module.exports = (router, method, uri) => router[method](
   uri,
   compressImg
 )

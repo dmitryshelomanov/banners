@@ -29,7 +29,7 @@ async function compressArchive(ctx) {
   }
 }
 
-module.exports = (router, uri) => router.get(
+module.exports = (router, method, uri) => router[method](
   uri,
   folderExists(tempPath().process), compressArchive
 )

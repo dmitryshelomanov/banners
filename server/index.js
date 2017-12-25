@@ -15,12 +15,12 @@ const {
 const router = new Router()
 const app = new Koa()
 
-compressImg(router, '/compress/img')
-uploadBanner(router, '/upload')
-compressArchive(router, '/compress/archive')
-parseBanner(router, '/parse/banner')
-uploadImageForGif(router, '/upload/image')
-generatedGif(router, '/gif/generated')
+compressImg(router, 'post', '/compress/img')
+uploadBanner(router, 'post', '/upload')
+compressArchive(router, 'post', '/compress/archive')
+parseBanner(router, 'get', '/parse/banner')
+uploadImageForGif(router, 'post', '/upload/image')
+generatedGif(router, 'post', '/gif/generated')
 
 middleware(app)
 
