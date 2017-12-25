@@ -3,6 +3,7 @@ const fs = require('fs-extra')
 const {
   tempPath,
   compressFolder,
+  folderExists,
 } = require('../helpers')
 
 /**
@@ -11,14 +12,15 @@ const {
  */
 async function compressArchive(ctx) {
   const { body } = ctx.request
+  const { nameFolder } = body
 
-  debug(`compress folder with body - ${body}`)
+  debug('compress folder with body - ', body)
 
   const { process, compress } = tempPath()
 
   try {
-    await compressFolder(process('3551856b30b846aad70e65b03cd53ea9--test.zip'), compress('3551856b30b846aad70e65b03cd53ea9--test.zip'))
-    const stat = await fs.stat(compress('3551856b30b846aad70e65b03cd53ea9--test.zip'))
+    await compressFolder(process(nameFolder), compress(nameFolder))
+    const stat = await fs.stat(compress(nameFolder))
 
     ctx.body = { size: stat.size }
   }
@@ -29,5 +31,5 @@ async function compressArchive(ctx) {
 
 module.exports = (router, uri) => router.get(
   uri,
-  compressArchive
+  folderExists(tempPath().process), compressArchive
 )
