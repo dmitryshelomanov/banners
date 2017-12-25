@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test component CarouselItem shapshot Button 1`] = `
+<div
+  className="sc-dxgOiQ fUeCKG false sc-bxivhb eusAaK"
+  height="146px"
+  width="240px"
+>
+  <div
+    className="percent sc-bxivhb ieqoeX"
+    height="100%"
+    width="100%"
+  >
+    -0%
+  </div>
+  <div
+    className="sc-kpOJdX gyPaLp"
+    height="90%"
+    width="90%"
+  />
+</div>
+`;

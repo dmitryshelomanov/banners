@@ -8,6 +8,11 @@ import {
 
 // /* eslint-disable no-return-assign */
 export class UploadBtn extends Component {
+  constructor(props) {
+    super(props)
+    this.files = null
+  }
+
   componentDidMount() {
     this.files.addEventListener('change', this.props.changeInput)
   }
