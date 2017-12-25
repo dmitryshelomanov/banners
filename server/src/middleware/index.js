@@ -3,7 +3,8 @@ const bodyParser = require('./default/body-parser')
 const error = require('./default/error')
 const formReader = require('./default/form-reader')
 const logger = require('./default/logger')
-const serve = require('./default/static')
+const tmp = require('./default/tmp')
+const publ = require('./default/public')
 
 
 module.exports = (app) => {
@@ -13,5 +14,6 @@ module.exports = (app) => {
     .use(bodyParser)
     .use(error)
     .use(logger)
-    .use(serve)
+    .use(publ)
+    .use(tmp)
 }

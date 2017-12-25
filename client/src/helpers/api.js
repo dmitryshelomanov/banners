@@ -51,14 +51,26 @@ class API {
     return data
   }
 
+  /**
+   * Загрузка изображения для гиф
+   * @param {*} base64
+   */
   async uploadImageForGif(base64) {
     const data = await this.request.post('upload/image', base64)
 
     return data
   }
 
-  async gifGenerated(name) {
-    const data = await this.request.post('gif/generated', name)
+  /**
+   * Генерация гиф
+   * @param {*} imgDat
+   * @param {*} nameFolde
+   */
+  gifGenerated(imgData, nameFolder) {
+    const data = this.request.post('gif/generated', {
+      imgData,
+      nameFolder,
+    })
 
     return data
   }

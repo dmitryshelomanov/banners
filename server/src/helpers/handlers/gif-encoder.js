@@ -1,15 +1,18 @@
 const getPixels = require('get-pixels')
-const GIFEncoder = require('gifencoder')
-const fs = require('fs-extra')
+const GIFEncoder = require('gif-encoder')
+const fs = require('fs')
+const debug = require('debug')('banner:helpers:gif-encoder')
 
+
+function replacePath(path) {
+  return path.replace(/gif-original/, 'gif')
+}
 
 module.exports = function wrapGif(imgData, pathReadyGif) {
-  const { w, h, images, repeat } = imgData
-  const { path, delay } = images
+  const { w, h, data, repeat } = imgData
   const gif = new GIFEncoder(w, h)
   const stream = fs.createWriteStream(pathReadyGif)
   let counter = 0
-
 
   gif.pipe(stream)
   gif.setQuality(20)
@@ -17,15 +20,20 @@ module.exports = function wrapGif(imgData, pathReadyGif) {
   gif.writeHeader()
   gif.setRepeat(repeat)
   return function addToGif(img) {
-    counter++
-    getPixels(path, (err, pixels) => {
-      gif.setDelay(delay)
+    debug('add to gif with counter - ', counter)
+
+    getPixels(replacePath(data[counter].path), (error, pixels) => {
+      if (error) {
+        throw error
+      }
+      gif.setDelay(data[counter].delay)
       gif.addFrame(pixels.data)
       gif.read()
-      if (counter === images.length - 1) {
+      if (counter === data.length - 1) {
         gif.finish()
         return
       }
+      counter++
       addToGif(img)
     })
   }

@@ -1411,6 +1411,12 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
+gif-encoder@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/gif-encoder/-/gif-encoder-0.6.1.tgz#19a31f91f3218b21d58c236f8039f5f49826697e"
+  dependencies:
+    readable-stream "~1.1.9"
+
 gif-stream@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/gif-stream/-/gif-stream-1.1.0.tgz#c7636459c5885ef3c8b76cf8a1ae56d4d237f3c3"
@@ -1419,10 +1425,6 @@ gif-stream@^1.1.0:
     buffer-equal "^0.0.1"
     lzw-stream "^1.0.0"
     pixel-stream "^1.0.3"
-
-gifencoder@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/gifencoder/-/gifencoder-1.1.0.tgz#50e7d98c4b0cf97edd0d885d7e1b997f88802de3"
 
 glob-base@^0.3.0:
   version "0.3.0"

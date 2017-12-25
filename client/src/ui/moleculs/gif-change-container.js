@@ -5,10 +5,15 @@ import { connect } from 'react-redux'
 import {
   FlexWrap,
   RangeVertical,
+  InputText,
 } from '../'
 import { api } from '../../helpers/api'
+import {
+  setSize,
+  setGifData,
+} from '../../redux/actions/gif'
 
-
+/* eslint-disable radix */
 const fade = keyframes`
   from {
     opacity: 0;
@@ -18,7 +23,6 @@ const fade = keyframes`
   }
 
 `
-
 const ImageWrap = styled.div`
   opacity: 0;
   animation: ${fade} 1s forwards;
@@ -34,6 +38,7 @@ class GifChangeContainer extends Component {
       defaultHeight: 0,
       image: null,
       quality: 100,
+      delay: 200,
     }
     this.image = new Image()
     this.image.src = props.carousel.base64
@@ -43,9 +48,21 @@ class GifChangeContainer extends Component {
       this.setState({
         defaultHeight: h,
         defaultWidth: w,
+      }, () => {
+        if (this.props.gifsHeight === 0) {
+          this.props.onSetGifSize({ w, h })
+        }
       })
     }
     this.uploadBase64()
+  }
+
+  setGifData = () => {
+    this.props.onSetGifData({
+      ids: this.props.ids,
+      path: this.state.image.path,
+      delay: this.state.delay,
+    })
   }
 
   calculatePreloader = () => ({
@@ -66,6 +83,8 @@ class GifChangeContainer extends Component {
       this.setState({
         image: data,
         isLoading: false,
+      }, () => {
+        this.setGifData()
       })
     }
     catch (error) {
@@ -83,6 +102,12 @@ class GifChangeContainer extends Component {
     }
   }
 
+  changeDelay = ({ target }) => {
+    this.setState({ delay: parseInt(target.value) }, () => {
+      this.setGifData()
+    })
+  }
+
   render() {
     const { className } = this.props
     const {
@@ -92,6 +117,7 @@ class GifChangeContainer extends Component {
       image,
       isError,
       quality,
+      delay,
     } = this.state
 
     return (
@@ -141,6 +167,10 @@ class GifChangeContainer extends Component {
                   this.compressImage(image, this.range.value)
                 }}
               />
+              <InputText
+                value={delay}
+                onChange={this.changeDelay}
+              />
             </ImageWrap>
           )
         }
@@ -149,9 +179,25 @@ class GifChangeContainer extends Component {
   }
 }
 
-const GifChangeContainerWithArchive = connect(state => ({
-  archiveName: state.archiveUpload.treeFolders.name,
-}))(GifChangeContainer)
+GifChangeContainer.propTypes = {
+  onSetGifSize: PropTypes.func.isRequired,
+  gifsHeight: PropTypes.number.isRequired,
+}
+
+const GifChangeContainerWithArchive = connect(
+  state => ({
+    archiveName: state.archiveUpload.treeFolders.name,
+    gifsHeight: state.gifs.h,
+  }),
+  dispatch => ({
+    onSetGifSize: (size) => {
+      dispatch(setSize(size))
+    },
+    onSetGifData: (data) => {
+      dispatch(setGifData(data))
+    },
+  }),
+)(GifChangeContainer)
 
 GifChangeContainer.propTypes = {
   carousel: PropTypes.shape({

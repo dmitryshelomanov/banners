@@ -72,6 +72,7 @@ class ShowBanner extends Component {
                 <iframe
                   title="banner"
                   onLoad={this.bannerReady}
+                  // src={`http://localhost:8000/process/${this.props.archive.name}/240x400.html`}
                   srcDoc={this.state.html}
                   width="100%"
                   height="500px"

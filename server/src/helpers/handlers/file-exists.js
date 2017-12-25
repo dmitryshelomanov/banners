@@ -13,7 +13,7 @@ module.exports = path => async (ctx, next) => {
     ctx.body = 'nameFolder is undefined'
     return
   }
-  
+
   try {
     const folder = await fs.exists(pathFolder)
 

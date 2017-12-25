@@ -16,19 +16,24 @@ const GifWrapper = ({ gifs, onGenerated, archiveName }) => (
     width="100%"
   >
     {
-      gifs.data.length > 0 && (
+      gifs.base64.length > 0 && (
         <FlexWrap
           width="100%"
           fd="column"
         >
           <Carousel
             component={<GifItem />}
-            carousel={gifs.data}
-            width={gifs.data[0].w}
+            carousel={gifs.base64}
+            width={gifs.base64[0].w}
           />
           <Button
             text="сгенерить гиф"
-            onClick={() => onGenerated({name: archiveName})}
+            onClick={() => onGenerated({
+              data: gifs.data,
+              repeat: gifs.repeat,
+              w: gifs.w,
+              h: gifs.h,
+            }, archiveName)}
           />
         </FlexWrap>
       )
@@ -46,8 +51,8 @@ export const GifImages = connect(
     archiveName: state.archiveUpload.treeFolders.name,
   }),
   dispatch => ({
-    onGenerated: (name) => {
-      dispatch(gifGenerated(name))
+    onGenerated: (imgData, nameFolder) => {
+      dispatch(gifGenerated(imgData, nameFolder))
     },
   }),
 )(GifWithStyled)

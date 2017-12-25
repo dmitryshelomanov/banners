@@ -1,7 +1,4 @@
 const debug = require('debug')('banner:controller:gif-generated')
-const fs = require('fs-extra')
-const getPixels = require('get-pixels')
-const GIFEncoder = require('gifencoder')
 const {
   tempPath,
   folderExists,
@@ -15,12 +12,13 @@ async function generatedGif(ctx) {
   const { nameFolder, imgData } = body
   const pathReadyGif = gifReady(`${nameFolder}/banner.gif`)
 
-
+  debug(`generate gif with nameFolder - ${nameFolder}`)
   try {
-    gifEncoder(imgData, pathReadyGif)
+    gifEncoder(imgData, pathReadyGif)()
     ctx.body = 'gif ready'
   }
-  catch(error) {
+  catch (error) {
+    debug('handle error - ', error)
     ctx.throw(error)
   }
 }
