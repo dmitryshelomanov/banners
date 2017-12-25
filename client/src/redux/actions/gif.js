@@ -19,3 +19,12 @@ export function gifGenerated(name) {
     })
   }
 }
+
+export function setSize(size) {
+  return function (dispatch) {
+    dispatch({
+      type: types.GIS_SET_SIZE,
+      payload: size,
+    })
+  }
+}

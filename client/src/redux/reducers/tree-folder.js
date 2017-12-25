@@ -1,10 +1,11 @@
 import * as types from '../types'
+import fixture from '../../fixture'
 
 
 const initialState = {
   isLoading: false,
   isError: false,
-  treeFolders: {},
+  treeFolders: fixture.work.treeFolder,
 }
 
 export const archiveUpload = (state = initialState, actions) => {
