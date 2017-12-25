@@ -5,7 +5,6 @@ import {
   CompressImage,
   FlexWrap,
   ShowBannerWithArchive,
-  CarouselBtn,
   GifImages,
 } from '../ui'
 
