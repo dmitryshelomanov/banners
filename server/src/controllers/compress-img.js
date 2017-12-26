@@ -4,7 +4,7 @@ const {
   tempPath,
   compressImage,
   compressPercent,
-} = require('../helpers')
+} = require('../utils')
 const {
   defaultQuality,
 } = require('../config')

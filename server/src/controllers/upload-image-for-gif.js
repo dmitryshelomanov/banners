@@ -4,7 +4,7 @@ const {
   tempPath,
   folderExists,
   copyFolder,
-} = require('../helpers')
+} = require('../utils')
 
 /**
  * Сохраниние картинки для гиф

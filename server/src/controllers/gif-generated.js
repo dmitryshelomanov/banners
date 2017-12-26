@@ -3,7 +3,7 @@ const {
   tempPath,
   folderExists,
   gifEncoder,
-} = require('../helpers')
+} = require('../utils')
 
 /**
  * генерация гиф

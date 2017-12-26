@@ -4,7 +4,7 @@ const {
   tempPath,
   compressFolder,
   folderExists,
-} = require('../helpers')
+} = require('../utils')
 
 /**
  * Сжатие архива что бы узнать вес

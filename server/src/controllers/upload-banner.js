@@ -8,7 +8,7 @@ const {
   folderTree,
   tempPath,
   copyFolder,
-} = require('../helpers')
+} = require('../utils')
 
 /**
  * Загрузка архива на сервер

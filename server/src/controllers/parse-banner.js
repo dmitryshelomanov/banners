@@ -3,7 +3,7 @@ const fs = require('fs-extra')
 const cheerio = require('cheerio')
 const {
   tempPath,
-} = require('../helpers')
+} = require('../utils')
 
 /* eslint-disable consistent-return */
 /* eslint-disable eqeqeq */
