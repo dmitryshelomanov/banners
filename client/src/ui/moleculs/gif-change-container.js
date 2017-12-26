@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import styled, { keyframes } from 'styled-components'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -7,6 +7,7 @@ import {
   RangeVertical,
   InputText,
 } from '../'
+import { renameHtmlFile } from '../../redux/actions/tree-folder'
 import { api } from '../../helpers/api'
 import {
   setSize,
@@ -28,7 +29,7 @@ const ImageWrap = styled.div`
   animation: ${fade} 1s forwards;
 `
 
-class GifChangeContainer extends Component {
+class GifChangeContainer extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -39,6 +40,11 @@ class GifChangeContainer extends Component {
       image: null,
       quality: 100,
       delay: 200,
+      info: {
+        newSize: 0,
+        originalSize: 0,
+        percentCompress: 0,
+      },
     }
     this.image = new Image()
     this.image.src = props.carousel.base64
@@ -51,6 +57,11 @@ class GifChangeContainer extends Component {
       }, () => {
         if (this.props.gifsHeight === 0) {
           this.props.onSetGifSize({ w, h })
+          this.props.onRenameHtml({
+            nameFolder: this.props.archiveName,
+            newName: `${w}xxxxxxx${h}.html`,
+            oldName: this.props.oldNameHtml,
+          })
         }
       })
     }
@@ -94,8 +105,16 @@ class GifChangeContainer extends Component {
 
   compressImage = async (img, q) => {
     try {
-      await api.compressGifImage(img, q)
-      this.setState({ isLoading: false })
+      const { data } = await api.compressGifImage(img, q)
+
+      this.setState({
+        isLoading: false,
+        info: {
+          originalSize: data.originalSize,
+          newSize: data.newSize,
+          percentCompress: data.percentCompress,
+        },
+      })
     }
     catch (error) {
       throw error
@@ -171,6 +190,9 @@ class GifChangeContainer extends Component {
                 value={delay}
                 onChange={this.changeDelay}
               />
+              <pre>
+                {JSON.stringify(this.state.info)}
+              </pre>
             </ImageWrap>
           )
         }
@@ -188,6 +210,7 @@ const GifChangeContainerWithArchive = connect(
   state => ({
     archiveName: state.archiveUpload.treeFolders.name,
     gifsHeight: state.gifs.h,
+    oldNameHtml: state.archiveUpload.nameHtml,
   }),
   dispatch => ({
     onSetGifSize: (size) => {
@@ -195,6 +218,9 @@ const GifChangeContainerWithArchive = connect(
     },
     onSetGifData: (data) => {
       dispatch(setGifData(data))
+    },
+    onRenameHtml: (data) => {
+      dispatch(renameHtmlFile(data))
     },
   }),
 )(GifChangeContainer)

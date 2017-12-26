@@ -5,7 +5,8 @@ import fixture from '../../fixture'
 const initialState = {
   isLoading: false,
   isError: false,
-  treeFolders: fixture.work.treeFolder,
+  nameHtml: fixture.work.treeFolder.nameHtml,
+  treeFolders: fixture.work.treeFolder.tree,
 }
 
 export const archiveUpload = (state = initialState, actions) => {
@@ -17,12 +18,17 @@ export const archiveUpload = (state = initialState, actions) => {
     case types.ARCHIVE_END: return {
       ...state,
       isLoading: false,
-      treeFolders: typeof actions.payload === 'string' ? state.treeFolders : actions.payload,
+      nameHtml: actions.payload.nameHtml,
+      treeFolders: typeof actions.payload === 'string' ? state.treeFolders : actions.payload.tree,
     }
     case types.ARCHIVE_ERROR: return {
       ...state,
       isLoading: false,
       isError: true,
+    }
+    case types.ARCHIVE_UPDATE_HTML_FILE_END: return {
+      ...state,
+      nameHtml: actions.payload,
     }
     default: return state
   }

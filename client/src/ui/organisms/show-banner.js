@@ -21,6 +21,13 @@ class ShowBanner extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.nameHtml !== this.props.nameHtml) {
+      this.reloadBanner()
+    }
+    return true
+  }
+
   getData = async () => {
     const data = await axios.get(`http://localhost:8000/parse/banner?banner=${this.props.archive.name}`)
 
@@ -70,10 +77,10 @@ class ShowBanner extends Component {
                 ai="center"
               >
                 <iframe
+                  id="frame"
                   title="banner"
-                  onLoad={this.bannerReady}
-                  // src={`http://localhost:8000/process/${this.props.archive.name}/240x400.html`}
-                  srcDoc={this.state.html}
+                  src={`http://localhost:8000/process/${this.props.archive.name}/${this.props.nameHtml}`}
+                  // srcDoc={this.state.html}
                   width="100%"
                   height="500px"
                   frameBorder="0"
@@ -97,6 +104,7 @@ class ShowBanner extends Component {
 export const ShowBannerWithArchive = connect(
   state => ({
     archive: state.archiveUpload.treeFolders,
+    nameHtml: state.archiveUpload.nameHtml,
   }),
   dispatch => ({
     setImageFromGif: (base64, w) => {

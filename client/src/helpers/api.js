@@ -66,13 +66,19 @@ class API {
    * @param {*} imgDat
    * @param {*} nameFolde
    */
-  gifGenerated(imgData, nameFolder) {
-    const data = this.request.post('gif/generated', {
+  async gifGenerated(imgData, nameFolder) {
+    const data = await this.request.post('gif/generated', {
       imgData,
       nameFolder,
     })
 
     return data
+  }
+
+  async renameHtmlFile(data) {
+    const resolve = await this.request.post('archive/name-update', data)
+
+    return resolve
   }
 }
 

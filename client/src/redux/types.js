@@ -2,7 +2,8 @@ export const ARCHIVE = 'ARCHIVE/GET'
 export const ARCHIVE_FETCH = 'ARCHIVE/GET_FETCH'
 export const ARCHIVE_END = 'ARCHIVE/GET_END'
 export const ARCHIVE_ERROR = 'ARCHIVE/GET_ERROR'
-
+export const ARCHIVE_UPDATE_HTML_FILE = 'ARCHIVE/upodate_html_file'
+export const ARCHIVE_UPDATE_HTML_FILE_END = 'ARCHIVE/upodate_html_file_end'
 
 export const CAROUSEL_ADD = 'CAROUSEL/add_img'
 export const CAROUSEL_SET_ACTIVE_IMAGE = 'CAROUSEL/set_img'
