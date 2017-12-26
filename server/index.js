@@ -9,6 +9,7 @@ const {
   parseBanner,
   uploadImageForGif,
   generatedGif,
+  updateHtmlName,
 } = require('./src/controllers')
 
 
@@ -21,6 +22,7 @@ compressArchive(router, 'post', '/compress/archive')
 parseBanner(router, 'get', '/parse/banner')
 uploadImageForGif(router, 'post', '/upload/image')
 generatedGif(router, 'post', '/gif/generated')
+updateHtmlName(router, 'post', '/archive/name-update')
 
 middleware(app)
 

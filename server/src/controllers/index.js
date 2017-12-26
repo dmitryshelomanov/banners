@@ -4,6 +4,7 @@ const compressArchive = require('./compress-archive')
 const parseBanner = require('./parse-banner')
 const uploadImageForGif = require('./upload-image-for-gif')
 const generatedGif = require('./gif-generated')
+const updateHtmlName = require('./update-html-name')
 
 
 module.exports = {
@@ -13,4 +14,5 @@ module.exports = {
   parseBanner,
   uploadImageForGif,
   generatedGif,
+  updateHtmlName,
 }

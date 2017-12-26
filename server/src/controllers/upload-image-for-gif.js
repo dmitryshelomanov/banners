@@ -29,7 +29,7 @@ async function uploadImageForGif(ctx) {
     url = url.replace(/[\\]+/ig, '/')
     ctx.status = 201
     ctx.body = {
-      path: pathFileCopy,
+      path: pathFileOriginal,
       originalSize: size,
       url,
     }
