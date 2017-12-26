@@ -1,9 +1,9 @@
 {
   "scripts": {
     "dev": "cross-env DEBUG=banner:* nodemon index.js",
-    "test": "test:lint && test:code:tap",
+    "test": "yarn test:lint && yarn test:code:tap",
     "test:lint": "eslint . ",
-    "test:code:tap": "ava --tap | tap-nyan",
+    "test:code:tap": "ava --verbose",
     "test:code:watch": "ava --verbose --watch",
     "precommit": "yarn test",
     "prepush": "yarn test"

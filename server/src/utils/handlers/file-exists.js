@@ -18,7 +18,7 @@ module.exports = path => async (ctx, next) => {
     const folder = await fs.exists(pathFolder)
 
     if (!folder) await fs.mkdir(pathFolder)
-    await next()
+    return await next()
   }
   catch (error) {
     ctx.throw(error)
