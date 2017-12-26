@@ -10,5 +10,5 @@ module.exports = size => async (ctx, next) => {
     ctx.body = `file weight more ${size}kb`
     return
   }
-  await next()
+  return next()
 }

@@ -8,6 +8,7 @@ module.exports = async (ctx, next) => {
   if (!files.archive) {
     ctx.status = 404
     ctx.body = 'file not found'
+    return
   }
-  await next()
+  return next()
 }

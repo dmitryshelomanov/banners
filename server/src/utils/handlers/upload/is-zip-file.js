@@ -5,7 +5,7 @@ const types = [
   'application/zip',
 ]
 
-module.exports = async (ctx, next) => {
+module.exports = (ctx, next) => {
   const { files } = ctx.request
 
   debug(`change file types ${files.archive.type}`)
@@ -14,5 +14,5 @@ module.exports = async (ctx, next) => {
     ctx.body = 'file size mus be type (zip)'
     return
   }
-  await next()
+  return next()
 }

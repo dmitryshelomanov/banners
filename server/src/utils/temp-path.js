@@ -2,8 +2,8 @@ const path = require('path')
 const uuid = require('./uuid')
 
 
-module.exports = (name) => {
-  const uuidMain = uuid()
+module.exports = (name, uid = null) => {
+  const uuidMain = uid !== null ? uid() : uuid()
 
   return {
     archive: path.resolve(__dirname, '..', '..', `tmp/archives/${uuidMain}--${name}`),

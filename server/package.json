@@ -1,10 +1,12 @@
 {
   "scripts": {
     "dev": "cross-env DEBUG=banner:* nodemon index.js",
+    "test": "test:lint && test:code:tap",
     "test:lint": "eslint . ",
-    "test:code": "ava --tap | tap-nyan",
-    "precommit": "yarn test:lint",
-    "prepush": "yarn test:lint"
+    "test:code:tap": "ava --tap | tap-nyan",
+    "test:code:watch": "ava --verbose --watch",
+    "precommit": "yarn test",
+    "prepush": "yarn test"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
