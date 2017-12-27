@@ -4,6 +4,8 @@ import { baseURL } from '../../config'
 import {
   FlexWrap,
 } from '../'
+import vg from '../../helpers/version-generated'
+
 
 const WrapGif = FlexWrap.extend`
   margin: 25px
@@ -19,7 +21,7 @@ const ShowGif = ({ readyURL }) => (
         <WrapGif>
           <img
             alt="readygif"
-            src={`${baseURL}gif-ready/${readyURL}?v=${Math.random()}`}
+            src={`${baseURL}gif-ready/${readyURL}?v=${vg()}`}
           />
         </WrapGif>
       )

@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { setGifImage } from '../../redux/actions/gif'
+import {
+  setGifImage,
+  setSize,
+} from '../../redux/actions/gif'
 import {
   FlexWrap,
   Button,
@@ -19,6 +22,14 @@ class ShowBanner extends Component {
     this.state = {
       html: null,
     }
+  }
+
+  getInitialState = () => {
+    if (!this.banner) return
+    const doc = this.banner.contentDocument || this.banner.contentWindow.document
+    const canvas = doc.getElementById('canvas')
+
+    this.props.onSetGifSize({ w: canvas.width, h: canvas.height })
   }
 
   shouldComponentUpdate(nextProps) {
@@ -79,6 +90,7 @@ class ShowBanner extends Component {
                 <iframe
                   id="frame"
                   title="banner"
+                  onLoad={this.getInitialState}
                   // src={`http://localhost:8000/process/${this.props.archive.name}/${this.props.nameHtml}`}
                   srcDoc={this.state.html}
                   width="100%"
@@ -109,6 +121,9 @@ export const ShowBannerWithArchive = connect(
   dispatch => ({
     setImageFromGif: (base64, w) => {
       dispatch(setGifImage(base64, w))
+    },
+    onSetGifSize: (size) => {
+      dispatch(setSize(size))
     },
   }),
 )(ShowBanner)

@@ -7,13 +7,12 @@ import {
   RangeVertical,
   InputText,
 } from '../'
-import { renameHtmlFile } from '../../redux/actions/tree-folder'
 import { api } from '../../helpers/api'
 import {
-  setSize,
   setGifData,
 } from '../../redux/actions/gif'
 import { compressExt } from '../../config'
+import vg from '../../helpers/version-generated'
 
 /* eslint-disable radix */
 const fade = keyframes`
@@ -36,8 +35,6 @@ class GifChangeContainer extends PureComponent {
     this.state = {
       isLoading: true,
       isError: false,
-      defaultWidth: 0,
-      defaultHeight: 0,
       image: null,
       quality: 100,
       delay: 200,
@@ -46,25 +43,6 @@ class GifChangeContainer extends PureComponent {
         originalSize: 0,
         percentCompress: 0,
       },
-    }
-    this.image = new Image()
-    this.image.src = props.carousel.base64
-    this.image.onload = () => {
-      const { w, h } = this.calculatePreloader()
-
-      this.setState({
-        defaultHeight: h,
-        defaultWidth: w,
-      }, () => {
-        if (this.props.gifsHeight === 0) {
-          this.props.onSetGifSize({ w, h })
-          this.props.onRenameHtml({
-            nameFolder: this.props.archiveName,
-            newName: `${w}x${h}.html`,
-            oldName: this.props.oldNameHtml,
-          })
-        }
-      })
     }
     this.uploadBase64()
   }
@@ -76,11 +54,6 @@ class GifChangeContainer extends PureComponent {
       delay: this.state.delay,
     })
   }
-
-  calculatePreloader = () => ({
-    w: this.image.width,
-    h: this.image.height,
-  })
 
   uploadBase64 = async () => {
     const { carousel, ids, archiveName } = this.props
@@ -110,11 +83,7 @@ class GifChangeContainer extends PureComponent {
 
       this.setState({
         isLoading: false,
-        info: {
-          originalSize: data.originalSize,
-          newSize: data.newSize,
-          percentCompress: data.percentCompress,
-        },
+        info: data,
       })
     }
     catch (error) {
@@ -129,7 +98,7 @@ class GifChangeContainer extends PureComponent {
   }
 
   render() {
-    const { className } = this.props
+    const { className, gifH, gifW } = this.props
     const {
       defaultHeight,
       defaultWidth,
@@ -149,8 +118,8 @@ class GifChangeContainer extends PureComponent {
         {
           isLoading && (
             <FlexWrap
-              width={`${defaultWidth}px`}
-              height={`${defaultHeight}px`}
+              width={`${gifW}px`}
+              height={`${gifH}px`}
               ai="center"
               jc="center"
             >
@@ -168,7 +137,7 @@ class GifChangeContainer extends PureComponent {
               <img
                 width={`${defaultWidth}px`}
                 height={`${defaultHeight}px`}
-                src={`http://localhost:8000/gif/${image.url}?v${Math.random()}`}
+                src={`http://localhost:8000/gif/${image.url}?v${vg()}`}
                 alt="img"
               />
               <RangeVertical
@@ -199,26 +168,15 @@ class GifChangeContainer extends PureComponent {
   }
 }
 
-GifChangeContainer.propTypes = {
-  onSetGifSize: PropTypes.func.isRequired,
-  gifsHeight: PropTypes.number.isRequired,
-}
-
 const GifChangeContainerWithArchive = connect(
   state => ({
     archiveName: state.archiveUpload.treeFolders.name,
-    gifsHeight: state.gifs.h,
-    oldNameHtml: state.archiveUpload.nameHtml,
+    gifH: state.gifs.h,
+    gifW: state.gifs.w,
   }),
   dispatch => ({
-    onSetGifSize: (size) => {
-      dispatch(setSize(size))
-    },
     onSetGifData: (data) => {
       dispatch(setGifData(data))
-    },
-    onRenameHtml: (data) => {
-      dispatch(renameHtmlFile(data))
     },
   }),
 )(GifChangeContainer)
