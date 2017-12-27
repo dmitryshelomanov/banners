@@ -3,6 +3,7 @@
   "rules": {
     "object-curly-newline": "off",
     "object-curly-spacing": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "guard-for-in":"off"
   }
 }

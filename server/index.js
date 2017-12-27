@@ -10,6 +10,7 @@ const {
   uploadImageForGif,
   generatedGif,
   updateHtmlName,
+  cacheDelete,
 } = require('./src/controllers')
 
 
@@ -23,6 +24,7 @@ parseBanner(router, 'get', '/parse/banner')
 uploadImageForGif(router, 'post', '/upload/image')
 generatedGif(router, 'post', '/gif/generated')
 updateHtmlName(router, 'post', '/archive/name-update')
+cacheDelete(router, 'post', '/cache/delete')
 
 middleware(app)
 

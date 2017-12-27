@@ -20,11 +20,11 @@ async function lastLoaded(ctx) {
 
   debug(`upload banner with archive - ${files.archive.name}`)
   try {
-    await fs.rename(files.archive.path, archive)
-    await decompress(archive, decompose)
-    await copyFolder(decompose, process())
-    await fs.unlink(archive)
-    ctx.body = await folderTree(decompose)
+    await fs.rename(files.archive.path, archive())
+    await decompress(archive(), decompose())
+    await copyFolder(decompose(), process())
+    await fs.unlink(archive())
+    ctx.body = await folderTree(decompose())
   }
   catch (error) {
     ctx.throw(error)

@@ -1,5 +1,6 @@
 const debug = require('debug')('banner:controller:upload-image-for-gif')
 const fs = require('fs-extra')
+const { ext } = require('../config')
 const {
   tempPath,
   folderExists,
@@ -14,7 +15,7 @@ async function uploadImageForGif(ctx) {
   const { body } = ctx.request
   const { gif, gifOriginal } = tempPath()
   const { data, nameFile, nameFolder } = body
-  const img = data.replace(/^data:image\/jpeg;base64,/, '')
+  const img = data.replace(new RegExp(`^data:image\\/${ext};base64,`), '')
   const pathFileOriginal = gifOriginal(`${nameFolder}/${nameFile}`)
   const pathFileCopy = gif(`${nameFolder}/${nameFile}`)
 

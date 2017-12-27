@@ -1,12 +1,12 @@
 {
   "scripts": {
     "dev": "cross-env DEBUG=banner:* nodemon index.js",
-    "test": "yarn test:lint && yarn test:code:tap",
+    "test": "yarn test:lint && yarn test:code",
     "test:lint": "eslint . ",
-    "test:code:tap": "ava --verbose",
-    "test:code:watch": "ava --verbose --watch",
-    "precommit": "yarn test",
-    "prepush": "yarn test"
+    "test:code": "ava",
+    "test:code:watch": "ava --verbose --watch"
+    // "precommit": "yarn test",
+    // "prepush": "yarn test"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
@@ -19,6 +19,7 @@
     "gif-encoder": "^0.6.1",
     "gif-stream": "^1.1.0",
     "imagemin": "^5.3.1",
+    "imagemin-giflossy": "^5.1.10",
     "imagemin-jpegoptim": "^5.1.0",
     "imagemin-pngquant": "^5.0.1",
     "koa": "^2.4.1",

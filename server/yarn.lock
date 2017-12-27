@@ -2245,6 +2245,14 @@ gif-stream@^1.1.0:
     lzw-stream "^1.0.0"
     pixel-stream "^1.0.3"
 
+giflossy@^3.0.41:
+  version "3.0.41"
+  resolved "https://registry.yarnpkg.com/giflossy/-/giflossy-3.0.41.tgz#d0ec968d7fa0ff0afb358911ee58b24f56a9e5bc"
+  dependencies:
+    bin-build "^2.0.0"
+    bin-wrapper "^3.0.0"
+    logalot "^2.0.0"
+
 glob-base@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/glob-base/-/glob-base-0.3.0.tgz#dbb164f6221b1c0b1ccf82aea328b497df0ea3c4"
@@ -2642,6 +2650,14 @@ ignore@^3.3.3:
   version "3.3.7"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.7.tgz#612289bfb3c220e186a58118618d5be8c1bab021"
 
+imagemin-giflossy@^5.1.10:
+  version "5.1.10"
+  resolved "https://registry.yarnpkg.com/imagemin-giflossy/-/imagemin-giflossy-5.1.10.tgz#3f910e7c9e987fea0c1bfd7d522dd56bd0a38cc3"
+  dependencies:
+    exec-buffer "^3.0.0"
+    giflossy "^3.0.41"
+    is-gif "^1.0.0"
+
 imagemin-jpegoptim@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/imagemin-jpegoptim/-/imagemin-jpegoptim-5.1.0.tgz#82588bfd5d3d4ce23809b82046eef7ea1f3ce08a"
@@ -2839,6 +2855,10 @@ is-generator-fn@^1.0.0:
 is-generator-function@^1.0.3:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/is-generator-function/-/is-generator-function-1.0.6.tgz#9e71653cd15fff341c79c4151460a131d31e9fc4"
+
+is-gif@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/is-gif/-/is-gif-1.0.0.tgz#a6d2ae98893007bffa97a1d8c01d63205832097e"
 
 is-glob@^2.0.0, is-glob@^2.0.1:
   version "2.0.1"
