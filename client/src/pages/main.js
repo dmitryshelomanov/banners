@@ -6,6 +6,7 @@ import {
   FlexWrap,
   ShowBannerWithArchive,
   GifImages,
+  ShowGifWithGif,
 } from '../ui'
 
 
@@ -19,6 +20,7 @@ export const Main = () => (
       <CompressImage />
       <ShowBannerWithArchive />
       <GifImages />
+      <ShowGifWithGif />
     </FlexWrap>
   </RootContainer>
 )

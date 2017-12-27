@@ -19,22 +19,26 @@ module.exports = function wrapGif(imgData, pathReadyGif) {
   gif.setDelay(0)
   gif.writeHeader()
   gif.setRepeat(repeat)
-  return function addToGif(img) {
-    debug('add to gif with counter - ', counter)
 
-    getPixels(replaceOriginalToGif(data[counter].path), (error, pixels) => {
-      if (error) {
-        throw error
-      }
-      gif.setDelay(data[counter].delay)
-      gif.addFrame(pixels.data)
-      gif.read()
-      if (counter === data.length - 1) {
-        gif.finish()
-        return
-      }
-      counter++
-      addToGif(img)
-    })
-  }
+  return new Promise((res, rej) => {
+    function addToGif() {
+      debug('add to gif with counter - ', counter)
+
+      getPixels(replaceOriginalToGif(data[counter].path), (error, pixels) => {
+        if (error) {
+          return rej()
+        }
+        gif.setDelay(data[counter].delay)
+        gif.addFrame(pixels.data)
+        gif.read()
+        if (counter === data.length - 1) {
+          gif.finish()
+          return res()
+        }
+        counter++
+        addToGif()
+      })
+    }
+    addToGif()
+  })
 }

@@ -19,7 +19,7 @@ test('test `temp-path util` archive path', (t) => {
   const { archive } = tempPath(archiveName, uuid)
 
   t.true(uuid.called)
-  t.is(archive, resolve(__dirname, '..', '..', `tmp/archives/${uuidReturns}--${archiveName}`))
+  t.is(archive(), resolve(__dirname, '..', '..', `tmp/archives/${uuidReturns}--${archiveName}`))
 })
 
 test('test `temp-path util` archive decompose', (t) => {
@@ -28,7 +28,7 @@ test('test `temp-path util` archive decompose', (t) => {
   const { decompose } = tempPath(archiveName, uuid)
 
   t.true(uuid.called)
-  t.is(decompose, resolve(__dirname, '..', '..', `tmp/decompress/${uuidReturns}--${archiveName}`))
+  t.is(decompose(), resolve(__dirname, '..', '..', `tmp/decompress/${uuidReturns}--${archiveName}`))
 })
 
 test('test `temp-path util` archive process with folder name', (t) => {

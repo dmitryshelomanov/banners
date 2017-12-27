@@ -7,6 +7,7 @@ const initialState = {
   repeat: 0,
   base64: [],
   data: [],
+  readyURL: '',
 }
 
 export const gif = (state = initialState, actions) => {
@@ -27,6 +28,10 @@ export const gif = (state = initialState, actions) => {
     case types.GIS_SET_DATA: return {
       ...state,
       data: actions.payload,
+    }
+    case types.GIF_GENERATED_END: return {
+      ...state,
+      readyURL: actions.payload,
     }
     default: return state
   }

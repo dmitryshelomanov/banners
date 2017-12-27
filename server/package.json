@@ -4,9 +4,9 @@
     "test": "yarn test:lint && yarn test:code",
     "test:lint": "eslint . ",
     "test:code": "ava",
-    "test:code:watch": "ava --verbose --watch"
-    // "precommit": "yarn test",
-    // "prepush": "yarn test"
+    "test:code:watch": "ava --verbose --watch",
+    "precommit": "yarn test",
+    "prepush": "yarn test"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",

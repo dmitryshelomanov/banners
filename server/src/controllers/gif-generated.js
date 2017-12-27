@@ -17,8 +17,8 @@ async function generatedGif(ctx) {
 
   debug(`generate gif with nameFolder - ${nameFolder}`)
   try {
-    gifEncoder(imgData, pathReadyGif)()
-    ctx.body = 'gif ready'
+    await gifEncoder(imgData, pathReadyGif)
+    ctx.body = `${nameFolder}/banner.gif`
   }
   catch (error) {
     debug('handle error - ', error)

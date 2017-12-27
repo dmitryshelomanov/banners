@@ -191,9 +191,6 @@ class GifChangeContainer extends PureComponent {
                 value={delay}
                 onChange={this.changeDelay}
               />
-              <pre>
-                {JSON.stringify(this.state.info)}
-              </pre>
             </ImageWrap>
           )
         }
