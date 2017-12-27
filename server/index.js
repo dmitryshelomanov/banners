@@ -1,6 +1,8 @@
 const debug = require('debug')('banner:index')
 const Koa = require('koa')
 const Router = require('koa-router')
+const { Server } = require('http')
+const socket = require('socket.io')
 const middleware = require('./src/middleware')
 const {
   uploadBanner,
@@ -10,8 +12,8 @@ const {
   uploadImageForGif,
   generatedGif,
   updateHtmlName,
-  cacheDelete,
 } = require('./src/controllers')
+const cacheDelete = require('./src/utils/handlers/cache-deleted')
 
 
 const router = new Router()
@@ -24,12 +26,28 @@ parseBanner(router, 'get', '/parse/banner')
 uploadImageForGif(router, 'post', '/upload/image')
 generatedGif(router, 'post', '/gif/generated')
 updateHtmlName(router, 'post', '/archive/name-update')
-cacheDelete(router, 'post', '/cache/delete')
 
 middleware(app)
 
 app
   .use(router.routes())
-  .listen(8000, () => {
-    debug('server run on port: 8000')
+
+const server = Server(app.callback())
+const io = socket(server)
+const folder = {}
+
+io.on('connect', (s) => {
+  s.on('disconnect', () => {
+    if (typeof folder[s.id] !== 'undefined') {
+      cacheDelete(folder[s.id].nameFolder)
+      delete folder[s.id]
+    }
   })
+  s.on('banner:set-archive-name', (data) => {
+    folder[s.id] = data
+  })
+})
+
+server.listen(8000, () => {
+  debug('server run!')
+})

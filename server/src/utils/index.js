@@ -11,6 +11,7 @@ const compressPercent = require('./handlers/get-pecent')
 const compressFolder = require('./handlers/compress-folder')
 const folderExists = require('./handlers/file-exists')
 const gifEncoder = require('./handlers/gif-encoder')
+const caheDeleted = require('./handlers/cache-deleted')
 
 
 module.exports = {
@@ -27,4 +28,5 @@ module.exports = {
   compressFolder,
   folderExists,
   gifEncoder,
+  caheDeleted,
 }

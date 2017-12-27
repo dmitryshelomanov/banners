@@ -29,6 +29,10 @@ export const gif = (state = initialState, actions) => {
       ...state,
       data: actions.payload,
     }
+    case types.GIF_GENERATED_FETCH: return {
+      ...state,
+      readyURL: '',
+    }
     case types.GIF_GENERATED_END: return {
       ...state,
       readyURL: actions.payload,

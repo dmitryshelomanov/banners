@@ -8,11 +8,12 @@ import vg from '../../helpers/version-generated'
 
 
 const WrapGif = FlexWrap.extend`
-  margin: 25px
+  margin: 50px 25px
 `
-const ShowGif = ({ readyURL }) => (
+const ShowGif = ({ readyURL, gifH }) => (
   <FlexWrap
     width="100%"
+    heigth={`${gifH}px`}
     ai="center"
     jc="center"
   >
@@ -31,4 +32,5 @@ const ShowGif = ({ readyURL }) => (
 
 export const ShowGifWithGif = connect(state => ({
   readyURL: state.gifs.readyURL,
+  gifH: state.gifs.h,
 }))(ShowGif)

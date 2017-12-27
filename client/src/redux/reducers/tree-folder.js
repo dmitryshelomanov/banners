@@ -1,13 +1,15 @@
 import * as types from '../types'
 import fixture from '../../fixture'
+import unload from '../../helpers/unload'
 
 
 const initialState = {
   isLoading: false,
   isError: false,
-  nameHtml: fixture.work.treeFolder.nameHtml,
-  treeFolders: fixture.work.treeFolder.tree,
+  nameHtml: fixture.default.nameHtml,
+  treeFolders: fixture.default.treeFolder,
 }
+const io = unload()
 
 export const archiveUpload = (state = initialState, actions) => {
   switch (actions.type) {
@@ -15,12 +17,17 @@ export const archiveUpload = (state = initialState, actions) => {
       ...state,
       isLoading: true,
     }
-    case types.ARCHIVE_END: return {
-      ...state,
-      isLoading: false,
-      nameHtml: actions.payload.nameHtml,
-      treeFolders: typeof actions.payload === 'string' ? state.treeFolders : actions.payload.tree,
-    }
+    case types.ARCHIVE_END:
+      io.emit('banner:set-archive-name', {
+        nameFolder: actions.payload.tree.name,
+      })
+
+      return {
+        ...state,
+        isLoading: false,
+        nameHtml: actions.payload.nameHtml,
+        treeFolders: typeof actions.payload === 'string' ? state.treeFolders : actions.payload.tree,
+      }
     case types.ARCHIVE_ERROR: return {
       ...state,
       isLoading: false,

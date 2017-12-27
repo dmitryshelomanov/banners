@@ -80,6 +80,20 @@ class API {
 
     return resolve
   }
+
+  async unload(nameFolder) {
+    try {
+      const resolve = await this.request.post('cache/delete', {
+        nameFolder,
+      })
+
+      console.log('unload')
+      return resolve
+    }
+    catch (error) {
+      throw error
+    }
+  }
 }
 
 export const api = new API()

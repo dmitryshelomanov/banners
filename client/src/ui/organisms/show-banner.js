@@ -33,7 +33,7 @@ class ShowBanner extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    if (nextProps.nameHtml !== this.props.nameHtml) {
+    if (nextProps.nameHtml !== this.props.nameHtml && this.banner) {
       this.reloadBanner()
     }
     return true
@@ -64,17 +64,18 @@ class ShowBanner extends Component {
         fd="column"
       >
         <FlexWrap>
-          {
-            this.state.html
-              ? <Button
-                text="перезагрузить баннер"
-                onClick={this.reloadBanner}
-              />
-              : <Button
-                text="посмотреть баннер"
-                onClick={this.getData}
-              />
-          }
+          {this.state.html && (
+            <Button
+              text="перезагрузить баннер"
+              onClick={this.reloadBanner}
+            />
+          )}
+          {(!this.state.html && this.props.archive.name) && (
+            <Button
+              text="посмотреть баннер"
+              onClick={this.getData}
+            />
+          )}
         </FlexWrap>
         {
           (this.state.html && this.props.nameHtml) && (

@@ -5,7 +5,6 @@ const parseBanner = require('./parse-banner')
 const uploadImageForGif = require('./upload-image-for-gif')
 const generatedGif = require('./gif-generated')
 const updateHtmlName = require('./update-html-name')
-const cacheDelete = require('./cashe-deleted')
 
 
 module.exports = {
@@ -16,5 +15,4 @@ module.exports = {
   uploadImageForGif,
   generatedGif,
   updateHtmlName,
-  cacheDelete,
 }
