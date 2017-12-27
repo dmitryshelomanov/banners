@@ -1,4 +1,5 @@
 module.exports = {
   defaultQuality: 80,
-  ext: 'jpeg',
+  ext: 'png',
+  isDelete: false,
 }

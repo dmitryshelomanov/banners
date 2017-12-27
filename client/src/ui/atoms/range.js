@@ -13,7 +13,7 @@ export const Range = styled.input.attrs({
   writing-mode: bt-lr;
   outline: none;
   overflow: hidden;
-  width: 80px;
+  width: ${props => props.width};
   background-color: #9a905d;
   & ::-webkit-slider-runnable-track {
     height: 10px;
@@ -32,4 +32,12 @@ Range.propTypes = {
   min: PropTypes.number,
   max: PropTypes.number,
   step: PropTypes.number,
+  width: PropTypes.string,
+}
+
+Range.defaultProps = {
+  min: 0,
+  max: 10,
+  step: 1,
+  width: '80px',
 }

@@ -8,7 +8,7 @@ import {
 import {
   FlexWrap,
   Button,
-  Caption,
+  Player,
 } from '../'
 import { compressExt } from '../../config'
 
@@ -21,6 +21,7 @@ class ShowBanner extends Component {
     super(props)
     this.state = {
       html: null,
+      playerReady: false,
     }
   }
 
@@ -30,6 +31,10 @@ class ShowBanner extends Component {
     const canvas = doc.getElementById('canvas')
 
     this.props.onSetGifSize({ w: canvas.width, h: canvas.height })
+    setTimeout(() => {
+      this.banner.contentWindow.window.exportRoot.instance.gotoAndStop(1)
+      this.setState({ playerReady: true })
+    }, 1000)
   }
 
   shouldComponentUpdate(nextProps) {
@@ -92,8 +97,8 @@ class ShowBanner extends Component {
                   id="frame"
                   title="banner"
                   onLoad={this.getInitialState}
-                  // src={`http://localhost:8000/process/${this.props.archive.name}/${this.props.nameHtml}`}
-                  srcDoc={this.state.html}
+                  src={`http://localhost:8000/process/${this.props.archive.name}/${this.props.nameHtml}`}
+                  // srcDoc={this.state.html}
                   width="100%"
                   height="500px"
                   frameBorder="0"
@@ -101,6 +106,11 @@ class ShowBanner extends Component {
                     this.banner = c
                   }}
                 />
+                {this.state.playerReady && (
+                  <Player
+                    banner={this.banner.contentWindow.window.exportRoot.instance}
+                  />
+                )}
                 <Button
                   text="взять картинку"
                   onClick={this.getDataURL}

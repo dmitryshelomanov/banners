@@ -11,9 +11,11 @@ module.exports = async (nameFolder) => {
     try {
       if (await fs.exists(folder)) {
         await fs.remove(folder)
+        debug(`${pop} is deleted!`)
       }
     }
     catch (error) {
+      debug(`${pop} not deleted!`, error)
       throw error
     }
   }

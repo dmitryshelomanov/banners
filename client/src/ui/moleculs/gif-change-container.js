@@ -6,6 +6,7 @@ import {
   FlexWrap,
   RangeVertical,
   InputText,
+  Text
 } from '../'
 import { api } from '../../helpers/api'
 import {
@@ -68,6 +69,10 @@ class GifChangeContainer extends PureComponent {
       this.setState({
         image: data,
         isLoading: false,
+        info: {
+          ...this.state.info,
+          originalSize: data.originalSize,
+        },
       }, () => {
         this.setGifData()
       })
@@ -133,7 +138,9 @@ class GifChangeContainer extends PureComponent {
         }
         {
           !isLoading && (
-            <ImageWrap>
+            <ImageWrap
+              fd="column"
+            >
               <img
                 width={`${defaultWidth}px`}
                 height={`${defaultHeight}px`}
@@ -160,6 +167,9 @@ class GifChangeContainer extends PureComponent {
                 value={delay}
                 onChange={this.changeDelay}
               />
+              <Text>Новый размер - {this.state.info.newSize}</Text>
+              <Text>Оригинальный размер - {this.state.info.originalSize}</Text>
+              <Text>Процент сжатия - {this.state.info.percentCompress}</Text>
             </ImageWrap>
           )
         }

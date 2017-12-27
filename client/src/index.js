@@ -6,11 +6,10 @@ import registerServiceWorker from './registerServiceWorker'
 import { globalStyles } from './ui/global'
 import { Main } from './pages/main'
 import { store } from './helpers/create-store'
-import uload from './helpers/unload'
 
 
 globalStyles()
-uload(store)
+
 const theme = {}
 
 ReactDOM.render(

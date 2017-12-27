@@ -22,7 +22,7 @@ async function parserBanner(ctx) {
   debug('parser banner with query', banner)
 
   const { process } = tempPath()
-  const pathBanner = process(`${banner}/240x400.html`)
+  const pathBanner = process(`${banner}/240x400v3.html`)
 
   if (!await fs.exists(pathBanner)) {
     ctx.status = 204

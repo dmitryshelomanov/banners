@@ -14,7 +14,7 @@ const {
   updateHtmlName,
 } = require('./src/controllers')
 const cacheDelete = require('./src/utils/handlers/cache-deleted')
-
+const { isDelete } = require('./src/config.js')
 
 const router = new Router()
 const app = new Koa()
@@ -38,12 +38,14 @@ const folder = {}
 
 io.on('connect', (s) => {
   s.on('disconnect', () => {
+    if (!isDelete) return
     if (typeof folder[s.id] !== 'undefined') {
       cacheDelete(folder[s.id].nameFolder)
       delete folder[s.id]
     }
   })
   s.on('banner:set-archive-name', (data) => {
+    if (!isDelete) return
     folder[s.id] = data
   })
 })

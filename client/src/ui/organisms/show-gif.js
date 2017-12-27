@@ -13,7 +13,7 @@ const WrapGif = FlexWrap.extend`
 const ShowGif = ({ readyURL, gifH }) => (
   <FlexWrap
     width="100%"
-    heigth={`${gifH}px`}
+    height={`${gifH}px`}
     ai="center"
     jc="center"
   >
