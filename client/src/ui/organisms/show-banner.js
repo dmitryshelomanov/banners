@@ -7,7 +7,7 @@ import {
   Button,
   Caption,
 } from '../'
-
+import { compressExt } from '../../config'
 
 const BnnerWrap = FlexWrap.extend`
   margin: 25px 0
@@ -39,7 +39,7 @@ class ShowBanner extends Component {
     const doc = this.banner.contentDocument || this.banner.contentWindow.document
     const canvas = doc.getElementById('canvas')
 
-    this.props.setImageFromGif(canvas.toDataURL('image/jpeg', 1), canvas.width)
+    this.props.setImageFromGif(canvas.toDataURL(`image/${compressExt}`, 1), canvas.width)
   }
 
   reloadBanner = () => {
@@ -66,7 +66,7 @@ class ShowBanner extends Component {
           }
         </FlexWrap>
         {
-          this.state.html && (
+          (this.state.html && this.props.nameHtml) && (
             <FlexWrap
               width="100%"
               fd="column"
@@ -79,8 +79,8 @@ class ShowBanner extends Component {
                 <iframe
                   id="frame"
                   title="banner"
-                  src={`http://localhost:8000/process/${this.props.archive.name}/${this.props.nameHtml}`}
-                  // srcDoc={this.state.html}
+                  // src={`http://localhost:8000/process/${this.props.archive.name}/${this.props.nameHtml}`}
+                  srcDoc={this.state.html}
                   width="100%"
                   height="500px"
                   frameBorder="0"

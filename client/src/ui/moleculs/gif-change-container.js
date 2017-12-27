@@ -13,6 +13,7 @@ import {
   setSize,
   setGifData,
 } from '../../redux/actions/gif'
+import { compressExt } from '../../config'
 
 /* eslint-disable radix */
 const fade = keyframes`
@@ -59,7 +60,7 @@ class GifChangeContainer extends PureComponent {
           this.props.onSetGifSize({ w, h })
           this.props.onRenameHtml({
             nameFolder: this.props.archiveName,
-            newName: `${w}xxxxxxx${h}.html`,
+            newName: `${w}x${h}.html`,
             oldName: this.props.oldNameHtml,
           })
         }
@@ -87,7 +88,7 @@ class GifChangeContainer extends PureComponent {
     try {
       const { data } = await api.uploadImageForGif({
         data: carousel.base64,
-        nameFile: `${ids}.jpg`,
+        nameFile: `${ids}.${compressExt}`,
         nameFolder: archiveName,
       })
 
