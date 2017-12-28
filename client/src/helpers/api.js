@@ -80,6 +80,16 @@ class API {
 
     return resolve
   }
+
+  /**
+   * Добавление границы в файле
+   * @param {*} data
+   */
+  async setBorderFromCanvas(data) {
+    const resolve = await this.request.post('update/border', data)
+
+    return resolve
+  }
 }
 
 export const api = new API()

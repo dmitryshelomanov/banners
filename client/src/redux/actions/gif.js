@@ -59,3 +59,12 @@ export function setGifData({ path, delay, ids }) {
     })
   }
 }
+
+export function setBorderFromCanvas(data) {
+  return function (dispatch, getState, { api }) {
+    dispatch({
+      type: types.SET_BORDER,
+      request: () => api.setBorderFromCanvas(data),
+    })
+  }
+}

@@ -4,6 +4,7 @@
     "object-curly-newline": "off",
     "object-curly-spacing": "off",
     "consistent-return": "off",
-    "guard-for-in":"off"
+    "guard-for-in":"off",
+    "no-cond-assign":"off"
   }
 }

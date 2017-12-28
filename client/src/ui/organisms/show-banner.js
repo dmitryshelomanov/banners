@@ -8,9 +8,10 @@ import {
 import {
   FlexWrap,
   Button,
-  Player,
+  PlayerWithHoc,
 } from '../'
 import { compressExt } from '../../config'
+
 
 const BnnerWrap = FlexWrap.extend`
   margin: 25px 0
@@ -27,14 +28,19 @@ class ShowBanner extends Component {
 
   getInitialState = () => {
     if (!this.banner) return
-    const doc = this.banner.contentDocument || this.banner.contentWindow.document
-    const canvas = doc.getElementById('canvas')
+    try {
+      const doc = this.banner.contentDocument || this.banner.contentWindow.document
+      const canvas = doc.getElementById('canvas')
 
-    this.props.onSetGifSize({ w: canvas.width, h: canvas.height })
-    setTimeout(() => {
-      this.banner.contentWindow.window.exportRoot.instance.gotoAndStop(1)
-      this.setState({ playerReady: true })
-    }, 1000)
+      this.props.onSetGifSize({ w: canvas.width, h: canvas.height })
+      setTimeout(() => {
+        this.banner.contentWindow.window.exportRoot.instance.gotoAndStop(1)
+        this.setState({ playerReady: true })
+      }, 1000)
+    }
+    catch (error) {
+      throw error
+    }
   }
 
   shouldComponentUpdate(nextProps) {
@@ -58,10 +64,6 @@ class ShowBanner extends Component {
     this.props.setImageFromGif(canvas.toDataURL(`image/${compressExt}`, 1), canvas.width)
   }
 
-  reloadBanner = () => {
-    this.banner.contentWindow.location.reload()
-  }
-
   render() {
     return (
       <BnnerWrap
@@ -69,12 +71,6 @@ class ShowBanner extends Component {
         fd="column"
       >
         <FlexWrap>
-          {this.state.html && (
-            <Button
-              text="перезагрузить баннер"
-              onClick={this.reloadBanner}
-            />
-          )}
           {(!this.state.html && this.props.archive.name) && (
             <Button
               text="посмотреть баннер"
@@ -97,8 +93,8 @@ class ShowBanner extends Component {
                   id="frame"
                   title="banner"
                   onLoad={this.getInitialState}
-                  src={`http://localhost:8000/process/${this.props.archive.name}/${this.props.nameHtml}`}
-                  // srcDoc={this.state.html}
+                  // src={`http://localhost:8000/process/${this.props.archive.name}/${this.props.nameHtml}`}
+                  srcDoc={this.state.html}
                   width="100%"
                   height="500px"
                   frameBorder="0"
@@ -107,8 +103,13 @@ class ShowBanner extends Component {
                   }}
                 />
                 {this.state.playerReady && (
-                  <Player
+                  <PlayerWithHoc
                     banner={this.banner.contentWindow.window.exportRoot.instance}
+                    exportRoot={this.banner.contentWindow.window.exportRoot}
+                    lib={this.banner.contentWindow.window.lib}
+                    createjs={this.banner.contentWindow.window.createjs}
+                    doc={this.banner.contentDocument || this.banner.contentWindow.document}
+                    wnd={this.banner.contentWindow.window}
                   />
                 )}
                 <Button

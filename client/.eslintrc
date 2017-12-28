@@ -11,5 +11,9 @@
   "env": {
     "browser": true,
     "node": true
+  },
+  "rules": {
+    "no-param-reassign":"off",
+    "no-cond-assign":"off"
   }
 }
