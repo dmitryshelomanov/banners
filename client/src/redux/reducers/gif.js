@@ -37,6 +37,10 @@ export const gif = (state = initialState, actions) => {
       ...state,
       readyURL: actions.payload,
     }
+    case types.GIF_CLEAR_STATE: return {
+      ...state,
+      ...initialState,
+    }
     default: return state
   }
 }

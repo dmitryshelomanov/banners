@@ -19,8 +19,8 @@ async function compressArchive(ctx) {
   const { process, compress } = tempPath()
 
   try {
-    await compressFolder(process(nameFolder), compress(nameFolder))
-    const stat = await fs.stat(compress(nameFolder))
+    await compressFolder(process(nameFolder), compress(`${nameFolder}/banner.zip`))
+    const stat = await fs.stat(compress(`${nameFolder}/banner.zip`))
 
     ctx.body = { size: stat.size }
   }
