@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import {
   FlexWrap,
+  GifImages,
 } from '../'
 
 
@@ -38,7 +39,7 @@ export class ServicesWrapTabs extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeIndex: 1,
+      activeIndex: 2,
     }
   }
 
@@ -82,7 +83,7 @@ export class ServicesWrapTabs extends Component {
             tab1
           </WrapTab>
           <WrapTab className={this.state.activeIndex === 2 ? 'active' : ''}>
-            tab2
+            <GifImages />
           </WrapTab>
           <WrapTab className={this.state.activeIndex === 3 ? 'active' : ''}>
             tab3

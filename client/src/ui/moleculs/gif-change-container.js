@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
   FlexWrap,
-  RangeVertical,
   InputText,
   Text,
 } from '../'
@@ -147,7 +146,7 @@ class GifChangeContainer extends PureComponent {
                 src={`http://localhost:8000/gif/${image.url}?v${vg()}`}
                 alt="img"
               />
-              <RangeVertical
+              {/* <RangeVertical
                 min={0}
                 step={1}
                 max={100}
@@ -162,7 +161,7 @@ class GifChangeContainer extends PureComponent {
                   this.setState({ isLoading: true })
                   this.compressImage(image, this.range.value)
                 }}
-              />
+              /> */}
               <InputText
                 value={delay}
                 onChange={this.changeDelay}

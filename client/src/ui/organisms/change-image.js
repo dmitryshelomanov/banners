@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import {
   FlexWrap,
   ImageReview,
-  Range,
 } from '../'
 import { compressActiveImage } from '../../redux/actions/carousel'
 
@@ -148,7 +147,7 @@ class Change extends Component {
                   this.cloneWrap = comp
                 }}
               />
-              <Range
+              {/* <Range
                 min={0}
                 step={1}
                 max={100}
@@ -158,7 +157,7 @@ class Change extends Component {
                 onMouseUp={() => {
                   onCompress(carousel.images[activeImage], this.range.value)
                 }}
-              />
+              /> */}
             </Wrap>
           )
         }
