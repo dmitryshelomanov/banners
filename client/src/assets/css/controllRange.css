@@ -1,0 +1,14 @@
+.controllrange .input-range__track--active {
+  background: #92b5d9 !important;
+}
+.controllrange .input-range__track {
+  background: #515151;
+  height: 0.5rem;
+}
+.controllrange .input-range__slider {
+  opacity: 0;
+}
+.controllrange .input-range__label {
+  color: #c4c4c4;
+  font-family: 'Myriad' !important;
+}

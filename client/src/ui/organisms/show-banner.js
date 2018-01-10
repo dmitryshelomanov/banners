@@ -7,14 +7,19 @@ import {
 } from '../../redux/actions/gif'
 import {
   FlexWrap,
-  Button,
-  PlayerWithHoc,
+  ControllWithHoc as Controll,
 } from '../'
 import { compressExt } from '../../config'
 
-
+/* eslint-disable  react/no-unused-state */
 const BnnerWrap = FlexWrap.extend`
-  margin: 25px 0
+  background: #fff;
+  margin: 25px 0;
+  box-shadow: 0 14px 20px 0px rgba(0,0,0,0.04), 0 10px 10px rgba(0,0,0,0.05);
+  min-height: 350px;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 5px;
 `
 
 class ShowBanner extends Component {
@@ -70,56 +75,8 @@ class ShowBanner extends Component {
         width="100%"
         fd="column"
       >
-        <FlexWrap>
-          {(!this.state.html && this.props.archive.name) && (
-            <Button
-              text="посмотреть баннер"
-              onClick={this.getData}
-            />
-          )}
-        </FlexWrap>
-        {
-          (this.state.html && this.props.nameHtml) && (
-            <FlexWrap
-              width="100%"
-              fd="column"
-            >
-              <FlexWrap
-                width="100%"
-                fd="column"
-                ai="center"
-              >
-                <iframe
-                  id="frame"
-                  title="banner"
-                  onLoad={this.getInitialState}
-                  // src={`http://localhost:8000/process/${this.props.archive.name}/${this.props.nameHtml}`}
-                  srcDoc={this.state.html}
-                  width="100%"
-                  height="500px"
-                  frameBorder="0"
-                  ref={(c) => {
-                    this.banner = c
-                  }}
-                />
-                {this.state.playerReady && (
-                  <PlayerWithHoc
-                    banner={this.banner.contentWindow.window.exportRoot.instance}
-                    exportRoot={this.banner.contentWindow.window.exportRoot}
-                    lib={this.banner.contentWindow.window.lib}
-                    createjs={this.banner.contentWindow.window.createjs}
-                    doc={this.banner.contentDocument || this.banner.contentWindow.document}
-                    wnd={this.banner.contentWindow.window}
-                  />
-                )}
-                <Button
-                  text="взять картинку"
-                  onClick={this.getDataURL}
-                />
-              </FlexWrap>
-            </FlexWrap>
-          )
-        }
+        BannerWrap
+        <Controll />
       </BnnerWrap>
     )
   }

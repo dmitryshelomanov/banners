@@ -1,19 +1,28 @@
-import React, { Component } from 'react'
-import WithFolderTree from '../../hocs/with-folder-tree'
+import React from 'react'
 import {
   ArchiveUpload,
   FlexWrap,
-  RenderTree,
+  RulesWrapTabs,
 } from '../'
 
-
-const RenderTreeHoc = WithFolderTree(RenderTree)
+const InnerComponent = ({ isActive, html }) => (
+  <div
+    className={isActive ? 'active' : ''}
+    dangerouslySetInnerHTML={{ __html: html }}
+  />
+)
 
 export const ArchiveBlock = () => (
   <FlexWrap
-    fd="column"
+    width="100%"
   >
     <ArchiveUpload />
-    <RenderTreeHoc />
+    <RulesWrapTabs
+      tabs={[
+        { component: <InnerComponent />, title: 'gdn', html: '<p>component1</p>' },
+        { component: <InnerComponent />, title: 'yandex', html: '<p>component2</p>' },
+        { component: <InnerComponent />, title: 'dbm', html: '<p>component3</p>' },
+      ]}
+    />
   </FlexWrap>
 )

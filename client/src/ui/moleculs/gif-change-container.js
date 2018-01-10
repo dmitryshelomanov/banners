@@ -6,7 +6,7 @@ import {
   FlexWrap,
   RangeVertical,
   InputText,
-  Text
+  Text,
 } from '../'
 import { api } from '../../helpers/api'
 import {

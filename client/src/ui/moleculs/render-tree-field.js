@@ -4,8 +4,6 @@ import PropTypes from 'prop-types'
 import {
   FlexWrap,
   Text,
-  FolderIcon,
-  FilesIcon,
 } from '../'
 
 /* eslint-disable react/no-array-index-key */
@@ -20,7 +18,7 @@ const Folder = Text.extend`
   box-sizing: border-box;
   margin: 0;
   color: #0366d6;
-  cursor: pointer
+  cursor: pointer;
 `
 
 export class RenderTree extends Component {
@@ -40,36 +38,29 @@ export class RenderTree extends Component {
   }
 
   render() {
-    const { folders, padding, onAddImage } = this.props
+    const { folders, onAddImage, deep } = this.props
 
     return (
       <FlexWrap
+        width="100%"
         fd="column"
-        style={{
-          paddingLeft: folders.type === 'directory' ? padding * 10 : 0,
-        }}
       >
         <Folder
           onClick={() => this.addImage(folders)}
         >
-          {
-            folders.type === 'directory'
-              ? <FolderIcon />
-              : <FilesIcon />
-          }
           {folders.name}
         </Folder>
         <FlexWrap
           fd="column"
-          style={{ paddingLeft: folders.type === 'directory' ? padding * 10 : 0 }}
+          width="100%"
         >
           {
-            folders.children && folders.children.map((item, key) => (
+            folders.children && deep < 1 && folders.children.map((item, key) => (
               <RenderTree
                 folders={item}
                 key={key}
-                padding={key + 1}
                 onAddImage={onAddImage}
+                deep={key}
               />
             ))
           }
@@ -86,10 +77,10 @@ RenderTree.propTypes = {
     type: PropTypes.string,
     size: PropTypes.number,
   }).isRequired,
-  padding: PropTypes.number,
   onAddImage: PropTypes.func.isRequired,
+  deep: PropTypes.number,
 }
 
 RenderTree.defaultProps = {
-  padding: 0,
+  deep: 0,
 }
