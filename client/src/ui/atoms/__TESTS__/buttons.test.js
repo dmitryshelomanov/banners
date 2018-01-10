@@ -21,7 +21,7 @@ describe('test component Button', () => {
     expect(text).toBe('upload')
   })
 
-  it('shapshot Button', () => {
+  it.skip('shapshot Button', () => {
     const tree = create(<Button text="upload" />)
       .toJSON()
 

@@ -15,6 +15,7 @@
   "rules": {
     "no-param-reassign":"off",
     "no-cond-assign":"off",
-    "react/no-array-index-key": "off"
+    "react/no-array-index-key": "off",
+    "linebreak-style":"off"
   }
 }

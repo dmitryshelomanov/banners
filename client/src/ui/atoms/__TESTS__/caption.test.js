@@ -21,7 +21,7 @@ describe('test component Caption', () => {
     expect(size).toBe(10)
   })
 
-  it('shapshot Button', () => {
+  it.skip('shapshot Button', () => {
     const tree = create(<Caption size={10} />)
       .toJSON()
 

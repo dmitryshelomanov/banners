@@ -62,7 +62,7 @@ describe('test component CarouselItem', () => {
     expect(ids).toBe(data.ids)
   })
 
-  it('shapshot Button', () => {
+  it.skip('shapshot Button', () => {
     const tree = create(<CarouselItem {...props()} />)
       .toJSON()
 
