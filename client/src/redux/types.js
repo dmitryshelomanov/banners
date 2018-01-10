@@ -28,3 +28,5 @@ export const GIS_SET_DATA = 'GIF/set_data'
 
 
 export const SET_BORDER = 'SET/border_to_canvas'
+
+export const PLAYER_SET_STATE = 'PLAYER/set_state'

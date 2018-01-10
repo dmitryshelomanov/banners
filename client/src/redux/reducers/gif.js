@@ -2,6 +2,7 @@ import * as types from '../types'
 
 /* eslint-disable no-param-reassign */
 const initialState = {
+  gifReady: false,
   w: 0,
   h: 0,
   repeat: 0,

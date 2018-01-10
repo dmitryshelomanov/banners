@@ -6,8 +6,8 @@ import unload from '../../helpers/unload'
 const initialState = {
   isLoading: false,
   isError: false,
-  nameHtml: fixture.work.treeFolder.nameHtml,
-  treeFolders: fixture.work.treeFolder.tree,
+  nameHtml: fixture.home.treeFolder.nameHtml,
+  treeFolders: fixture.home.treeFolder.tree,
 }
 const io = unload()
 
