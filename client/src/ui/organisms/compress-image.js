@@ -15,6 +15,7 @@ const CompressImageWrap = ({ carousel }) => (
   <FlexWrap
     width="100%"
     fd="column"
+    ai="center"
   >
     <Carousel
       component={<ItemWithActive />}

@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import {
   RootContainer,
   ArchiveBlock,
@@ -15,7 +16,7 @@ const H1 = Caption.extend`
   font-size: 40px
 `
 
-export const Main = () => (
+const MainPage = ({ archiveReady, playerReady }) => (
   <RootContainer>
     <FlexWrap
       fd="column"
@@ -25,8 +26,21 @@ export const Main = () => (
         ПРОШИВКА БАННЕРОВ ОТ ASAP
       </H1>
       <ArchiveBlock />
-      <ShowBannerWithArchive />
-      <ServicesWrapTabs />
+      {archiveReady && (
+        <ShowBannerWithArchive
+          archiveReady={archiveReady}
+        />
+      )}
+      {playerReady && archiveReady && (
+        <ServicesWrapTabs
+          playerReady={playerReady}
+        />
+      )}
     </FlexWrap>
   </RootContainer>
 )
+
+export const Main = connect(state => ({
+  archiveReady: state.archiveUpload.archiveReady,
+  playerReady: state.player.playerReady,
+}))(MainPage)

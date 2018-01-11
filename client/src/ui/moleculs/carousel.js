@@ -11,15 +11,34 @@ const CarouselWrap = FlexWrap.extend`
   width: 100%;
   overflow: hidden;
   transition: all .5s;
-  border-top: 2px solid #47A4A5;
-  background-color: #F0FAFA;
+  border: 2px dashed #e3e3e3;
+  background-color: #f6f6f6;
   padding: 15px 40px;
   box-sizing: border-box;
   position: relative;
+  align-items: center;
 `
 
 const CarouselInner = FlexWrap.extend`
   transition: transform .5s
+`
+
+const Wrapper = FlexWrap.extend`
+  flex-direction: column;
+  width: 90%;
+  position: relative;
+  & img.arrow-image {
+    cursor: pointer;
+    position: absolute;
+    z-index: 2;
+    top: 65px;
+  }
+  & img.arrow-image-left {
+    left: -50px;
+  }
+  & img.arrow-image-right {
+    right: -50px;
+  }
 `
 
 export class Carousel extends Component {
@@ -54,22 +73,20 @@ export class Carousel extends Component {
     const data = carousel.images ? carousel.images : carousel
 
     return (
-      <FlexWrap
-        fd="column"
-        width="100%"
+      <Wrapper
         style={{
           visibility: len > 0 ? 'visible' : 'hidden',
         }}
       >
+        <CarouselBtn
+          onClick={this.prevSlide}
+          isLeft
+        />
         <CarouselWrap
           innerRef={(c) => {
             this.wrap = c
           }}
         >
-          <CarouselBtn
-            onClick={this.prevSlide}
-            isLeft
-          />
           <CarouselInner
             width={`${width * len}px`}
             style={{
@@ -87,11 +104,11 @@ export class Carousel extends Component {
               ))
             }
           </CarouselInner>
-          <CarouselBtn
-            onClick={this.nextSlide}
-          />
         </CarouselWrap>
-      </FlexWrap>
+        <CarouselBtn
+          onClick={this.nextSlide}
+        />
+      </Wrapper>
     )
   }
 }

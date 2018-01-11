@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import {
   FlexWrap,
   GifImages,
+  CompressImage,
 } from '../'
 
 
@@ -29,6 +30,8 @@ const WrapTab = styled.div`
   width: 100%;
   box-shadow: 0 14px 20px 0px rgba(0,0,0,0.04), 0 10px 10px rgba(0,0,0,0.05);
   margin: 20px 0;
+  flex-direction: column;
+  padding: 25px;
   &.active {
     display: flex;
   }
@@ -39,7 +42,7 @@ export class ServicesWrapTabs extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeIndex: 2,
+      activeIndex: 3,
     }
   }
 
@@ -86,7 +89,7 @@ export class ServicesWrapTabs extends Component {
             <GifImages />
           </WrapTab>
           <WrapTab className={this.state.activeIndex === 3 ? 'active' : ''}>
-            tab3
+            <CompressImage />
           </WrapTab>
         </FlexWrap>
       </FlexWrap>

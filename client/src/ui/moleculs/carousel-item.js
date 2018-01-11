@@ -58,11 +58,11 @@ carouselItem.defaultProps = {
 
 export const CarouselItem = styled(carouselItem)`
   position: relative;
-  background-color: #FFF0ED;
-  border-color: #888888;
+  background-color: #e3e3e3;
   border-radius: 4px;
   margin-right: 15px;
   cursor: pointer;
+  box-shadow: 0 14px 20px 0px rgba(0,0,0,0.04), 0 10px 10px rgba(0,0,0,0.05);
   & .percent {
     position: absolute;
     color: #000000;
@@ -73,6 +73,6 @@ export const CarouselItem = styled(carouselItem)`
     text-shadow: -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff;
   }
   &.active {
-    background: #40A1A2 !important
+    background: #c8c8c8 !important
   }
 `

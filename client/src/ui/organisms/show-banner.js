@@ -2,14 +2,13 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import {
-  setGifImage,
   setSize,
 } from '../../redux/actions/gif'
+import { togglePlayerReady } from '../../redux/actions/banner'
 import {
   FlexWrap,
   ControllWithHoc as Controll,
 } from '../'
-import { compressExt } from '../../config'
 
 /* eslint-disable  react/no-unused-state */
 const BnnerWrap = FlexWrap.extend`
@@ -27,7 +26,6 @@ class ShowBanner extends Component {
     super(props)
     this.state = {
       html: null,
-      playerReady: false,
     }
   }
 
@@ -40,12 +38,16 @@ class ShowBanner extends Component {
       this.props.onSetGifSize({ w: canvas.width, h: canvas.height })
       setTimeout(() => {
         this.banner.contentWindow.window.exportRoot.instance.gotoAndStop(1)
-        this.setState({ playerReady: true })
+        this.props.togglePlayerState(true)
       }, 1000)
     }
     catch (error) {
       throw error
     }
+  }
+
+  componentDidMount() {
+    this.getData()
   }
 
   shouldComponentUpdate(nextProps) {
@@ -61,22 +63,35 @@ class ShowBanner extends Component {
     this.setState({ html: `${data.data}` })
   }
 
-  getDataURL = () => {
-    if (!this.banner) return
-    const doc = this.banner.contentDocument || this.banner.contentWindow.document
-    const canvas = doc.getElementById('canvas')
-
-    this.props.setImageFromGif(canvas.toDataURL(`image/${compressExt}`, 1), canvas.width)
-  }
-
   render() {
+    const { gifH, playerReady } = this.props
+
     return (
       <BnnerWrap
         width="100%"
+        height={`${gifH + 80}px`}
         fd="column"
       >
-        BannerWrap
-        <Controll />
+        <iframe
+          id="bannerFrame"
+          title="banner"
+          onLoad={this.getInitialState}
+          srcDoc={this.state.html}
+          width="100%"
+          height="500px"
+          frameBorder="0"
+          ref={(c) => {
+            this.banner = c
+          }}
+        />
+        {playerReady && (
+          <Controll
+            instance={this.banner.contentWindow.window.exportRoot.instance}
+            exportRoot={this.banner.contentWindow.window.exportRoot}
+            createjs={this.banner.contentWindow.window.createjs}
+            wnd={this.banner.contentWindow.window}
+          />
+        )}
       </BnnerWrap>
     )
   }
@@ -86,13 +101,15 @@ export const ShowBannerWithArchive = connect(
   state => ({
     archive: state.archiveUpload.treeFolders,
     nameHtml: state.archiveUpload.nameHtml,
+    gifH: state.gifs.h,
+    playerReady: state.player.playerReady,
   }),
   dispatch => ({
-    setImageFromGif: (base64, w) => {
-      dispatch(setGifImage(base64, w))
-    },
     onSetGifSize: (size) => {
       dispatch(setSize(size))
+    },
+    togglePlayerState(state) {
+      dispatch(togglePlayerReady(state))
     },
   }),
 )(ShowBanner)

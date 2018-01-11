@@ -16,6 +16,7 @@
     "no-param-reassign":"off",
     "no-cond-assign":"off",
     "react/no-array-index-key": "off",
-    "linebreak-style":"off"
+    "linebreak-style":"off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off"
   }
 }

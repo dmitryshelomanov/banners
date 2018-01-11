@@ -9,8 +9,6 @@ import { compressActiveImage } from '../../redux/actions/carousel'
 
 
 const Wrap = FlexWrap.extend`
-  border-top: 2px solid #FFF0ED;
-  background-color: #F0FAFA;
   padding: 15px;
   box-sizing: border-box;
   justify-content: space-around;

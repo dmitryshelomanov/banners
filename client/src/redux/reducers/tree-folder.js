@@ -4,10 +4,11 @@ import unload from '../../helpers/unload'
 
 
 const initialState = {
+  archiveReady: true,
   isLoading: false,
   isError: false,
-  nameHtml: fixture.home.treeFolder.nameHtml,
-  treeFolders: fixture.home.treeFolder.tree,
+  nameHtml: fixture.work.treeFolder.nameHtml,
+  treeFolders: fixture.work.treeFolder.tree,
 }
 const io = unload()
 
@@ -16,6 +17,7 @@ export const archiveUpload = (state = initialState, actions) => {
     case types.ARCHIVE_FETCH: return {
       ...state,
       isLoading: true,
+      archiveReady: false,
     }
     case types.ARCHIVE_END:
       io.emit('banner:set-archive-name', {
@@ -24,12 +26,14 @@ export const archiveUpload = (state = initialState, actions) => {
 
       return {
         ...state,
+        archiveReady: true,
         isLoading: false,
         nameHtml: actions.payload.nameHtml,
         treeFolders: typeof actions.payload === 'string' ? state.treeFolders : actions.payload.tree,
       }
     case types.ARCHIVE_ERROR: return {
       ...state,
+      archiveReady: false,
       isLoading: false,
       isError: true,
     }

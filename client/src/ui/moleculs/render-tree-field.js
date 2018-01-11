@@ -20,6 +20,9 @@ const Folder = Text.extend`
   color: #0366d6;
   cursor: pointer;
 `
+const TreeWrap = FlexWrap.extend`
+  
+`
 
 export class RenderTree extends Component {
   addImage = (img) => {
@@ -55,7 +58,7 @@ export class RenderTree extends Component {
           width="100%"
         >
           {
-            folders.children && deep < 1 && folders.children.map((item, key) => (
+            folders.children && folders.children.map((item, key) => (
               <RenderTree
                 folders={item}
                 key={key}

@@ -13,9 +13,9 @@ const InfoWithStyle = FlexWrap.extend`
   top: 0;
   left: 0;
   position: relative;
-  background: #40a1a2;
-  color: #fff;
+  color: #808080;
   padding: 15px;
+  justify-content: center;
 `
 
 class ImageWrap extends Component {

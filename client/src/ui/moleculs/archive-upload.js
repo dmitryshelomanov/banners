@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 import {
   FlexWrap,
   CheckBox,
@@ -11,7 +12,8 @@ import WithUploadHoc from '../../hocs/with-upload-file'
 import WithFolderTree from '../../hocs/with-folder-tree'
 import { UploadBtn } from './upload-button'
 import treeMenu from '../../assets/img/tree-menu.png'
-
+import createStyle from '../../helpers/create-style'
+import getBanner from '../../helpers/get-banner'
 
 const Button = WithUploadHoc(UploadBtn)
 const RenderTreeHoc = WithFolderTree(RenderTree)
@@ -52,7 +54,7 @@ const CheckBoxWrap = FlexWrap.extend`
   flex-direction: column;
 `
 
-export class ArchiveUpload extends Component {
+export class ArchiveUploadWrapper extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -65,7 +67,13 @@ export class ArchiveUpload extends Component {
     }
   }
 
+  setPoweredState = (ctx, shape) => {
+    shape.strokeCmd.style = this.state.background
+  }
+
   render() {
+    const { playerReady } = this.props
+
     return (
       <FlexWrap
         fd="column"
@@ -103,17 +111,19 @@ export class ArchiveUpload extends Component {
 
               }}
             />
-            <CheckBox
-              id="border"
-              type="checkbox"
-              label="Добавить border"
-              name="border"
-              onChange={({ target }) => {
-                this.setState({
-                  borderColorPreview: !this.state.borderColorPreview,
-                })
-              }}
-            />
+            {playerReady && (
+              <CheckBox
+                id="border"
+                type="checkbox"
+                label="Добавить border"
+                name="border"
+                onChange={({ target }) => {
+                  this.setState({
+                    borderColorPreview: !this.state.borderColorPreview,
+                  })
+                }}
+              />
+            )}
             {this.state.borderColorPreview && <ColorPreview
               color={this.state.borderColor}
               onClick={() => {
@@ -125,17 +135,19 @@ export class ArchiveUpload extends Component {
                 this.setState({ borderColor: hex })
               })}
             />}
-            <CheckBox
-              id="bg"
-              type="checkbox"
-              label="Заменить цвет заднего фона"
-              name="bg"
-              onChange={({ target }) => {
-                this.setState({
-                  backgroundColorPreview: !this.state.backgroundColorPreview,
-                })
-              }}
-            />
+            {playerReady && (
+              <CheckBox
+                id="bg"
+                type="checkbox"
+                label="Заменить цвет заднего фона"
+                name="bg"
+                onChange={({ target }) => {
+                  this.setState({
+                    backgroundColorPreview: !this.state.backgroundColorPreview,
+                  })
+                }}
+              />
+            )}
             {this.state.backgroundColorPreview && <ColorPreview
               color={this.state.backgroundColor}
               onClick={() => {
@@ -145,6 +157,7 @@ export class ArchiveUpload extends Component {
             {this.state.backgroundPickerPreview && this.state.backgroundColorPreview && <ColorPicker
               onChangeComplete={(({ hex }) => {
                 this.setState({ backgroundColor: hex })
+                createStyle(getBanner(playerReady).doc, hex)
               })}
             />}
           </CheckBoxWrap>
@@ -153,3 +166,7 @@ export class ArchiveUpload extends Component {
     )
   }
 }
+
+export const ArchiveUpload = connect(state => ({
+  playerReady: state.player.playerReady,
+}))(ArchiveUploadWrapper)
