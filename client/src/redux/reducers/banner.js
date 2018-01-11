@@ -16,7 +16,7 @@ export const player = (state = initialState, actions) => {
     }
     case types.PLAYER_SET_BACKGROUND: return {
       ...state,
-      bodyColor: actions.color,
+      bodyColor: actions.payload,
     }
     default: return state
   }

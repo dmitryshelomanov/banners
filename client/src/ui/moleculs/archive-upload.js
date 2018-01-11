@@ -12,8 +12,8 @@ import WithUploadHoc from '../../hocs/with-upload-file'
 import WithFolderTree from '../../hocs/with-folder-tree'
 import { UploadBtn } from './upload-button'
 import treeMenu from '../../assets/img/tree-menu.png'
-import createStyle from '../../helpers/create-style'
-import getBanner from '../../helpers/get-banner'
+import { setBgPlayer } from '../../redux/actions/banner'
+
 
 const Button = WithUploadHoc(UploadBtn)
 const RenderTreeHoc = WithFolderTree(RenderTree)
@@ -63,7 +63,6 @@ export class ArchiveUploadWrapper extends Component {
       borderColor: '#fff',
       backgroundColorPreview: false,
       backgroundPickerPreview: false,
-      backgroundColor: '#fff',
     }
   }
 
@@ -72,7 +71,7 @@ export class ArchiveUploadWrapper extends Component {
   }
 
   render() {
-    const { playerReady } = this.props
+    const { playerReady, bodyColor, setBgColor } = this.props
 
     return (
       <FlexWrap
@@ -149,16 +148,13 @@ export class ArchiveUploadWrapper extends Component {
               />
             )}
             {this.state.backgroundColorPreview && <ColorPreview
-              color={this.state.backgroundColor}
+              color={bodyColor}
               onClick={() => {
                 this.setState({ backgroundPickerPreview: !this.state.backgroundPickerPreview })
               }}
             />}
             {this.state.backgroundPickerPreview && this.state.backgroundColorPreview && <ColorPicker
-              onChangeComplete={(({ hex }) => {
-                this.setState({ backgroundColor: hex })
-                createStyle(getBanner(playerReady).doc, hex)
-              })}
+              onChangeComplete={({ hex }) => setBgColor(hex)}
             />}
           </CheckBoxWrap>
         </FlexWrap>
@@ -167,6 +163,14 @@ export class ArchiveUploadWrapper extends Component {
   }
 }
 
-export const ArchiveUpload = connect(state => ({
-  playerReady: state.player.playerReady,
-}))(ArchiveUploadWrapper)
+export const ArchiveUpload = connect(
+  state => ({
+    playerReady: state.player.playerReady,
+    bodyColor: state.player.bodyColor,
+  }),
+  dispatch => ({
+    setBgColor: (hex) => {
+      dispatch(setBgPlayer(hex))
+    },
+  }),
+)(ArchiveUploadWrapper)

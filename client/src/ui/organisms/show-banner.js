@@ -9,6 +9,8 @@ import {
   FlexWrap,
   ControllWithHoc as Controll,
 } from '../'
+import createStyle from '../../helpers/create-style'
+
 
 /* eslint-disable  react/no-unused-state */
 const BnnerWrap = FlexWrap.extend`
@@ -50,11 +52,16 @@ class ShowBanner extends Component {
     this.getData()
   }
 
-  shouldComponentUpdate(nextProps) {
+  componentWillUpdate(nextProps) {
     if (nextProps.nameHtml !== this.props.nameHtml && this.banner) {
       this.reloadBanner()
     }
-    return true
+    if (nextProps.bodyColor !== this.props.bodyColor) {
+      createStyle(
+        this.banner.contentDocument || this.banner.contentWindow.document,
+        nextProps.bodyColor,
+      )
+    }
   }
 
   getData = async () => {
@@ -103,6 +110,7 @@ export const ShowBannerWithArchive = connect(
     nameHtml: state.archiveUpload.nameHtml,
     gifH: state.gifs.h,
     playerReady: state.player.playerReady,
+    bodyColor: state.player.bodyColor,
   }),
   dispatch => ({
     onSetGifSize: (size) => {
