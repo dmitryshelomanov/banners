@@ -78,6 +78,7 @@ export class RulesWrapTabs extends Component {
         <DataRender>
           {this.props.tabs.map((el, index) => (
             React.cloneElement(el.component, {
+              key: index,
               isActive: this.state.activeIndex === index,
               html: el.html,
             })
