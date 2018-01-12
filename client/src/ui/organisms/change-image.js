@@ -145,17 +145,6 @@ class Change extends Component {
                   this.cloneWrap = comp
                 }}
               />
-              {/* <Range
-                min={0}
-                step={1}
-                max={100}
-                innerRef={(comp) => {
-                  this.range = comp
-                }}
-                onMouseUp={() => {
-                  onCompress(carousel.images[activeImage], this.range.value)
-                }}
-              /> */}
             </Wrap>
           )
         }

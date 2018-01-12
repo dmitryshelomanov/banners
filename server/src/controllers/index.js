@@ -6,6 +6,7 @@ const uploadImageForGif = require('./upload-image-for-gif')
 const generatedGif = require('./gif-generated')
 const updateHtmlName = require('./update-html-name')
 const updateBorder = require('./border-update')
+const downloadArchive = require('./download-archive')
 
 
 module.exports = {
@@ -17,4 +18,5 @@ module.exports = {
   generatedGif,
   updateHtmlName,
   updateBorder,
+  downloadArchive,
 }

@@ -4,34 +4,19 @@ import {
   FlexWrap,
   GifImages,
   CompressImage,
+  Button,
+  StoppedBanner,
 } from '../'
 
-
-const Button = styled.div`
-  width: 180px;
-  background: #3c638a;
-  border-radius: 5px;
-  padding: 20px 18px;
-  color: #fff;
-  width: 315px;
-  text-transform: uppercase;
-  font-weight: bold;
-  cursor: pointer;
-  transition: .5s;
-  &.active-btn {
-    color: #3c638a;
-    background: #fff;
-  }
-`
 const WrapTab = styled.div`
   display: none;
   background: #fff;
-  min-height: 300px;
   width: 100%;
   box-shadow: 0 14px 20px 0px rgba(0,0,0,0.04), 0 10px 10px rgba(0,0,0,0.05);
   margin: 20px 0;
   flex-direction: column;
   padding: 25px;
+  box-sizing: border-box;
   &.active {
     display: flex;
   }
@@ -39,11 +24,12 @@ const WrapTab = styled.div`
 
 
 export class ServicesWrapTabs extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      activeIndex: 3,
-    }
+  state = {
+    activeIndex: 1,
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState.activeIndex !== this.state.activeIndex
   }
 
   changeTab = (index) => {
@@ -63,27 +49,24 @@ export class ServicesWrapTabs extends Component {
           <Button
             onClick={() => this.changeTab(1)}
             className={this.state.activeIndex === 1 ? 'active-btn' : ''}
-          >
-            застопить баннер
-          </Button>
+            text="застопить баннер"
+          />
           <Button
             onClick={() => this.changeTab(2)}
             className={this.state.activeIndex === 2 ? 'active-btn' : ''}
-          >
-            сделать заглушку
-          </Button>
+            text="сделать заглушку"
+          />
           <Button
             onClick={() => this.changeTab(3)}
             className={this.state.activeIndex === 3 ? 'active-btn' : ''}
-          >
-            оптимизировать картинки
-          </Button>
+            text="оптимизировать картинки"
+          />
         </FlexWrap>
         <FlexWrap
           width="100%"
         >
           <WrapTab className={this.state.activeIndex === 1 ? 'active' : ''}>
-            tab1
+            <StoppedBanner />
           </WrapTab>
           <WrapTab className={this.state.activeIndex === 2 ? 'active' : ''}>
             <GifImages />

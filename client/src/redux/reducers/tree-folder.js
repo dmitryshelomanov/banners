@@ -4,11 +4,11 @@ import unload from '../../helpers/unload'
 
 
 const initialState = {
-  archiveReady: true,
+  archiveReady: false,
   isLoading: false,
   isError: false,
-  nameHtml: fixture.home.treeFolder.nameHtml,
-  treeFolders: fixture.home.treeFolder.tree,
+  nameHtml: fixture.default.nameHtml,
+  treeFolders: fixture.default.treeFolder,
 }
 const io = unload()
 

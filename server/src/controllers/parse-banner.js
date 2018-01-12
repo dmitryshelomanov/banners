@@ -17,12 +17,12 @@ function parser(str) {
 }
 
 async function parserBanner(ctx) {
-  const { banner } = ctx.query
+  const { banner, file } = ctx.query
 
   debug('parser banner with query', banner)
 
   const { process } = tempPath()
-  const pathBanner = process(`${banner}/240x400v3.html`)
+  const pathBanner = process(`${banner}/${file}`)
 
   if (!await fs.exists(pathBanner)) {
     ctx.status = 204

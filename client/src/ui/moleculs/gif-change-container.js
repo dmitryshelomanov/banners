@@ -2,9 +2,10 @@ import React, { PureComponent } from 'react'
 import styled, { keyframes } from 'styled-components'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import InputNumber from 'rc-input-number'
+import InputRange from 'react-input-range'
 import {
   FlexWrap,
-  InputText,
   Text,
 } from '../'
 import { api } from '../../helpers/api'
@@ -12,7 +13,8 @@ import {
   setGifData,
 } from '../../redux/actions/gif'
 import { compressExt } from '../../config'
-import vg from '../../helpers/version-generated'
+import ImageCache from '../../helpers/image-cache'
+import updateSystem from '../../helpers/update-system'
 
 /* eslint-disable radix */
 const fade = keyframes`
@@ -27,6 +29,23 @@ const fade = keyframes`
 const ImageWrap = styled.div`
   opacity: 0;
   animation: ${fade} 1s forwards;
+  padding: 40px 0;
+  box-sizing: border-box;
+  background-color: #e3e3e3;
+  margin-bottom: 15px;
+`
+
+const Wrapper = FlexWrap.extend`
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+`
+
+const ControllWrap = FlexWrap.extend`
+  width: 100%;
+  padding: 15px 0;
+  align-items: center;
+  justify-content: space-between;
 `
 
 class GifChangeContainer extends PureComponent {
@@ -45,6 +64,7 @@ class GifChangeContainer extends PureComponent {
       },
     }
     this.uploadBase64()
+    this.cache = new ImageCache()
   }
 
   setGifData = () => {
@@ -83,6 +103,7 @@ class GifChangeContainer extends PureComponent {
 
   compressImage = async (img, q) => {
     try {
+      this.cache.update(`http://localhost:8000/gif/${img.url}`)
       const { data } = await api.compressGifImage(img, q)
 
       this.setState({
@@ -95,8 +116,8 @@ class GifChangeContainer extends PureComponent {
     }
   }
 
-  changeDelay = ({ target }) => {
-    this.setState({ delay: parseInt(target.value) }, () => {
+  changeDelay = (value) => {
+    this.setState({ delay: parseInt(value) }, () => {
       this.setGifData()
     })
   }
@@ -114,11 +135,7 @@ class GifChangeContainer extends PureComponent {
     } = this.state
 
     return (
-      <FlexWrap
-        className={className}
-        ai="center"
-        jc="center"
-      >
+      <Wrapper>
         {
           isLoading && (
             <FlexWrap
@@ -137,47 +154,59 @@ class GifChangeContainer extends PureComponent {
         }
         {
           !isLoading && (
-            <ImageWrap
+            <FlexWrap
               fd="column"
             >
-              <img
-                width={`${defaultWidth}px`}
-                height={`${defaultHeight}px`}
-                src={`http://localhost:8000/gif/${image.url}?v${vg()}`}
-                alt="img"
-              />
-              {/* <RangeVertical
-                min={0}
-                step={1}
-                max={100}
-                value={quality}
-                onChange={() => {
-                  this.setState({ quality: this.range.value })
-                }}
-                innerRef={(comp) => {
-                  this.range = comp
-                }}
-                onMouseUp={() => {
-                  this.setState({ isLoading: true })
-                  this.compressImage(image, this.range.value)
-                }}
-              /> */}
-              <InputText
-                value={delay}
-                onChange={this.changeDelay}
-              />
-              <Text>Новый размер - {this.state.info.newSize}</Text>
-              <Text>Оригинальный размер - {this.state.info.originalSize}</Text>
-              <Text>Процент сжатия - {this.state.info.percentCompress}</Text>
-            </ImageWrap>
+              <ImageWrap
+                fd="column"
+              >
+                <img
+                  width={`${defaultWidth}px`}
+                  height={`${defaultHeight}px`}
+                  src={this.cache.get(`http://localhost:8000/gif/${image.url}`)}
+                  alt="img"
+                />
+              </ImageWrap>
+              <ControllWrap
+                className="gif-compress"
+              >
+                <FlexWrap
+                  fd="column"
+                  ai="center"
+                >
+                  <InputRange
+                    minValue={0}
+                    step={1}
+                    maxValue={100}
+                    value={quality}
+                    onChangeComplete={(value) => {
+                      this.setState({ isLoading: true })
+                      this.compressImage(image, value)
+                    }}
+                    onChange={(value) => {
+                      this.setState({ quality: value})
+                    }}
+                  />
+                  <Text>
+                    {this.state.info.percentCompress}% ({updateSystem(this.state.info.newSize)})
+                  </Text>
+                </FlexWrap>
+                <InputNumber
+                  value={delay}
+                  onChange={(value) => {
+                    this.changeDelay(value)
+                  }}
+                />
+              </ControllWrap>
+            </FlexWrap>
           )
         }
-      </FlexWrap>
+      </Wrapper>
     )
   }
 }
 
-const GifChangeContainerWithArchive = connect(
+export const GifItem = connect(
   state => ({
     archiveName: state.archiveUpload.treeFolders.name,
     gifH: state.gifs.h,
@@ -195,10 +224,4 @@ GifChangeContainer.propTypes = {
     w: PropTypes.number,
     base64: PropTypes.string,
   }).isRequired,
-  className: PropTypes.string.isRequired,
 }
-
-export const GifItem = styled(GifChangeContainerWithArchive)`
-  margin-right: 15px;
-  background-color: #fff0ed;
-`

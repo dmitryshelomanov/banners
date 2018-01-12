@@ -5,6 +5,7 @@ import {
   Carousel,
   CarouselItem,
   ChangeImage,
+  Button,
 } from '../'
 import WithActiveImage from '../../hocs/with-active-image'
 
@@ -17,6 +18,15 @@ const CompressImageWrap = ({ carousel }) => (
     fd="column"
     ai="center"
   >
+    <FlexWrap
+      width="100%"
+      style={{ marginBottom: 25 }}
+    >
+      <Button
+        text="Восстановить исходное качество"
+        className="active-btn"
+      />
+    </FlexWrap>
     <Carousel
       component={<ItemWithActive />}
       carousel={carousel}

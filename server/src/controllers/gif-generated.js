@@ -15,7 +15,7 @@ async function generatedGif(ctx) {
   const { nameFolder, imgData } = body
   const pathReadyGif = gifReady(`${nameFolder}/banner.gif`)
 
-  debug(`generate gif with nameFolder - ${nameFolder}`)
+  debug(`generate gif with nameFolder - ${nameFolder}`, imgData)
   try {
     await gifEncoder(imgData, pathReadyGif)
     ctx.body = `${nameFolder}/banner.gif`

@@ -1,6 +1,8 @@
 import { injectGlobal } from 'styled-components'
 import 'react-input-range/lib/css/index.css'
+import 'rc-input-number/dist/rc-input-number.min.css'
 import '../assets/css/controllRange.css'
+import '../assets/css/inputNumber.css'
 import mariadEot from '../assets/fonts/8143.eot'
 import mariadWoff from '../assets/fonts/8143.woff'
 import mariadTtf from '../assets/fonts/8143.ttf'

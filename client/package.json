@@ -6,6 +6,7 @@
     "axios": "^0.17.1",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.1",
+    "rc-input-number": "^4.0.2",
     "react": "^16.2.0",
     "react-color": "^2.13.8",
     "react-dom": "^16.2.0",

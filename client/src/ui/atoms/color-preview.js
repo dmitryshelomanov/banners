@@ -4,12 +4,12 @@ import PropTypes from 'prop-types'
 
 
 export const ColorPreview = styled.div`
-    display: block;
-    padding: 25px 60px;
-    background: ${props => props.color};
-    border: 4px solid #c8c8c8;
-    cursor: pointer;
-    margin-bottom: 15px;
+  display: block;
+  width: 80px;
+  height: 26px;
+  background: ${props => props.color};
+  border: 2px solid #c8c8c8;
+  cursor: pointer;
 `
 
 ColorPreview.propTypes = {

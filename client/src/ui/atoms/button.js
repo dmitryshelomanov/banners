@@ -10,16 +10,23 @@ const btn = ({ className, text, ...rest }) => (
 )
 
 export const Button = styled(btn)`
-  outline: none;
-  border: none;
-  text-align: center;
-  padding: 10px 20px;
-  cursor: pointer;
-  background: #47a4a5;
+  width: 180px;
+  background: #3c638a;
   border-radius: 5px;
+  padding: 20px 18px;
   color: #fff;
+  width: 315px;
+  text-transform: uppercase;
   font-weight: bold;
-  border-color: #47A4A5
+  cursor: pointer;
+  transition: .5s;
+  border: 2px solid transparent;
+  outline: none;
+  &.active-btn {
+    color: #3c638a;
+    background: #fff;
+    border-color: #3c638a
+  }
 `
 btn.propTypes = {
   className: PropTypes.string.isRequired,

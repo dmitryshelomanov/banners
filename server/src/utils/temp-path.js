@@ -35,5 +35,11 @@ module.exports = (name, uid = null) => {
     gifReady(fileName = 0) {
       return path.resolve(__dirname, '..', '..', `tmp/gif-ready/${fileName}`)
     },
+    downLoadPath(folder = null) {
+      return path.resolve(__dirname, '..', '..', `tmp/download-archive/${folder}`)
+    },
+    downLoadReady(folder = null) {
+      return path.resolve(__dirname, '..', '..', `tmp/download-ready/${folder}`)
+    },
   }
 }

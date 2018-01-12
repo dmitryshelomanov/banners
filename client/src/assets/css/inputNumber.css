@@ -1,0 +1,8 @@
+.rc-input-number {
+  width: 90px;
+  border: 2px solid #c8c8c8;
+  border-radius: 0
+}
+.rc-input-number:hover {
+  border-color: #c8c8c8
+}

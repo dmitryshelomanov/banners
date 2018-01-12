@@ -7,6 +7,7 @@ import {
   FlexWrap,
   ShowBannerWithArchive,
   ServicesWrapTabs,
+  PublicComponent,
 } from '../ui'
 
 const H1 = Caption.extend`
@@ -32,9 +33,15 @@ const MainPage = ({ archiveReady, playerReady }) => (
         />
       )}
       {playerReady && archiveReady && (
-        <ServicesWrapTabs
-          playerReady={playerReady}
-        />
+        <FlexWrap
+          fd="column"
+          width="100%"
+        >
+          <ServicesWrapTabs
+            playerReady={playerReady}
+          />
+          <PublicComponent />
+        </FlexWrap>
       )}
     </FlexWrap>
   </RootContainer>

@@ -11,8 +11,8 @@ const CarouselWrap = FlexWrap.extend`
   width: 100%;
   overflow: hidden;
   transition: all .5s;
-  border: 2px dashed #e3e3e3;
-  background-color: #f6f6f6;
+  border: ${props => !props.isGif ? '2px dashed #e3e3e3' : 'none'};
+  background-color:  ${props => !props.isGif ? '#f6f6f6' : 'transparent'};
   padding: 15px 40px;
   box-sizing: border-box;
   position: relative;
@@ -31,7 +31,7 @@ const Wrapper = FlexWrap.extend`
     cursor: pointer;
     position: absolute;
     z-index: 2;
-    top: 65px;
+    top: 45%;
   }
   & img.arrow-image-left {
     left: -50px;
@@ -66,7 +66,7 @@ export class Carousel extends Component {
   }
 
   render() {
-    const { carousel, component } = this.props
+    const { carousel, component, isGif } = this.props
     const { width, currentSlide } = this.state
     const transform = `${-(width * currentSlide)}px`
     const len = carousel.images ? carousel.images.length : carousel.length
@@ -86,6 +86,7 @@ export class Carousel extends Component {
           innerRef={(c) => {
             this.wrap = c
           }}
+          isGif={isGif}
         >
           <CarouselInner
             width={`${width * len}px`}
@@ -123,8 +124,10 @@ Carousel.propTypes = {
     PropTypes.array,
   ]).isRequired,
   width: PropTypes.number,
+  isGif: PropTypes.bool,
 }
 
 Carousel.defaultProps = {
   width: 180,
+  isGif: false,
 }

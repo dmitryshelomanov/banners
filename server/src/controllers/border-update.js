@@ -8,7 +8,7 @@ const {
 
 const data = function data(color) {
   return `
-    function serviceCallback(e){fireFunction(e);window.g = new createjs.Graphics();g.beginStroke('${color}').setStrokeStyle(10).drawRect(0, 0, 240, 400);window.s = new createjs.Shape(window.g);exportRoot.addChild(window.s)}
+    function serviceCallback(e){fireFunction(e);window.g = new createjs.Graphics();g.beginStroke('${color}').setStrokeStyle(2).drawRect(0, 0, 240, 400);window.s = new createjs.Shape(window.g);exportRoot.addChild(window.s)}
   `
 }
 

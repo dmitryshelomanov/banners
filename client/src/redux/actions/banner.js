@@ -27,3 +27,16 @@ export function setBgPlayer(hex) {
     })
   }
 }
+
+/**
+ * Изменение цвета бордера у канваса
+ * @param {*} hex цвет
+ */
+export function setBorderColor(hex) {
+  return function (dispatch) {
+    dispatch({
+      type: types.PLAYER_SET_BORDER_COLOR,
+      payload: hex,
+    })
+  }
+}

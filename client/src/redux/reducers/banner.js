@@ -4,7 +4,7 @@ import * as types from '../types'
 const initialState = {
   playerReady: false,
   bodyColor: '#ffffff',
-  borderColor: '#ffffff',
+  borderColor: 'transparent',
   borderSize: 1,
 }
 
@@ -17,6 +17,10 @@ export const player = (state = initialState, actions) => {
     case types.PLAYER_SET_BACKGROUND: return {
       ...state,
       bodyColor: actions.payload,
+    }
+    case types.PLAYER_SET_BORDER_COLOR: return {
+      ...state,
+      borderColor: actions.payload,
     }
     default: return state
   }
