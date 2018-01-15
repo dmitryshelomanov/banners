@@ -3,6 +3,7 @@ import { archiveUpload } from './reducers/tree-folder'
 import { carousel } from './reducers/carousel'
 import { gif } from './reducers/gif'
 import { player } from './reducers/banner'
+import { resize } from './reducers/resize'
 
 
 export const reducers = combineReducers({
@@ -10,4 +11,5 @@ export const reducers = combineReducers({
   carousel,
   gifs: gif,
   player,
+  resize,
 })
