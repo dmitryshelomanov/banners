@@ -25,12 +25,9 @@ const BnnerWrap = FlexWrap.extend`
 `
 
 class ShowBanner extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      html: null,
-      s: null,
-    }
+  state = {
+    html: null,
+    s: null,
   }
 
   getInitialState = () => {
@@ -59,14 +56,14 @@ class ShowBanner extends Component {
     }
   }
 
-  // componentDidMount() {
-  //   try {
-  //     this.getData()
-  //   }
-  //   catch (error) {
-  //     throw error
-  //   }
-  // }
+  componentDidMount() {
+    try {
+      this.getData()
+    }
+    catch (error) {
+      throw error
+    }
+  }
 
   componentWillUpdate(nextProps) {
     if (nextProps.nameHtml !== this.props.nameHtml && this.banner) {
@@ -131,8 +128,8 @@ class ShowBanner extends Component {
           id="bannerFrame"
           title="banner"
           onLoad={this.getInitialState}
-          // srcDoc={this.state.html}
-          src={`http://localhost:8000/process/${this.props.nameFolder}/${this.props.nameHtml}`}
+          srcDoc={this.state.html}
+          // src={`http://localhost:8000/process/${this.props.nameFolder}/${this.props.nameHtml}`}
           width="100%"
           height="500px"
           frameBorder="0"
