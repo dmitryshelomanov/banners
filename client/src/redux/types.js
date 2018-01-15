@@ -25,7 +25,7 @@ export const GIF_GENERATED_ERROR = 'GIF/geterated_ERROR'
 export const GIS_SET_SIZE = 'GIF/set_size'
 export const GIS_SET_BASE64 = 'GIF/set_base64'
 export const GIS_SET_DATA = 'GIF/set_data'
-
+export const GIF_UNSET_DATA = 'GIF/unset_data'
 
 export const SET_BORDER = 'SET/border_to_canvas'
 
