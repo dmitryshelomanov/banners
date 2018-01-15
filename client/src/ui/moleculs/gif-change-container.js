@@ -11,43 +11,14 @@ import {
 import { api } from '../../helpers/api'
 import {
   setGifData,
+  unsetData,
 } from '../../redux/actions/gif'
 import { compressExt } from '../../config'
 import ImageCache from '../../helpers/image-cache'
 import updateSystem from '../../helpers/update-system'
+import closeIcon from '../../assets/img/close.png'
 
 /* eslint-disable radix */
-const fade = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-
-`
-const ImageWrap = styled.div`
-  opacity: 0;
-  animation: ${fade} 1s forwards;
-  padding: 40px 0;
-  box-sizing: border-box;
-  background-color: #e3e3e3;
-  margin-bottom: 15px;
-`
-
-const Wrapper = FlexWrap.extend`
-  align-items: center;
-  justify-content: center;
-  margin-right: 15px;
-`
-
-const ControllWrap = FlexWrap.extend`
-  width: 100%;
-  padding: 15px 0;
-  align-items: center;
-  justify-content: space-between;
-`
-
 class GifChangeContainer extends PureComponent {
   constructor(props) {
     super(props)
@@ -76,12 +47,12 @@ class GifChangeContainer extends PureComponent {
   }
 
   uploadBase64 = async () => {
-    const { carousel, ids, archiveName } = this.props
+    const { carousel, archiveName, ids } = this.props
 
     try {
       const { data } = await api.uploadImageForGif({
         data: carousel.base64,
-        nameFile: `${ids}.${compressExt}`,
+        nameFile: `${carousel.name}.${compressExt}`,
         nameFolder: archiveName,
       })
 
@@ -103,7 +74,7 @@ class GifChangeContainer extends PureComponent {
 
   compressImage = async (img, q) => {
     try {
-      this.cache.update(`http://localhost:8000/gif/${img.url}`)
+      this.cache.update(`http://localhost:8000/gif/${this.props.archiveName}/${this.props.carousel.name}.${compressExt}`)
       const { data } = await api.compressGifImage(img, q)
 
       this.setState({
@@ -123,19 +94,11 @@ class GifChangeContainer extends PureComponent {
   }
 
   render() {
-    const { className, gifH, gifW } = this.props
-    const {
-      defaultHeight,
-      defaultWidth,
-      isLoading,
-      image,
-      isError,
-      quality,
-      delay,
-    } = this.state
+    const { className, gifH, gifW, onUnsetData, carousel, ids, archiveName } = this.props
+    const { defaultHeight, defaultWidth, isLoading, image, isError, quality, delay } = this.state
 
     return (
-      <Wrapper>
+      <div className={className}>
         {
           isLoading && (
             <FlexWrap
@@ -157,18 +120,24 @@ class GifChangeContainer extends PureComponent {
             <FlexWrap
               fd="column"
             >
-              <ImageWrap
-                fd="column"
+              <img
+                alt="close"
+                src={closeIcon}
+                className="closeIcon"
+                onClick={() => {
+                  onUnsetData(ids)
+                }}
+              />
+              <div
+                className="image-wrap"
               >
                 <img
-                  width={`${defaultWidth}px`}
-                  height={`${defaultHeight}px`}
-                  src={this.cache.get(`http://localhost:8000/gif/${image.url}`)}
+                  src={this.cache.get(`http://localhost:8000/gif/${archiveName}/${carousel.name}.${compressExt}`)}
                   alt="img"
                 />
-              </ImageWrap>
-              <ControllWrap
-                className="gif-compress"
+              </div>
+              <div
+                className="gif-compress controll-wrap"
               >
                 <FlexWrap
                   fd="column"
@@ -197,14 +166,54 @@ class GifChangeContainer extends PureComponent {
                     this.changeDelay(value)
                   }}
                 />
-              </ControllWrap>
+              </div>
             </FlexWrap>
           )
         }
-      </Wrapper>
+      </div>
     )
   }
 }
+
+const fade = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
+
+const GifItemWithStyle = styled(GifChangeContainer)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  position: relative;
+  & .image-wrap {
+    opacity: 0;
+    animation: ${fade} 1s forwards;
+    padding: 40px 0;
+    box-sizing: border-box;
+    background-color: #e3e3e3;
+    margin-bottom: 15px;
+  }
+  & .controll-wrap {
+    display: flex;
+    width: 100%;
+    padding: 15px 0;
+    align-items: center;
+    justify-content: space-between;
+  }
+  & .closeIcon {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    top: 0;
+    margin: 5px;
+    cursor: pointer;
+  }
+`
 
 export const GifItem = connect(
   state => ({
@@ -216,8 +225,11 @@ export const GifItem = connect(
     onSetGifData: (data) => {
       dispatch(setGifData(data))
     },
+    onUnsetData: (ids) => {
+      dispatch(unsetData(ids))
+    },
   }),
-)(GifChangeContainer)
+)(GifItemWithStyle)
 
 GifChangeContainer.propTypes = {
   carousel: PropTypes.shape({
