@@ -29,6 +29,11 @@ const ControllWrapp = FlexWrap.extend`
     cursor: pointer;
     text-align: center;
     color: #3c638a;
+    padding: 0 15px;
+  } & .minimal-width {
+    margin-left: 0;
+    background: #efefef;
+    color: #969696;
   }
 `
 
@@ -74,7 +79,7 @@ class Controll extends Component {
 
   render() {
     const { duration, isPlay } = this.state
-    const { setImageFromGif, w } = this.props
+    const { setImageFromGif, w, resize } = this.props
 
     return (
       <ControllWrapp
@@ -114,6 +119,14 @@ class Controll extends Component {
         >
           Заскринить кадр
         </div>
+        {!resize.isFixed && (
+          <div
+            role="button"
+            className="set-screen minimal-width"
+          >
+            минимальная ширина
+          </div>
+        )}
       </ControllWrapp>
     )
   }
@@ -125,6 +138,7 @@ export const ControllWithHoc = connect(
     h: state.gifs.h,
     nameFolder: state.archiveUpload.treeFolders.name,
     nameFile: state.archiveUpload.nameHtml,
+    resize: state.resize,
   }),
   dispatch => ({
     onSetBorder: (data) => {

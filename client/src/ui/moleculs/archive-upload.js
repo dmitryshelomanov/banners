@@ -8,6 +8,7 @@ import {
   ColorPicker,
   ColorPreview,
 } from '../'
+import { toggleFixedState } from '../../redux/actions/resize'
 import { RenderTree } from './render-tree-field'
 import WithUploadHoc from '../../hocs/with-upload-file'
 import WithFolderTree from '../../hocs/with-folder-tree'
@@ -77,7 +78,14 @@ export class ArchiveUploadWrapper extends Component {
   }
 
   render() {
-    const { playerReady, bodyColor, setBgColor, onSetBorderColor, borderColor } = this.props
+    const {
+      playerReady,
+      bodyColor, setBgColor,
+      onSetBorderColor,
+      borderColor,
+      onToggleFixedState,
+      resize,
+    } = this.props
 
     return (
       <FlexWrap
@@ -103,8 +111,10 @@ export class ArchiveUploadWrapper extends Component {
               type="radio"
               label="Фиксированный формат"
               name="format"
+              checked={resize.isFixed}
+              disabled={!playerReady}
               onChange={({ target }) => {
-
+                onToggleFixedState(true)
               }}
             />
             <CheckBox
@@ -112,8 +122,10 @@ export class ArchiveUploadWrapper extends Component {
               type="radio"
               label="Резина"
               name="format"
+              checked={!resize.isFixed}
+              disabled={!playerReady}
               onChange={({ target }) => {
-
+                onToggleFixedState(false)
               }}
             />
             <CheckBox
@@ -184,6 +196,7 @@ export const ArchiveUpload = connect(
     playerReady: state.player.playerReady,
     bodyColor: state.player.bodyColor,
     borderColor: state.player.borderColor,
+    resize: state.resize,
   }),
   dispatch => ({
     setBgColor: (hex) => {
@@ -191,6 +204,9 @@ export const ArchiveUpload = connect(
     },
     onSetBorderColor: (hex) => {
       dispatch(setBorderColor(hex))
+    },
+    onToggleFixedState: (state) => {
+      dispatch(toggleFixedState(state))
     },
   }),
 )(ArchiveUploadWrapper)

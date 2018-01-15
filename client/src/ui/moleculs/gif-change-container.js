@@ -95,7 +95,7 @@ class GifChangeContainer extends PureComponent {
 
   render() {
     const { className, gifH, gifW, onUnsetData, carousel, ids, archiveName } = this.props
-    const { defaultHeight, defaultWidth, isLoading, image, isError, quality, delay } = this.state
+    const { isLoading, image, isError, quality, delay } = this.state
 
     return (
       <div className={className}>

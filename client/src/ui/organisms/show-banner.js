@@ -66,9 +66,6 @@ class ShowBanner extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    if (nextProps.nameHtml !== this.props.nameHtml && this.banner) {
-      this.reloadBanner()
-    }
     if (nextProps.bodyColor !== this.props.bodyColor) {
       createStyle(
         this.banner.contentDocument || this.banner.contentWindow.document,
