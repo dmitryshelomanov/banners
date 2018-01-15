@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
 import InputRange from 'react-input-range'
 import {
   FlexWrap,
@@ -20,22 +19,20 @@ const ControllWrapp = FlexWrap.extend`
   & img {
     margin: 0 35px;
     cursor: pointer;
+  } & .set-screen {
+    display: flex;
+    width: 140px;
+    height: 100%;
+    background: #c8c8c8;
+    margin-left: 40px;
+    align-items: center;
+    cursor: pointer;
+    text-align: center;
+    color: #3c638a;
   }
 `
 
-const SetScreen = styled.div`
-  display: flex;
-  width: 140px;
-  height: 100%;
-  background: #c8c8c8;
-  margin-left: 40px;
-  align-items: center;
-  cursor: pointer;
-  text-align: center;
-  color: #3c638a;
-`
-
-export class Controll extends Component {
+class Controll extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -105,7 +102,9 @@ export class Controll extends Component {
           value={this.state.step}
           onChange={this.changeTimeLine}
         />
-        <SetScreen
+        <div
+          role="button"
+          className="set-screen"
           onClick={() => {
             setImageFromGif(
               getBanner(true).canvas.toDataURL(`image/${compressExt}`, 1),
@@ -114,7 +113,7 @@ export class Controll extends Component {
           }}
         >
           Заскринить кадр
-        </SetScreen>
+        </div>
       </ControllWrapp>
     )
   }
