@@ -8,9 +8,11 @@ import * as types from '../types'
  */
 export function setGifImage(base64, w) {
   return function (dispatch) {
+    const name = Math.random().toString(36).substring(2, 15)
+
     dispatch({
       type: types.GIS_SET_BASE64,
-      payload: { base64, w },
+      payload: { base64, w, name },
     })
   }
 }
@@ -65,6 +67,24 @@ export function setBorderFromCanvas(data) {
     dispatch({
       type: types.SET_BORDER,
       request: () => api.setBorderFromCanvas(data),
+    })
+  }
+}
+
+/**
+ * Удаление изображения из заглушки
+ * @param {*} ids
+ */
+export function unsetData(ids) {
+  return function (dispatch, getState) {
+    const base64Data = getState().gifs.base64
+    const gifData = getState().gifs.data
+
+    gifData.splice(ids, 1)
+    base64Data.splice(ids, 1)
+    dispatch({
+      type: types.GIF_UNSET_DATA,
+      payload: { base64Data, gifData },
     })
   }
 }
