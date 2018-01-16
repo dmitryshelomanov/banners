@@ -14,10 +14,11 @@ const {
   updateHtmlName,
   updateBorder,
   downloadArchive,
+  getMinimalSize,
 } = require('./src/controllers')
 const cacheDelete = require('./src/utils/handlers/cache-deleted')
 const { isDelete } = require('./src/config.js')
-
+const { sequelize } = require('./src/models')
 
 const router = new Router()
 const app = new Koa()
@@ -31,6 +32,7 @@ generatedGif(router, 'post', '/gif/generated')
 updateHtmlName(router, 'post', '/archive/name-update')
 updateBorder(router, 'post', '/update/border')
 downloadArchive(router, 'post', '/download/archive')
+getMinimalSize(router, 'post', '/get/minimal-size')
 
 middleware(app)
 
@@ -55,6 +57,11 @@ io.on('connect', (s) => {
   })
 })
 
-server.listen(8000, () => {
-  debug('server run!')
-})
+sequelize
+  .authenticate()
+  .then(() => {
+    debug('db connected')
+    server.listen(8000, () => {
+      debug('server run!')
+    })
+  })
