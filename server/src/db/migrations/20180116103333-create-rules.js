@@ -17,8 +17,11 @@ module.exports = {
       type: {
         type: Sequelize.STRING,
       },
-      inserted: {
-        type: Sequelize.INTEGER,
+      bind_element: {
+        type: Sequelize.STRING,
+      },
+      position: {
+        type: Sequelize.STRING,
       },
       content: {
         type: Sequelize.TEXT,
