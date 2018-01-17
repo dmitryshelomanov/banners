@@ -1,7 +1,7 @@
 const cheerio = require('cheerio')
 const fs = require('fs-extra')
 const { process } = require('../temp-path')()
-const { Area, Rules } = require('../../models')
+const { Area, Rules, Sequelize } = require('../../models')
 const computed = require('./computed')
 const asyncMap = require('./mapper')
 
@@ -12,7 +12,7 @@ function mapperFn(mapData, nextHtml) {
       res(await mapData(nextHtml))
     }
     catch (error) {
-      rej()
+      rej(error)
     }
   })
 }
@@ -25,8 +25,15 @@ module.exports = async ({ nameFolder, area: areaName, fileName }) => {
       attributes: {
         exclude: ['id'],
       },
+      where: {
+        type: {
+          [Sequelize.Op.ne]: 'size',
+        },
+      },
     }],
-    where: { name: areaName },
+    where: {
+      name: areaName,
+    },
   })
 
   try {
@@ -34,19 +41,19 @@ module.exports = async ({ nameFolder, area: areaName, fileName }) => {
     const $ = cheerio.load(await fs.readFile(path))
 
     for (let i = 0; i < data.rules.length; i++) {
-      const hooks = computed(data.rules[i], $.html())
+      const hooks = computed(data.rules[i])
 
-      if (hooks !== false) {
+      if (hooks !== null) {
         rs.push(hooks)
       }
     }
 
-    asyncMap(rs, mapperFn)
+    asyncMap(rs, mapperFn, $.html())
       .then((lastResolve) => {
         console.log(lastResolve)
       })
       .catch((error) => {
-        console.log(error)
+
       })
   }
   catch (error) {
