@@ -8,7 +8,7 @@ const db = {}
 let sequelize = null
 
 sequelize = new Sequelize(
-  config.databese,
+  config.database,
   config.username,
   config.password, {
     dialect: config.dialect,
