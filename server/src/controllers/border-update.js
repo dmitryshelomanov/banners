@@ -4,6 +4,7 @@ const cheerio = require('cheerio')
 const {
   tempPath,
   folderExists,
+  bodyExists,
 } = require('../utils')
 
 const data = function data(color) {
@@ -54,5 +55,6 @@ async function updateBorder(ctx) {
 
 module.exports = (router, method, uri) => router[method](
   uri,
-  folderExists(tempPath().process), updateBorder
+  bodyExists(['nameFolder', 'color', 'nameFile']),
+  folderExists(tempPath().process), updateBorder,
 )

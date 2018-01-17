@@ -5,6 +5,7 @@ const {
   compressFolder,
   folderExists,
   copyFolder,
+  bodyExists,
 } = require('../utils')
 
 
@@ -31,5 +32,8 @@ async function downloadArchive(ctx) {
 
 module.exports = (router, method, uri) => router[method](
   uri,
-  folderExists(tempPath().downLoadPath), folderExists(tempPath().downLoadReady), downloadArchive
+  bodyExists(['nameFolder']),
+  folderExists(tempPath().downLoadPath),
+  folderExists(tempPath().downLoadReady),
+  downloadArchive,
 )

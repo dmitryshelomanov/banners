@@ -5,6 +5,7 @@ const {
   tempPath,
   folderExists,
   copyFolder,
+  bodyExists,
 } = require('../utils')
 
 /**
@@ -42,5 +43,8 @@ async function uploadImageForGif(ctx) {
 
 module.exports = (router, method, url) => router[method](
   url,
-  folderExists(tempPath().gif), folderExists(tempPath().gifOriginal), uploadImageForGif
+  bodyExists(['data', 'nameFile', 'nameFolder']),
+  folderExists(tempPath().gif),
+  folderExists(tempPath().gifOriginal),
+  uploadImageForGif,
 )

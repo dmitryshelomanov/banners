@@ -4,6 +4,7 @@ const {
   tempPath,
   compressFolder,
   folderExists,
+  bodyExists,
 } = require('../utils')
 
 /**
@@ -31,5 +32,6 @@ async function compressArchive(ctx) {
 
 module.exports = (router, method, uri) => router[method](
   uri,
+  bodyExists(['nameFolder']),
   folderExists(tempPath().process), compressArchive
 )

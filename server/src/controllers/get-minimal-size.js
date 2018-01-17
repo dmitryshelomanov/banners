@@ -3,6 +3,7 @@ const cheerio = require('cheerio')
 const fs = require('fs-extra')
 const {
   tempPath,
+  bodyExists,
 } = require('../utils')
 
 
@@ -28,5 +29,5 @@ async function getMinimalSize(ctx) {
 
 module.exports = (router, method, path) => router[method](
   path,
-  getMinimalSize,
+  bodyExists(['nameFolder', 'nameFile']), getMinimalSize,
 )

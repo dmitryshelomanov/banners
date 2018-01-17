@@ -4,6 +4,7 @@ const {
   tempPath,
   compressImage,
   compressPercent,
+  bodyExists,
 } = require('../utils')
 const {
   defaultQuality,
@@ -42,5 +43,5 @@ async function compressImg(ctx) {
 
 module.exports = (router, method, uri) => router[method](
   uri,
-  compressImg
+  bodyExists(['url']), compressImg
 )

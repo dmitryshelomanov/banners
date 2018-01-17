@@ -3,6 +3,7 @@ const {
   tempPath,
   folderExists,
   gifEncoder,
+  bodyExists,
 } = require('../utils')
 
 /**
@@ -28,5 +29,7 @@ async function generatedGif(ctx) {
 
 module.exports = (router, method, url) => router[method](
   url,
-  folderExists(tempPath().gifReady), generatedGif
+  bodyExists(['nameFolder', 'imgData']),
+  folderExists(tempPath().gifReady),
+  generatedGif,
 )
