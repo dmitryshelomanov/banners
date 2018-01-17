@@ -8,6 +8,8 @@ const updateHtmlName = require('./update-html-name')
 const updateBorder = require('./border-update')
 const downloadArchive = require('./download-archive')
 const getMinimalSize = require('./get-minimal-size')
+const firmware = require('./firmware')
+
 
 module.exports = {
   uploadBanner,
@@ -20,4 +22,5 @@ module.exports = {
   updateBorder,
   downloadArchive,
   getMinimalSize,
+  firmware,
 }
