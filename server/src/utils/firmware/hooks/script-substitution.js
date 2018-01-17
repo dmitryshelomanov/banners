@@ -14,7 +14,7 @@ module.exports = ({
         $script.remove()
       }
     })
-    $($('script').first().before(content))
+    $('head').prepend(content)
     res($.html())
   }
   catch (error) {

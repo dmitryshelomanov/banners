@@ -9,11 +9,12 @@ const compressImage = require('./handlers/compress-img')
 const copyFolder = require('./handlers/copy-folder')
 const compressPercent = require('./handlers/get-pecent')
 const compressFolder = require('./handlers/compress-folder')
-const folderExists = require('./handlers/file-exists')
+const folderExists = require('./handlers/folder-exists')
 const gifEncoder = require('./handlers/gif-encoder')
 const caheDeleted = require('./handlers/cache-deleted')
 const bodyExists = require('./handlers/exists-body-param')
 const firmware = require('./firmware')
+const areaExists = require('./handlers/area-exists')
 
 
 module.exports = {
@@ -33,4 +34,5 @@ module.exports = {
   caheDeleted,
   firmware,
   bodyExists,
+  areaExists,
 }

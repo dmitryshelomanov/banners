@@ -1,6 +1,4 @@
 const cheerio = require('cheerio')
-const fs = require('fs-extra')
-const { process } = require('../../temp-path')()
 const types = require('../types')
 
 
@@ -19,5 +17,12 @@ module.exports = ({
   }
 
   $element[types[position]](content)
+
+  if ($('meta[name="ad.size"]').length !== 0) {
+    const w = $('canvas').attr('width')
+    const h = $('canvas').attr('height')
+
+    $('meta[name="ad.size"]').attr('content', `width=${w},height=${h}`)
+  }
   res($.html())
 })

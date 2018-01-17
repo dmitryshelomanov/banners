@@ -41,5 +41,11 @@ module.exports = (name, uid = null) => {
     downLoadReady(folder = null) {
       return path.resolve(__dirname, '..', '..', `tmp/download-ready/${folder}`)
     },
+    firmware(folder = null) {
+      return path.resolve(__dirname, '..', '..', `tmp/firmware/${folder}`)
+    },
+    area(folder = null, area = null) {
+      return path.resolve(__dirname, '..', '..', `tmp/firmware/${folder}/${area}`)
+    },
   }
 }

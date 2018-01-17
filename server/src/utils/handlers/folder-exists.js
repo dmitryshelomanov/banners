@@ -1,4 +1,4 @@
-const debug = require('debug')('banner:controller:upload-image-for-gif')
+const debug = require('debug')('banner:controller:folder-exists')
 const fs = require('fs-extra')
 
 
@@ -7,13 +7,7 @@ module.exports = path => async (ctx, next) => {
   const { nameFolder } = body
   const pathFolder = path(nameFolder)
 
-  debug(`file exists with folder path - ${pathFolder}`)
-  if (!nameFolder) {
-    ctx.status = 404
-    ctx.body = 'nameFolder is undefined'
-    return
-  }
-
+  debug(`folder exists with folder path - ${pathFolder}`)
   try {
     const folder = await fs.exists(pathFolder)
 

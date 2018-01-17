@@ -2,7 +2,7 @@ import test from 'ava'
 import { stub } from 'sinon'
 import { resolve } from 'path'
 import { Ctx } from '../../../__TESTS__/koa-ctx'
-import fileExists from './file-exists'
+import folderExists from './folder-exists'
 
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-param-reassign */
@@ -19,7 +19,7 @@ test('test `file-exists` util without nameFolder', async (t) => {
     .returns(resolve(__dirname))
 
   ctx.setRequest('body', {})
-  const fileInit = fileExists(resolveStub)
+  const fileInit = folderExists(resolveStub)
 
   await fileInit(ctx, next)
   t.is(ctx.body, 'nameFolder is undefined')
@@ -33,7 +33,7 @@ test('test `file-exists` util with nameFolder', async (t) => {
   const { next, nextReturns } = t.context
   const resolveStub = stub()
     .returns(resolve(__dirname, 'file-exists.test.js'))
-  const fileInit = fileExists(resolveStub)
+  const fileInit = folderExists(resolveStub)
 
   ctx.setRequest('body', {
     nameFolder: 'file-exists.test.js',

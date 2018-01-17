@@ -1,7 +1,7 @@
 module.exports = {
   ADD: 'add',
   WRAPP: 'wrapp',
-  SUB: 'substitution',
+  SCRIPT_SUB: 'script_substitution',
   TOP: 'prepend',
   DOWN: 'append',
 }
