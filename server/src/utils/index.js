@@ -12,6 +12,8 @@ const compressFolder = require('./handlers/compress-folder')
 const folderExists = require('./handlers/file-exists')
 const gifEncoder = require('./handlers/gif-encoder')
 const caheDeleted = require('./handlers/cache-deleted')
+const bodyExists = require('./handlers/exists-body-param')
+const firmware = require('./firmware')
 
 
 module.exports = {
@@ -29,4 +31,6 @@ module.exports = {
   folderExists,
   gifEncoder,
   caheDeleted,
+  firmware,
+  bodyExists,
 }
