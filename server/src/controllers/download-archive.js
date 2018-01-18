@@ -1,5 +1,4 @@
 const debug = require('debug')('banner:download-archive')
-const fs = require('fs-extra')
 const {
   tempPath,
   compressFolder,
@@ -11,19 +10,19 @@ const {
 
 async function downloadArchive(ctx) {
   const { body } = ctx.request
-  const { nameFolder } = body
-  const { process, downLoadPath, gifReady, downLoadReady } = tempPath()
+  const { nameFolder, areaName } = body
+  const { downLoadPath, gifReady, downLoadReady, area } = tempPath()
 
   debug('download archive with body - ', body)
 
   try {
     await Promise.all([
-      compressFolder(process(nameFolder), downLoadPath(`${nameFolder}/banner.zip`)),
+      compressFolder(area(nameFolder, areaName), downLoadPath(`${nameFolder}/banner.zip`)),
       copyFolder(gifReady(`${nameFolder}/banner.gif`), downLoadPath(`${nameFolder}/banner.gif`)),
     ])
-    await compressFolder(downLoadPath(nameFolder), downLoadReady(`${nameFolder}/service-archive.zip`))
+    await compressFolder(downLoadPath(nameFolder), downLoadReady(`${nameFolder}/service-archive-${areaName}.zip`))
 
-    ctx.body = `${nameFolder}/service-archive.zip`
+    ctx.body = `${nameFolder}/service-archive-${areaName}.zip`
   }
   catch (error) {
     ctx.throw(error)
@@ -32,7 +31,7 @@ async function downloadArchive(ctx) {
 
 module.exports = (router, method, uri) => router[method](
   uri,
-  bodyExists(['nameFolder']),
+  bodyExists(['nameFolder', 'areaName']),
   folderExists(tempPath().downLoadPath),
   folderExists(tempPath().downLoadReady),
   downloadArchive,

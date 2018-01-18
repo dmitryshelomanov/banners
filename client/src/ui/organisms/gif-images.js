@@ -11,7 +11,9 @@ import { gifGenerated } from '../../redux/actions/gif'
 
 /* eslint-disable react/no-array-index-key */
 
-const GifWrapper = ({ gifs, onGenerateGif, nameFolder }) => (
+const GifWrapper = ({
+  gifs, onGenerateGif, nameFolder, resize,
+}) => (
   <FlexWrap
     width="100%"
   >
@@ -31,9 +33,10 @@ const GifWrapper = ({ gifs, onGenerateGif, nameFolder }) => (
           <Button
             className="active-btn"
             text="сохранить"
+            thirty
             onClick={() => onGenerateGif({
-              w: gifs.w,
-              h: gifs.h,
+              w: resize.isFixed ? gifs.w : resize.minimalW,
+              h: resize.isFixed ? gifs.h : resize.minimalH,
               data: gifs.data,
               repeat: gifs.repeat,
             }, nameFolder)}
@@ -51,6 +54,7 @@ const GifWithStyled = styled(GifWrapper)`
 export const GifImages = connect(
   state => ({
     gifs: state.gifs,
+    resize: state.resize,
     nameFolder: state.archiveUpload.treeFolders.name,
   }),
   dispatch => ({

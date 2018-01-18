@@ -3,25 +3,27 @@ const {
   firmware: start,
   bodyExists,
   folderExists,
-  areaExists,
   tempPath,
-  copyFolder,
 } = require('../utils')
 
 
 async function firmWare(ctx) {
   const { body } = ctx.request
-  const { process, area } = tempPath()
-  const { area: areaBody, nameFolder, fileName } = body
-  const folderPath = process(nameFolder)
-  const areaPath = area(nameFolder, areaBody)
 
   debug('firmware archive with body - ', body)
 
   try {
-    await copyFolder(folderPath, areaPath)
-    await start(body)
-    ctx.body = 'archive is firmware!'
+    const data = await start(body)
+
+    if (typeof data === 'boolean') {
+      ctx.body = {
+        message: 'archive is firmware!',
+        areaId: body.areaId,
+      }
+      return
+    }
+    ctx.status = data.status
+    ctx.body = data.message
   }
   catch (error) {
     ctx.throw(error)
@@ -30,8 +32,7 @@ async function firmWare(ctx) {
 
 module.exports = (router, method, uri) => router[method](
   uri,
-  bodyExists(['nameFolder', 'area', 'fileName']),
-  folderExists(tempPath().firmware),
-  areaExists(tempPath().area),
+  bodyExists(['nameFolder', 'areaId', 'fileName']),
+  folderExists(tempPath().firmware, tempPath().process),
   firmWare,
 )

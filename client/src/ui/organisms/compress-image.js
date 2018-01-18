@@ -25,6 +25,7 @@ const CompressImageWrap = ({ carousel }) => (
       <Button
         text="Восстановить исходное качество"
         className="active-btn"
+        thirty
       />
     </FlexWrap>
     <Carousel

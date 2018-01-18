@@ -1,9 +1,10 @@
 const fs = require('fs')
 const path = require('path')
 const Sequelize = require('sequelize')
+const config = require('../config').db
+
 
 const basename = path.basename(__filename)
-const config = require('../config').db
 const db = {}
 let sequelize = null
 
@@ -30,6 +31,7 @@ Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db)
   }
+  db[modelName].Models = db
 })
 
 db.sequelize = sequelize

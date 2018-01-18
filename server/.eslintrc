@@ -6,6 +6,7 @@
     "consistent-return": "off",
     "guard-for-in":"off",
     "no-cond-assign":"off",
-    "linebreak-style":"off"
+    "linebreak-style":"off",
+    "prefer-promise-reject-errors": "off"
   }
 }

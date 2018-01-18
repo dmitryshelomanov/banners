@@ -24,6 +24,7 @@ const Stopped = ({ ...rest }) => (
     <Button
       className="active-btn"
       text="застопить"
+      thirty
     />
   </div>
 )

@@ -5,6 +5,7 @@ import {
   FlexWrap,
 } from '../'
 import { setBorderFromCanvas, setGifImage } from '../../redux/actions/gif'
+import { getMinimalSize } from '../../redux/actions/resize'
 import playIcon from '../../assets/img/play.png'
 import pauseIcon from '../../assets/img/pause.png'
 import getBanner from '../../helpers/get-banner'
@@ -13,7 +14,7 @@ import { compressExt } from '../../config'
 
 const ControllWrapp = FlexWrap.extend`
   border-radius: 0 0 5px 5px;
-  background: #808080;
+  background: ${({ theme }) => theme.color.color5};
   align-items: center;
   height: 90px;
   & img {
@@ -23,17 +24,17 @@ const ControllWrapp = FlexWrap.extend`
     display: flex;
     width: 140px;
     height: 100%;
-    background: #c8c8c8;
+    background: ${({ theme }) => theme.color.color2};
     margin-left: 40px;
     align-items: center;
     cursor: pointer;
     text-align: center;
-    color: #3c638a;
+    color: ${({ theme }) => theme.color.color11};
     padding: 0 15px;
   } & .minimal-width {
     margin-left: 0;
-    background: #efefef;
-    color: #969696;
+    background: ${({ theme }) => theme.color.color1};
+    color: ${({ theme }) => theme.color.color4};
   }
 `
 
@@ -46,14 +47,6 @@ class Controll extends Component {
       isPlay: false,
     }
     this.playStart()
-  }
-
-  removeOldBorder = () => {
-    const { wnd, exportRoot } = this.props
-
-    if (typeof wnd.s !== 'undefined') {
-      exportRoot.removeChild(wnd.s)
-    }
   }
 
   playStart = () => {
@@ -79,7 +72,14 @@ class Controll extends Component {
 
   render() {
     const { duration, isPlay } = this.state
-    const { setImageFromGif, w, resize } = this.props
+    const {
+      setImageFromGif,
+      w,
+      resize,
+      onGetMinimalSize,
+      nameFolder,
+      nameFile,
+    } = this.props
 
     return (
       <ControllWrapp
@@ -123,6 +123,9 @@ class Controll extends Component {
           <div
             role="button"
             className="set-screen minimal-width"
+            onClick={() => {
+              onGetMinimalSize(nameFolder, nameFile)
+            }}
           >
             минимальная ширина
           </div>
@@ -146,6 +149,9 @@ export const ControllWithHoc = connect(
     },
     setImageFromGif: (base64, w) => {
       dispatch(setGifImage(base64, w))
+    },
+    onGetMinimalSize: (nameFolder, nameFile) => {
+      dispatch(getMinimalSize(nameFolder, nameFile))
     },
   }),
 )(Controll)

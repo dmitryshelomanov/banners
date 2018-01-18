@@ -1,8 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import {
   ArchiveUpload,
   FlexWrap,
-  RulesWrapTabs,
+  RulesWrapTabsWithHoc,
 } from '../'
 
 const InnerComponent = ({ isActive, html }) => (
@@ -12,17 +13,22 @@ const InnerComponent = ({ isActive, html }) => (
   />
 )
 
-export const ArchiveBlock = () => (
+const ArchiveBlock = ({ area }) => (
   <FlexWrap
     width="100%"
   >
     <ArchiveUpload />
-    <RulesWrapTabs
-      tabs={[
-        { component: <InnerComponent />, title: 'gdn', html: '<p>component1</p>' },
-        { component: <InnerComponent />, title: 'yandex', html: '<p>component2</p>' },
-        { component: <InnerComponent />, title: 'dbm', html: '<p>component3</p>' },
-      ]}
+    <RulesWrapTabsWithHoc
+      component={<InnerComponent />}
+      tabs={area.data}
+      isLoading={area.isLoading}
+      isError={area.isError}
+      activeKey={area.activeKey}
     />
   </FlexWrap>
 )
+
+
+export const ArchiveBlockWithHoc = connect(state => ({
+  area: state.area,
+}))(ArchiveBlock)

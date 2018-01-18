@@ -7,10 +7,25 @@ const {
   bodyExists,
 } = require('../utils')
 
-const data = function data(color) {
+const data = function data(color, w, h) {
   return `
-    function serviceCallback(e){fireFunction(e);window.g = new createjs.Graphics();g.beginStroke('${color}').setStrokeStyle(2).drawRect(0, 0, 240, 400);window.s = new createjs.Shape(window.g);exportRoot.addChild(window.s)}
+    /*service_function*/
+    function%serviceCallback(e){
+      fireFunction(e);
+      function%resize() {
+        canvas = document.getElementById('canvas');
+        window.s.graphics.command.w = canvas.width;
+      };
+      window.g = new%createjs.Graphics();
+      g.beginStroke('${color}').setStrokeStyle(2).drawRect(0, 0, ${w}, ${h});
+      window.s = new%createjs.Shape(window.g);exportRoot.addChild(window.s);
+      window.onresize = resize;
+      resize();
+    }
+    /*service_function_end*/
   `
+    .replace(/\s+/igm, '')
+    .replace(/%/igm, ' ')
 }
 
 const replace = function replaceFn(str) {
@@ -22,7 +37,7 @@ const replace = function replaceFn(str) {
   })
 }
 
-const replaceOldCb = str => str.replace(/(function(.+)serviceCallback(.+)})/ig, '')
+const replaceOldCb = str => str.replace(/\/\*service_function\*\/(.+?)\/\*service_function_end\*\//igm, '')
 
 /**
  * изменение границы в файле
@@ -31,7 +46,7 @@ const replaceOldCb = str => str.replace(/(function(.+)serviceCallback(.+)})/ig, 
  */
 async function updateBorder(ctx) {
   const { body } = ctx.request
-  const { nameFolder, color, nameFile } = body
+  const { nameFolder, color, nameFile, w, h } = body
   const { process } = tempPath()
 
   debug('color change -', body)
@@ -42,7 +57,7 @@ async function updateBorder(ctx) {
       if ($(this).attr('src') === undefined) {
         const str = replace(replaceOldCb($(this).html()))
 
-        $(this).html(`${str} ${data(color)}`)
+        $(this).html(`${str} ${data(color, w, h)}`)
       }
     })
     await fs.writeFile(process(`${nameFolder}/${nameFile}`), $.html())
@@ -55,6 +70,6 @@ async function updateBorder(ctx) {
 
 module.exports = (router, method, uri) => router[method](
   uri,
-  bodyExists(['nameFolder', 'color', 'nameFile']),
+  bodyExists(['nameFolder', 'color', 'nameFile', 'w', 'h']),
   folderExists(tempPath().process), updateBorder,
 )

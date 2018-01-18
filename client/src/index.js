@@ -6,11 +6,12 @@ import registerServiceWorker from './registerServiceWorker'
 import { globalStyles } from './ui/global'
 import { Main } from './pages/main'
 import { store } from './helpers/create-store'
+import { defaultTheme } from './themes'
 
 
-globalStyles()
+globalStyles(defaultTheme)
 
-const theme = {}
+const theme = defaultTheme
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>

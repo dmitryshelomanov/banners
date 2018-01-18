@@ -21,10 +21,4 @@ yarn-debug.log*
 yarn-error.log*
 
 #temprary files
-/tmp/archive
-/tmp/compress
-/tmp/decompress
-/tmp/gif
-/tmp/gif-original
-/tmp/gif-ready
-/tmp/process
+/tmp

@@ -2,19 +2,20 @@ const debug = require('debug')('banner:controller:folder-exists')
 const fs = require('fs-extra')
 
 
-module.exports = path => async (ctx, next) => {
+module.exports = (createPath, oldPath) => async (ctx, next) => {
   const { body } = ctx.request
   const { nameFolder } = body
-  const pathFolder = path(nameFolder)
+  const createPathFolder = createPath(nameFolder)
 
-  debug(`folder exists with folder path - ${pathFolder}`)
+  debug(`folder exists with folder name - ${createPathFolder}`)
   try {
-    const folder = await fs.exists(pathFolder)
-
-    if (!folder) await fs.mkdir(pathFolder)
+    if (!await fs.exists(createPathFolder)) {
+      await fs.mkdir(createPathFolder)
+    }
     return await next()
   }
   catch (error) {
-    ctx.throw(error)
+    ctx.status = 404
+    ctx.body = `folder ${nameFolder} not found in dir ${oldPath(nameFolder)}`
   }
 }

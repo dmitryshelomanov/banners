@@ -4,6 +4,8 @@ import { carousel } from './reducers/carousel'
 import { gif } from './reducers/gif'
 import { player } from './reducers/banner'
 import { resize } from './reducers/resize'
+import { area } from './reducers/area'
+import { firmware } from './reducers/firmware'
 
 
 export const reducers = combineReducers({
@@ -12,4 +14,6 @@ export const reducers = combineReducers({
   gifs: gif,
   player,
   resize,
+  area,
+  firmware,
 })

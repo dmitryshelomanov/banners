@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {
   RootContainer,
-  ArchiveBlock,
+  ArchiveBlockWithHoc,
   Caption,
   FlexWrap,
   ShowBannerWithArchive,
@@ -26,7 +26,7 @@ const MainPage = ({ archiveReady, playerReady }) => (
       <H1>
         ПРОШИВКА БАННЕРОВ ОТ ASAP
       </H1>
-      <ArchiveBlock />
+      <ArchiveBlockWithHoc />
       {archiveReady && (
         <ShowBannerWithArchive
           archiveReady={archiveReady}

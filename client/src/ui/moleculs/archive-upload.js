@@ -8,7 +8,7 @@ import {
   ColorPicker,
   ColorPreview,
 } from '../'
-import { toggleFixedState } from '../../redux/actions/resize'
+import { toggleFixedState, resizeClearState } from '../../redux/actions/resize'
 import { RenderTree } from './render-tree-field'
 import WithUploadHoc from '../../hocs/with-upload-file'
 import WithFolderTree from '../../hocs/with-folder-tree'
@@ -85,6 +85,7 @@ export class ArchiveUploadWrapper extends Component {
       borderColor,
       onToggleFixedState,
       resize,
+      onClearSizse,
     } = this.props
 
     return (
@@ -114,7 +115,7 @@ export class ArchiveUploadWrapper extends Component {
               checked={resize.isFixed}
               disabled={!playerReady}
               onChange={({ target }) => {
-                onToggleFixedState(true)
+                onClearSizse()
               }}
             />
             <CheckBox
@@ -207,6 +208,9 @@ export const ArchiveUpload = connect(
     },
     onToggleFixedState: (state) => {
       dispatch(toggleFixedState(state))
+    },
+    onClearSizse: () => {
+      dispatch(resizeClearState())
     },
   }),
 )(ArchiveUploadWrapper)

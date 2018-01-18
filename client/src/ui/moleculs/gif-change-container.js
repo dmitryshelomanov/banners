@@ -107,10 +107,8 @@ class GifChangeContainer extends PureComponent {
               ai="center"
               jc="center"
             >
-              <img
+              <div
                 className="preloader"
-                src="https://www.oraclefitness.com/uploads/8/5/5/6/85569856/39_4_orig.gif"
-                alt="preloader"
               />
             </FlexWrap>
           )
@@ -212,6 +210,11 @@ const GifItemWithStyle = styled(GifChangeContainer)`
     top: 0;
     margin: 5px;
     cursor: pointer;
+  }
+  & .preloader {
+    width: 100%;
+    height: 100%;
+    background: #fff url(${({ theme }) => theme.preloader}) center center no-repeat;
   }
 `
 

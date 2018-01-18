@@ -5,7 +5,7 @@ import { baseURL } from '../config'
 class API {
   constructor() {
     this.request = axios.create({
-      baseURL,
+      baseURL: `${baseURL}api/`,
     })
   }
 
@@ -87,6 +87,24 @@ class API {
    */
   async setBorderFromCanvas(data) {
     const resolve = await this.request.post('update/border', data)
+
+    return resolve
+  }
+
+  async getMinimalSize(data) {
+    const resolve = await this.request.post('get/minimal-size', data)
+
+    return resolve
+  }
+
+  async getAreaInfo() {
+    const resolve = await this.request.get('area')
+
+    return resolve
+  }
+
+  async firmware(data) {
+    const resolve = await this.request.post('firmware', data)
 
     return resolve
   }

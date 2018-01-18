@@ -6,19 +6,33 @@ import { baseURL } from '../../config'
 import {
   Button,
 } from '../'
+import { firmware } from '../../redux/actions/area'
 
 
-const Public = ({ nameFolder, ...rest }) => (
+const Public = ({
+  nameFolder, dispatch, area, nameFile, isFirmware, ...rest
+}) => (
   <div {...rest}>
     <Button
       className="btn"
       text="прошить"
+      onClick={() => {
+        dispatch(firmware({
+          nameFolder,
+          fileName: nameFile,
+          areaId: area.activeKey,
+        }))
+      }}
     />
     <Button
       className="btn"
       text="опубликовать"
+      disabled={isFirmware}
       onClick={async () => {
-        const { data } = await axios.post(`${baseURL}download/archive`, { nameFolder })
+        const { data } = await axios.post(`${baseURL}api/download/archive`, {
+          nameFolder,
+          areaName: area.data.find(el => el.id === area.activeKey).name,
+        })
 
         window.open(`${baseURL}download-ready/${data}`)
       }}
@@ -39,6 +53,11 @@ export const PublicComponentWithStyle = styled(Public)`
   }
 `
 
+const DataSelector = (activeKey, firmwareData) => typeof firmwareData.find(i => i.areaId === activeKey) === 'undefined'
+
 export const PublicComponent = connect(state => ({
   nameFolder: state.archiveUpload.treeFolders.name,
+  nameFile: state.archiveUpload.nameHtml,
+  area: state.area,
+  isFirmware: DataSelector(state.area.activeKey, state.firmware.firmwareData),
 }))(PublicComponentWithStyle)

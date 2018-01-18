@@ -6,7 +6,9 @@
     "test:code": "ava",
     "test:code:watch": "ava --verbose --watch",
     "precommit": "yarn test",
-    "prepush": "yarn test"
+    "prepush": "yarn test",
+    "migrate": "node_modules/.bin/sequelize db:migrate",
+    "rollback": "node_modules/.bin/sequelize db:migrate:undo"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
@@ -18,6 +20,7 @@
     "get-pixels": "^3.3.0",
     "gif-encoder": "^0.6.1",
     "gif-stream": "^1.1.0",
+    "html-minifier": "^3.5.8",
     "imagemin": "^5.3.1",
     "imagemin-giflossy": "^5.1.10",
     "imagemin-jpegoptim": "^5.1.0",
@@ -30,7 +33,9 @@
     "koa-static": "^4.0.2",
     "koa2-cors": "^2.0.5",
     "koa2-formidable": "^1.0.2",
+    "mysql2": "^1.5.1",
     "neuquant": "^1.0.2",
+    "sequelize": "^4.31.2",
     "socket.io": "^2.0.4",
     "webpage": "^0.3.0",
     "zip-folder": "^1.0.0"
@@ -40,6 +45,7 @@
     "eslint": "^4.13.1",
     "eslint-config-atomix-base": "^5.1.1",
     "husky": "^0.14.3",
+    "sequelize-cli": "^3.2.0",
     "sinon": "^4.1.3",
     "tap-nyan": "^1.1.0"
   },

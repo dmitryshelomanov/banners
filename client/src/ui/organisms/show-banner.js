@@ -36,11 +36,11 @@ class ShowBanner extends Component {
       const doc = this.banner.contentDocument || this.banner.contentWindow.document
       const canvas = doc.getElementById('canvas')
 
-      this.props.onSetGifSize({ w: canvas.width, h: canvas.height })
       setTimeout(() => {
         const inst = this.banner.contentWindow.window.exportRoot.instance
           || this.banner.contentWindow.window.exportRoot.main
 
+        this.props.onSetGifSize({ w: canvas.width, h: canvas.height })
         inst.gotoAndStop(1)
         this.props.togglePlayerState(true)
         this.setVariables(
@@ -78,6 +78,8 @@ class ShowBanner extends Component {
         nameFile: this.props.nameHtml,
         nameFolder: this.props.nameFolder,
         color: nextProps.borderColor,
+        w: this.props.gifW,
+        h: this.props.gifH,
       })
     }
   }
@@ -98,9 +100,23 @@ class ShowBanner extends Component {
   }
 
   getData = async () => {
-    const data = await axios.get(`http://localhost:8000/parse/banner?banner=${this.props.nameFolder}&file=${this.props.nameHtml}`)
+    const data = await axios.get(`http://localhost:8000/api/parse/banner?banner=${this.props.nameFolder}&file=${this.props.nameHtml}`)
 
     this.setState({ html: `${data.data}` })
+  }
+
+  getComputedSize = () => {
+    const { resize, gifW } = this.props
+    const { isFixed, minimalW, minimalH } = resize
+
+    if (isFixed || Number(minimalW) === 0) {
+      if (this.state.s !== null && this.state.s.graphics.command) {
+        this.state.s.graphics.command.w = gifW
+      }
+      return { h: '100%', w: '100%' }
+    }
+    this.state.s.graphics.command.w = minimalW
+    return { h: `${Number(minimalH) + 2}px`, w: `${Number(minimalW) + 2}px` }
   }
 
   removeOldBorder = () => {
@@ -114,12 +130,15 @@ class ShowBanner extends Component {
 
   render() {
     const { gifH, playerReady } = this.props
+    const { h, w } = this.getComputedSize()
 
     return (
       <BnnerWrap
         width="100%"
-        height={`${gifH + 80}px`}
+        height={`${gifH + 150}px`}
         fd="column"
+        jc="center"
+        ai="center"
       >
         <iframe
           id="bannerFrame"
@@ -127,8 +146,8 @@ class ShowBanner extends Component {
           onLoad={this.getInitialState}
           srcDoc={this.state.html}
           // src={`http://localhost:8000/process/${this.props.nameFolder}/${this.props.nameHtml}`}
-          width="100%"
-          height="500px"
+          width={w}
+          height={h}
           frameBorder="0"
           ref={(c) => {
             this.banner = c
@@ -153,9 +172,11 @@ export const ShowBannerWithArchive = connect(
     nameFolder: state.archiveUpload.treeFolders.name,
     nameHtml: state.archiveUpload.nameHtml,
     gifH: state.gifs.h,
+    gifW: state.gifs.w,
     playerReady: state.player.playerReady,
     bodyColor: state.player.bodyColor,
     borderColor: state.player.borderColor,
+    resize: state.resize,
   }),
   dispatch => ({
     onSetGifSize: (size) => {

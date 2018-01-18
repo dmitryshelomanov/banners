@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 
 export const Caption = styled.h1`
-  font-family: 'Myriad' !important;
+  font-family: ${({ theme }) => theme.fontFamily} !important;
   padding: 0;
   font-size: ${props => props.size}px;
   color: ${props => props.color};

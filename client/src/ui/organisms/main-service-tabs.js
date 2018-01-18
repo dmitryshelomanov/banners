@@ -48,18 +48,21 @@ export class ServicesWrapTabs extends Component {
         >
           <Button
             onClick={() => this.changeTab(1)}
-            className={this.state.activeIndex === 1 ? 'active-btn' : ''}
             text="застопить баннер"
+            secondary
+            thirty={this.state.activeIndex === 1}
           />
           <Button
             onClick={() => this.changeTab(2)}
-            className={this.state.activeIndex === 2 ? 'active-btn' : ''}
             text="сделать заглушку"
+            secondary
+            thirty={this.state.activeIndex === 2}
           />
           <Button
             onClick={() => this.changeTab(3)}
-            className={this.state.activeIndex === 3 ? 'active-btn' : ''}
             text="оптимизировать картинки"
+            secondary
+            thirty={this.state.activeIndex === 3}
           />
         </FlexWrap>
         <FlexWrap

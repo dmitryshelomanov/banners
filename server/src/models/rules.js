@@ -1,3 +1,5 @@
+
+
 module.exports = (sequelize, DataTypes) => {
   const Rules = sequelize.define('rules', {
     area_id: {
@@ -14,6 +16,19 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     timestamps: false,
   })
+
+  Rules.Models = null
+
+  Rules.getCheckSizeRule = async function getCheckSizeRule(areaId) {
+    const data = await Rules.findOne({
+      where: {
+        area_id: areaId,
+        type: 'check_size',
+      },
+    })
+
+    return data
+  }
 
   return Rules
 }
