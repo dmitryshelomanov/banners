@@ -2,50 +2,31 @@ const path = require('path')
 const uuid = require('./uuid')
 
 
-module.exports = (name, uid = null) => {
-  const uuidMain = uid !== null ? uid() : uuid()
+const types = {
+  DECOMPRESS: 'decompress',
+  ARCHIVE: 'archive',
+  COMPRESS: 'compress',
+  DOWNLOAD_ARCHIVE: 'download-archive',
+  DOWNLOAD_READY: 'download-ready',
+  GIF: 'gif',
+  GIF_ORIGINAL: 'gif-original',
+  GIF_READY: 'gif-ready',
+  PROCESS: 'process',
+  FIRMWARE: 'firmware',
+}
 
-  return {
-    archive(folder = null) {
-      return !folder
-        ? path.resolve(__dirname, '..', '..', `tmp/archives/${uuidMain}--${name}`)
-        : path.resolve(__dirname, '..', '..', `tmp/archives/${folder}`)
-    },
-    decompose(folder = null) {
-      return !folder
-        ? path.resolve(__dirname, '..', '..', `tmp/decompress/${uuidMain}--${name}`)
-        : path.resolve(__dirname, '..', '..', `tmp/decompress/${folder}`)
-    },
-    process(folder = null) {
-      return !folder
-        ? path.resolve(__dirname, '..', '..', `tmp/process/${uuidMain}--${name}`)
-        : path.resolve(__dirname, '..', '..', `tmp/process/${folder}`)
-    },
-    compress(folder = null) {
-      return !folder
-        ? path.resolve(__dirname, '..', '..', `tmp/compress/${uuidMain}--${name}`)
-        : path.resolve(__dirname, '..', '..', `tmp/compress/${folder}`)
-    },
-    gif(fileName = 0) {
-      return path.resolve(__dirname, '..', '..', `tmp/gif/${fileName}`)
-    },
-    gifOriginal(fileName = 0) {
-      return path.resolve(__dirname, '..', '..', `tmp/gif-original/${fileName}`)
-    },
-    gifReady(fileName = 0) {
-      return path.resolve(__dirname, '..', '..', `tmp/gif-ready/${fileName}`)
-    },
-    downLoadPath(folder = null) {
-      return path.resolve(__dirname, '..', '..', `tmp/download-archive/${folder}`)
-    },
-    downLoadReady(folder = null) {
-      return path.resolve(__dirname, '..', '..', `tmp/download-ready/${folder}`)
-    },
-    firmware(folder = null) {
-      return path.resolve(__dirname, '..', '..', `tmp/firmware/${folder}`)
-    },
-    area(folder = null, area = null) {
-      return path.resolve(__dirname, '..', '..', `tmp/firmware/${folder}/${area}`)
-    },
+function tempPathGenerated(name = null, testUiid = null) {
+  const uuidMain = testUiid ? testUiid() : uuid()
+
+  return function tmpPath(type, folder = null, area = null) {
+    const str = !folder ? `tmp/${type}/${uuidMain}--${name}`
+      : area ? `tmp/${type}/${folder}/${area}` : `tmp/${type}/${folder}`
+
+    return path.resolve(__dirname, '..', '..', str)
   }
+}
+
+module.exports = {
+  tempPathGenerated,
+  types,
 }
