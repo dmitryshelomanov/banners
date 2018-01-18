@@ -10,6 +10,9 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
       },
+      html: {
+        type: Sequelize.TEXT,
+      },
     })
   },
   down(queryInterface, Sequelize) {
