@@ -9,8 +9,7 @@ module.exports = ({
   const $element = $(element)
 
   if (element.length === 0) {
-    return res({
-      error: true,
+    return rej({
       message: `element ${element} not found`,
       status: 404,
     })

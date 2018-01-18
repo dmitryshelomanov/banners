@@ -1,40 +1,30 @@
 const cheerio = require('cheerio')
 const debug = require('debug')('banner:firmware-util')
 const fs = require('fs-extra')
-const { Area, Rules, Sequelize } = require('../../models')
+const { Area, Rules } = require('../../models')
 const { process, area } = require('../temp-path')()
 const computed = require('./computed')
 const asyncMap = require('./mapper')
 const resolveFn = require('./resolve-fn')
 const mapperFn = require('./mapper-fn')
+const checkSize = require('./chek-size')
 
 
-module.exports = async ({ nameFolder, area: areaName, fileName }) => {
+module.exports = async ({ nameFolder, areaId, fileName }) => {
   const rs = []
-  const data = await Area.findOne({
-    include: [{
-      model: Rules,
-      attributes: {
-        exclude: ['id'],
-      },
-      where: {
-        type: {
-          [Sequelize.Op.ne]: 'size',
-        },
-      },
-    }],
-    where: {
-      name: areaName,
-    },
-  })
+  const data = await Area.getAreaInfo(areaId)
+
+  if (data === null) {
+    throw new Error(`data not found with id ${areaId}`)
+  }
+
+  const oldPath = process(nameFolder)
+  const areaPath = area(nameFolder, data.name)
 
   try {
-    const path = process(`${nameFolder}/${fileName}`)
-    const $ = cheerio.load(await fs.readFile(path))
+    const $ = cheerio.load(await fs.readFile(process(`${nameFolder}/${fileName}`)))
 
-    if (data === null) {
-      throw new Error('rules not found')
-    }
+    await fs.copy(oldPath, areaPath)
 
     for (let i = 0; i < data.rules.length; i++) {
       const hooks = computed(data.rules[i])
@@ -45,11 +35,19 @@ module.exports = async ({ nameFolder, area: areaName, fileName }) => {
       }
     }
 
-    asyncMap(rs, mapperFn, $.html())
+    return asyncMap(rs, mapperFn, $.html())
       .then(async (lastResolve) => {
-        await resolveFn(lastResolve, data, area(nameFolder, areaName), fileName)
+        await resolveFn(lastResolve, data, areaPath, fileName)
+        const size = await Rules.getCheckSizeRule(areaId)
+        const sizeRs = await checkSize(size, areaPath, nameFolder)
+
+        if (sizeRs) return true
+        return {
+          status: 500,
+          message: 'size expected',
+        }
       })
-      .catch(error => console.log('error', error))
+      .catch(error => error)
   }
   catch (error) {
     throw error
