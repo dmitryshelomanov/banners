@@ -20,7 +20,7 @@ function tempPathGenerated(name = null, testUiid = null) {
 
   return function tmpPath(type, folder = null, area = null) {
     const str = !folder ? `tmp/${type}/${uuidMain}--${name}`
-      : area ? `tmp/${type}/${folder}/${area}` : `tmp/${type}/${folder}`
+      : type === types.FIRMWARE ? `tmp/${type}/${folder}/${area}` : `tmp/${type}/${folder}`
 
     return path.resolve(__dirname, '..', '..', str)
   }

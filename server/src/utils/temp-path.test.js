@@ -23,7 +23,7 @@ test('test folder(any folder) path with folder name', (t) => {
 })
 
 test('test folder with area name', (t) => {
-  const path = tempPathGenerated()(types.ARCHIVE, 'main-folder', 'mail')
+  const path = tempPathGenerated()(types.FIRMWARE, 'main-folder', 'mail')
 
-  t.is(path, resolve(__dirname, '..', '..', 'tmp/archive/main-folder/mail'))
+  t.is(path, resolve(__dirname, '..', '..', 'tmp/firmware/main-folder/mail'))
 })
