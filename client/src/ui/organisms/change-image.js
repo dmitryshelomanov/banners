@@ -18,26 +18,25 @@ class Change extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isPressed: false,
       lastCoords: {
         x: 0, y: 0,
       },
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextStore) {
-    if (nextStore.isPressed !== this.state.isPressed) return false
-    return true
+    this.isPressed = false
+    this.isAdded = false
   }
 
   componentDidUpdate() {
-    if (this.cloneWrap && this.originalWrap) {
+    if (this.cloneWrap && this.originalWrap && !this.isAdded) {
+      this.isAdded = true
       this.addEventListener()
     }
   }
 
   componentWillUnmount() {
-    this.removeListeners()
+    if (this.cloneWrap && this.originalWrap) {
+      this.removeListeners()
+    }
   }
 
   addEventListener = () => {
@@ -49,31 +48,33 @@ class Change extends Component {
   }
 
   removeListeners = () => {
-    this.originalWrap.removeEventListener('mousedown', this.imageHandleDown)
-    this.originalWrap.removeEventListener('mouseup', this.imageHandleUp)
-    this.originalWrap.removeEventListener('mousewheel', this.scale)
+    [this.originalWrap, this.cloneWrap].forEach((i) => {
+      i.removeEventListener('mousedown', this.imageHandleDown)
+      i.removeEventListener('mouseup', this.imageHandleUp)
+      i.removeEventListener('mousewheel', this.scale)
+    })
   }
 
   imageHandleDown = (e) => {
+    this.isPressed = true
     this.setState({
-      isPressed: true,
       lastCoords: {
         x: e.layerX, y: e.layerY,
       },
     }, () => {
       [this.originalWrap, this.cloneWrap].forEach((i) => {
-        i.addEventListener('mousemove', this.mouseMove)
+        i.onmousemove = this.mouseMove
       })
     })
   }
 
   imageHandleUp = () => {
-    this.setState({ isPressed: false })
+    this.isPressed = false
     return false
   }
 
   mouseMove = (e) => {
-    if (!this.state.isPressed) return
+    if (!this.isPressed) return
     this.grabStage(
       e,
       [this.originalWrap, this.cloneWrap],
@@ -123,7 +124,6 @@ class Change extends Component {
   }
 
   render() {
-    const { carousel, onCompress } = this.props
     const { activeImage } = this.props.carousel
 
     return (
