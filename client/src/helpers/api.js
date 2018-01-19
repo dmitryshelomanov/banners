@@ -97,12 +97,19 @@ class API {
     return resolve
   }
 
+  /**
+   * Получить информацию о площадках
+   */
   async getAreaInfo() {
     const resolve = await this.request.get('area')
 
     return resolve
   }
 
+  /**
+   * Прошить архив
+   * @param {*} data
+   */
   async firmware(data) {
     const resolve = await this.request.post('firmware', data)
 
