@@ -7,6 +7,7 @@
     "guard-for-in":"off",
     "no-cond-assign":"off",
     "linebreak-style":"off",
-    "prefer-promise-reject-errors": "off"
+    "prefer-promise-reject-errors": "off",
+    "no-nested-ternary": "off"
   }
 }
