@@ -8,7 +8,11 @@
     "precommit": "yarn test",
     "prepush": "yarn test",
     "migrate": "node_modules/.bin/sequelize db:migrate",
-    "rollback": "node_modules/.bin/sequelize db:migrate:undo"
+    "rollback": "node_modules/.bin/sequelize db:migrate:undo",
+    "seed": "node_modules/.bin/sequelize seed:generate",
+    "seed:run": "node_modules/.bin/sequelize db:seed:all",
+    "seed:down:all": "node_modules/.bin/sequelize db:seed:undo:all",
+    "seed:down:last": "node_modules/.bin/sequelize db:seed:undo"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
