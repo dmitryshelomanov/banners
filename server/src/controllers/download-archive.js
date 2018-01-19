@@ -18,7 +18,7 @@ async function downloadArchive(ctx) {
 
   try {
     await Promise.all([
-      compressFolder(tmpPath(types.AREA, nameFolder, areaName), tmpPath(types.DOWNLOAD_ARCHIVE, `${nameFolder}/banner.zip`)),
+      compressFolder(tmpPath(types.FIRMWARE, nameFolder, areaName), tmpPath(types.DOWNLOAD_ARCHIVE, `${nameFolder}/banner.zip`)),
       copyFolder(tmpPath(types.GIF_READY, `${nameFolder}/banner.gif`), tmpPath(types.DOWNLOAD_ARCHIVE, `${nameFolder}/banner.gif`)),
     ])
     await compressFolder(
