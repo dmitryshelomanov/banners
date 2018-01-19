@@ -8,7 +8,10 @@ import {
   Button,
   CheckBox,
 } from '../'
-import { gifGenerated } from '../../redux/actions/gif'
+import {
+  gifGenerated,
+  setRepeat,
+} from '../../redux/actions/gif'
 
 /* eslint-disable react/no-array-index-key */
 
@@ -26,7 +29,7 @@ const Wrapper = FlexWrap.extend`
 `
 
 const GifWrapper = ({
-  gifs, onGenerateGif, nameFolder, resize,
+  gifs, onGenerateGif, nameFolder, resize, onSetRepeatState,
 }) => (
   <Wrapper>
     {
@@ -56,8 +59,13 @@ const GifWrapper = ({
             />
             <CheckBox
               name="repeat"
+              id="repeat"
               type="checkbox"
               label="повторять?"
+              checked={gifs.repeat}
+              onChange={() => {
+                onSetRepeatState(!gifs.repeat)
+              }}
             />
           </div>
         </FlexWrap>
@@ -79,6 +87,9 @@ export const GifImages = connect(
   dispatch => ({
     onGenerateGif: (imgData, nameFolder) => {
       dispatch(gifGenerated(imgData, nameFolder))
+    },
+    onSetRepeatState: (state) => {
+      dispatch(setRepeat(state))
     },
   }),
 )(GifWithStyled)

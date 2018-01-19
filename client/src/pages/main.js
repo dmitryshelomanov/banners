@@ -21,7 +21,7 @@ const MainPage = ({ archiveReady, playerReady }) => (
   <RootContainer>
     <FlexWrap
       fd="column"
-      width="100%"
+      w="100%"
     >
       <H1>
         ПРОШИВКА БАННЕРОВ ОТ ASAP
@@ -35,7 +35,7 @@ const MainPage = ({ archiveReady, playerReady }) => (
       {playerReady && archiveReady && (
         <FlexWrap
           fd="column"
-          width="100%"
+          w="100%"
         >
           <ServicesWrapTabs
             playerReady={playerReady}

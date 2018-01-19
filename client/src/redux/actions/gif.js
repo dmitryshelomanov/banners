@@ -88,3 +88,12 @@ export function unsetData(ids) {
     })
   }
 }
+
+export function setRepeat(state) {
+  return function (dispatch) {
+    dispatch({
+      type: types.GIF_SET_REPEAT,
+      payload: state,
+    })
+  }
+}

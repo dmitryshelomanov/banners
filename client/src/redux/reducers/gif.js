@@ -42,6 +42,10 @@ export const gif = (state = initialState, actions) => {
       data: actions.payload.gifData,
       base64: actions.payload.base64Data,
     }
+    case types.GIF_SET_REPEAT: return {
+      ...state,
+      repeat: actions.payload,
+    }
     case types.GIF_CLEAR_STATE: return {
       ...state,
       ...initialState,
