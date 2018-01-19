@@ -1,6 +1,7 @@
 const debug = require('debug')('banner:controller:gif-generated')
 const {
-  tempPath,
+  types,
+  tempPathGenerated,
   folderExists,
   gifEncoder,
   bodyExists,
@@ -12,9 +13,9 @@ const {
  */
 async function generatedGif(ctx) {
   const { body } = ctx.request
-  const { gifReady } = tempPath()
+  const tmpPath = tempPathGenerated()
   const { nameFolder, imgData } = body
-  const pathReadyGif = gifReady(`${nameFolder}/banner.gif`)
+  const pathReadyGif = tmpPath(types.GIF_READY, `${nameFolder}/banner.gif`)
 
   debug(`generate gif with nameFolder - ${nameFolder}`, imgData)
   try {
@@ -30,6 +31,6 @@ async function generatedGif(ctx) {
 module.exports = (router, method, url) => router[method](
   url,
   bodyExists(['nameFolder', 'imgData']),
-  folderExists(tempPath().gifReady),
+  folderExists(types.GIF_READY),
   generatedGif,
 )

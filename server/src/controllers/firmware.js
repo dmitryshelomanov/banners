@@ -3,7 +3,7 @@ const {
   firmware: start,
   bodyExists,
   folderExists,
-  tempPath,
+  types,
 } = require('../utils')
 
 
@@ -33,6 +33,6 @@ async function firmWare(ctx) {
 module.exports = (router, method, uri) => router[method](
   uri,
   bodyExists(['nameFolder', 'areaId', 'fileName']),
-  folderExists(tempPath().firmware, tempPath().process),
+  folderExists(types.FIRMWARE),
   firmWare,
 )

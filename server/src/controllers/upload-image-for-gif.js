@@ -2,7 +2,8 @@ const debug = require('debug')('banner:controller:upload-image-for-gif')
 const fs = require('fs-extra')
 const { ext } = require('../config')
 const {
-  tempPath,
+  types,
+  tempPathGenerated,
   folderExists,
   copyFolder,
   bodyExists,
@@ -14,11 +15,11 @@ const {
  */
 async function uploadImageForGif(ctx) {
   const { body } = ctx.request
-  const { gif, gifOriginal } = tempPath()
+  const tmpPath = tempPathGenerated()
   const { data, nameFile, nameFolder } = body
   const img = data.replace(new RegExp(`^data:image\\/${ext};base64,`), '')
-  const pathFileOriginal = gifOriginal(`${nameFolder}/${nameFile}`)
-  const pathFileCopy = gif(`${nameFolder}/${nameFile}`)
+  const pathFileOriginal = tmpPath(types.GIF_ORIGINAL, `${nameFolder}/${nameFile}`)
+  const pathFileCopy = tmpPath(types.GIF, `${nameFolder}/${nameFile}`)
 
   debug(`upload image with nameFile - ${nameFile}`)
 
@@ -44,7 +45,7 @@ async function uploadImageForGif(ctx) {
 module.exports = (router, method, url) => router[method](
   url,
   bodyExists(['data', 'nameFile', 'nameFolder']),
-  folderExists(tempPath().gif),
-  folderExists(tempPath().gifOriginal),
+  folderExists(types.GIF),
+  folderExists(types.GIF_ORIGINAL),
   uploadImageForGif,
 )

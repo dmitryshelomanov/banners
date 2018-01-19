@@ -2,7 +2,7 @@ const cheerio = require('cheerio')
 const debug = require('debug')('banner:firmware-util')
 const fs = require('fs-extra')
 const { Area, Rules } = require('../../models')
-const { process, area } = require('../temp-path')()
+const { types, tempPathGenerated } = require('../temp-path')
 const computed = require('./computed')
 const asyncMap = require('./mapper')
 const resolveFn = require('./resolve-fn')
@@ -13,16 +13,17 @@ const checkSize = require('./chek-size')
 module.exports = async ({ nameFolder, areaId, fileName }) => {
   const rs = []
   const data = await Area.getAreaInfo(areaId)
+  const path = tempPathGenerated()
 
   if (data === null) {
     throw new Error(`data not found with id ${areaId}`)
   }
 
-  const oldPath = process(nameFolder)
-  const areaPath = area(nameFolder, data.name)
+  const oldPath = path(types.PROCESS, nameFolder)
+  const areaPath = path(types.FIRMWARE, nameFolder, data.name)
 
   try {
-    const $ = cheerio.load(await fs.readFile(process(`${nameFolder}/${fileName}`)))
+    const $ = cheerio.load(await fs.readFile(path(types.PROCESS, `${nameFolder}/${fileName}`)))
 
     await fs.copy(oldPath, areaPath)
 

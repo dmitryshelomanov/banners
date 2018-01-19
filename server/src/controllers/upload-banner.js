@@ -1,12 +1,13 @@
 const debug = require('debug')('banner:upload-banner')
 const fs = require('fs-extra')
 const {
+  types,
+  tempPathGenerated,
   isZipFile,
   notEmptyFile,
   maxSizeFile,
   decompress,
   folderTree,
-  tempPath,
   copyFolder,
 } = require('../utils')
 
@@ -16,15 +17,15 @@ const {
  */
 async function lastLoaded(ctx) {
   const { files } = ctx.request
-  const { archive, decompose, process } = tempPath(files.archive.name)
+  const tmpPath = tempPathGenerated(files.archive.name)
 
   debug(`upload banner with archive - ${files.archive.name}`)
   try {
-    await fs.rename(files.archive.path, archive())
-    await decompress(archive(), decompose())
-    await copyFolder(decompose(), process())
-    await fs.unlink(archive())
-    ctx.body = await folderTree(decompose())
+    await fs.rename(files.archive.path, tmpPath(types.ARCHIVE))
+    await decompress(tmpPath(types.ARCHIVE), tmpPath(types.DECOMPRESS))
+    await copyFolder(tmpPath(types.DECOMPRESS), tmpPath(types.PROCESS))
+    await fs.unlink(tmpPath(types.ARCHIVE))
+    ctx.body = await folderTree(tmpPath(types.DECOMPRESS))
   }
   catch (error) {
     ctx.throw(error)
@@ -33,5 +34,8 @@ async function lastLoaded(ctx) {
 
 module.exports = (router, method, uri) => router[method](
   uri,
-  notEmptyFile, maxSizeFile(3000), isZipFile, lastLoaded
+  notEmptyFile,
+  maxSizeFile(3000),
+  isZipFile,
+  lastLoaded,
 )

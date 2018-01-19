@@ -2,7 +2,8 @@ const debug = require('debug')('banner:controller:parser-banner')
 const fs = require('fs-extra')
 const cheerio = require('cheerio')
 const {
-  tempPath,
+  types,
+  tempPathGenerated,
 } = require('../utils')
 
 /* eslint-disable consistent-return */
@@ -21,8 +22,8 @@ async function parserBanner(ctx) {
 
   debug('parser banner with query', banner)
 
-  const { process } = tempPath()
-  const pathBanner = process(`${banner}/${file}`)
+  const tmpPath = tempPathGenerated()
+  const pathBanner = tmpPath(types.PROCESS, `${banner}/${file}`)
 
   if (!await fs.exists(pathBanner)) {
     ctx.status = 204

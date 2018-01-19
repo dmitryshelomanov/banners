@@ -2,7 +2,8 @@ const debug = require('debug')('banner:update-color-bg')
 const fs = require('fs-extra')
 const cheerio = require('cheerio')
 const {
-  tempPath,
+  types,
+  tempPathGenerated,
   folderExists,
   bodyExists,
 } = require('../utils')
@@ -47,11 +48,11 @@ const replaceOldCb = str => str.replace(/\/\*service_function\*\/(.+?)\/\*servic
 async function updateBorder(ctx) {
   const { body } = ctx.request
   const { nameFolder, color, nameFile, w, h } = body
-  const { process } = tempPath()
+  const tmpPath = tempPathGenerated()
 
   debug('color change -', body)
   try {
-    const $ = cheerio.load(await fs.readFile(process(`${nameFolder}/${nameFile}`)))
+    const $ = cheerio.load(await fs.readFile(tmpPath(types.PROCESS, `${nameFolder}/${nameFile}`)))
 
     $('script').each(function each() {
       if ($(this).attr('src') === undefined) {
@@ -60,7 +61,7 @@ async function updateBorder(ctx) {
         $(this).html(`${str} ${data(color, w, h)}`)
       }
     })
-    await fs.writeFile(process(`${nameFolder}/${nameFile}`), $.html())
+    await fs.writeFile(tmpPath(types.PROCESS, `${nameFolder}/${nameFile}`), $.html())
     ctx.body = 'border color updated!'
   }
   catch (error) {
@@ -71,5 +72,6 @@ async function updateBorder(ctx) {
 module.exports = (router, method, uri) => router[method](
   uri,
   bodyExists(['nameFolder', 'color', 'nameFile', 'w', 'h']),
-  folderExists(tempPath().process), updateBorder,
+  folderExists(types.PROCESS),
+  updateBorder,
 )

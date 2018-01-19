@@ -1,7 +1,8 @@
 const debug = require('debug')('banner:compress-img')
 const fs = require('fs-extra')
 const {
-  tempPath,
+  types,
+  tempPathGenerated,
   compressImage,
   compressPercent,
   bodyExists,
@@ -17,11 +18,11 @@ async function compressImg(ctx) {
   const { body } = ctx.request
   const { quality, isGif } = ctx.query
   const pathWithOutName = body.url.split('/')
-  const { process, gif } = tempPath()
+  const tmpPath = tempPathGenerated()
 
   pathWithOutName.pop()
-  const path = isGif ? gif(pathWithOutName.join('\\')) : process(pathWithOutName.join('\\'))
-  const pathReady = isGif ? gif(body.url) : process(body.url)
+  const path = isGif ? tmpPath(types.GIF, pathWithOutName.join('\\')) : tmpPath(types.PROCESS, pathWithOutName.join('\\'))
+  const pathReady = isGif ? tmpPath(types.GIF, body.url) : tmpPath(types.PROCESS, body.url)
 
   debug('compress img with body -', body)
   try {
@@ -43,5 +44,6 @@ async function compressImg(ctx) {
 
 module.exports = (router, method, uri) => router[method](
   uri,
-  bodyExists(['url']), compressImg
+  bodyExists(['url']),
+  compressImg,
 )

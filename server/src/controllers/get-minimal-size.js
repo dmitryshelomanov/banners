@@ -2,19 +2,20 @@ const debug = require('debug')('banner:controller:get-minimal-size')
 const cheerio = require('cheerio')
 const fs = require('fs-extra')
 const {
-  tempPath,
+  types,
+  tempPathGenerated,
   bodyExists,
 } = require('../utils')
 
 
 async function getMinimalSize(ctx) {
   const { body } = ctx.request
-  const { process } = tempPath()
+  const tmpPath = tempPathGenerated()
   const { nameFolder, nameFile } = body
 
   debug('get size with body', body)
   try {
-    const $ = cheerio.load(await fs.readFile(process(`${nameFolder}/${nameFile}`)))
+    const $ = cheerio.load(await fs.readFile(tmpPath(types.PROCESS, `${nameFolder}/${nameFile}`)))
     const $canvas = $('canvas')
 
     ctx.body = {
@@ -29,5 +30,6 @@ async function getMinimalSize(ctx) {
 
 module.exports = (router, method, path) => router[method](
   path,
-  bodyExists(['nameFolder', 'nameFile']), getMinimalSize,
+  bodyExists(['nameFolder', 'nameFile']),
+  getMinimalSize,
 )
