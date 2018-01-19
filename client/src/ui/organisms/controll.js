@@ -84,7 +84,7 @@ class Controll extends Component {
     return (
       <ControllWrapp
         className="controllrange"
-        width="100%"
+        w="100%"
       >
         {!isPlay && (
           <img

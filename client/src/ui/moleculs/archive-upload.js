@@ -91,13 +91,13 @@ export class ArchiveUploadWrapper extends Component {
     return (
       <FlexWrap
         fd="column"
-        width="50%"
+        w="50%"
       >
         <Button
           text="Загрузить архив с баннером"
         />
         <FlexWrap
-          width="100%"
+          w="100%"
         >
           <TreeWrap>
             <div className="head">

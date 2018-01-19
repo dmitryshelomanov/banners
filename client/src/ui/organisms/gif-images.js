@@ -6,45 +6,64 @@ import {
   GifItem,
   Carousel,
   Button,
+  CheckBox,
 } from '../'
 import { gifGenerated } from '../../redux/actions/gif'
 
 /* eslint-disable react/no-array-index-key */
 
+const Wrapper = FlexWrap.extend`
+  width: 100%;
+  & .btn-wrap {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    & button {
+      margin-bottom: 15px
+    }
+  }
+`
+
 const GifWrapper = ({
   gifs, onGenerateGif, nameFolder, resize,
 }) => (
-  <FlexWrap
-    width="100%"
-  >
+  <Wrapper>
     {
       gifs.base64.length > 0 && (
         <FlexWrap
-          width="100%"
+          w="100%"
           fd="column"
           ai="center"
         >
           <Carousel
             component={<GifItem />}
             carousel={gifs.base64}
-            width={gifs.base64[0].w}
+            w={gifs.base64[0].w}
             isGif
           />
-          <Button
-            className="active-btn"
-            text="сохранить"
-            thirty
-            onClick={() => onGenerateGif({
-              w: resize.isFixed ? gifs.w : resize.minimalW,
-              h: resize.isFixed ? gifs.h : resize.minimalH,
-              data: gifs.data,
-              repeat: gifs.repeat,
-            }, nameFolder)}
-          />
+          <div className="btn-wrap">
+            <Button
+              className="active-btn"
+              text="сохранить"
+              thirty
+              onClick={() => onGenerateGif({
+                w: resize.isFixed ? gifs.w : resize.minimalW,
+                h: resize.isFixed ? gifs.h : resize.minimalH,
+                data: gifs.data,
+                repeat: gifs.repeat,
+              }, nameFolder)}
+            />
+            <CheckBox
+              name="repeat"
+              type="checkbox"
+              label="повторять?"
+            />
+          </div>
         </FlexWrap>
       )
     }
-  </FlexWrap>
+  </Wrapper>
 )
 
 const GifWithStyled = styled(GifWrapper)`

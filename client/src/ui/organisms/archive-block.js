@@ -15,7 +15,7 @@ const InnerComponent = ({ isActive, html }) => (
 
 const ArchiveBlock = ({ area }) => (
   <FlexWrap
-    width="100%"
+    w="100%"
   >
     <ArchiveUpload />
     <RulesWrapTabsWithHoc

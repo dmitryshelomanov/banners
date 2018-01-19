@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import InputRange from 'react-input-range'
 import {
   FlexWrap,
   ImageReview,
@@ -9,6 +10,7 @@ import { compressActiveImage } from '../../redux/actions/carousel'
 
 
 const Wrap = FlexWrap.extend`
+  width: 100%;
   padding: 15px;
   box-sizing: border-box;
   justify-content: space-around;
@@ -128,11 +130,11 @@ class Change extends Component {
 
     return (
       <FlexWrap
-        width="100%"
+        w="100%"
       >
         {
           activeImage !== null && (
-            <Wrap width="100%">
+            <Wrap>
               <ImageReview
                 isOrigin
                 nestedRef={(comp) => {

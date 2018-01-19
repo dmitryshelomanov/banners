@@ -102,8 +102,8 @@ class GifChangeContainer extends PureComponent {
         {
           isLoading && (
             <FlexWrap
-              width={`${gifW}px`}
-              height={`${gifH}px`}
+              w={`${gifW}px`}
+              h={`${gifH}px`}
               ai="center"
               jc="center"
             >
@@ -153,6 +153,7 @@ class GifChangeContainer extends PureComponent {
                     onChange={(value) => {
                       this.setState({ quality: value})
                     }}
+                    orientation="vertical"
                   />
                   <Text>
                     {this.state.info.percentCompress}% ({updateSystem(this.state.info.newSize)})

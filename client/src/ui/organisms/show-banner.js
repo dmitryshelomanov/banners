@@ -134,8 +134,8 @@ class ShowBanner extends Component {
 
     return (
       <BnnerWrap
-        width="100%"
-        height={`${gifH + 150}px`}
+        w="100%"
+        h={`${gifH + 150}px`}
         fd="column"
         jc="center"
         ai="center"

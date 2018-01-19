@@ -33,11 +33,11 @@ class ImageWrap extends Component {
     return (
       <FlexWrap
         fd="column"
-        width="43%"
+        w="43%"
       >
         <InfoWithStyle
           className="info"
-          width="100%"
+          w="100%"
         >
           {isOrigin && imageActive.info && `Исходный ( ${updateSystem(imageActive.info.originalSize)} )kb`}
           {!isOrigin && imageActive.info && `Сжатый ( ${updateSystem(imageActive.info.newSize)} )kb`}

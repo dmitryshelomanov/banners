@@ -8,19 +8,19 @@ export const FlexWrap = styled.div`
   padding: ${props => props.padding};
   justify-content: ${props => props.jc};
   align-items: ${props => props.ai};
-  width: ${props => props.width};
-  height: ${props => props.height};
+  width: ${props => props.w};
+  height: ${props => props.h};
   flex-direction: ${props => props.fd};
   box-sizing: border-box;
 `
 FlexWrap.propTypes = {
   jc: PropTypes.string,
   ai: PropTypes.string,
-  width: PropTypes.oneOfType([
+  w: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ]),
-  height: PropTypes.oneOfType([
+  h: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ]),
@@ -29,8 +29,8 @@ FlexWrap.propTypes = {
 }
 
 FlexWrap.defaultProps = {
-  width: 'auto',
-  height: 'auto',
+  w: 'auto',
+  h: 'auto',
   jc: 'flex-start',
   ai: 'flex-start',
   fd: 'row',

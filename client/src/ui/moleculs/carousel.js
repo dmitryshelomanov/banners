@@ -89,7 +89,7 @@ export class Carousel extends Component {
           isGif={isGif}
         >
           <CarouselInner
-            width={`${width * len}px`}
+            w={`${width * len}px`}
             style={{
               transform: `translateX(${transform})`,
             }}

@@ -45,7 +45,7 @@ export class RenderTree extends Component {
 
     return (
       <FlexWrap
-        width="100%"
+        w="100%"
         fd="column"
       >
         <Folder
@@ -55,7 +55,7 @@ export class RenderTree extends Component {
         </Folder>
         <FlexWrap
           fd="column"
-          width="100%"
+          w="100%"
         >
           {
             folders.children && folders.children.map((item, key) => (

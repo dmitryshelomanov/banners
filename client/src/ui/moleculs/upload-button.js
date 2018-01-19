@@ -43,7 +43,7 @@ export class UploadBtn extends Component {
 
     return (
       <FlexWrap
-        width="100%"
+        w="100%"
       >
         <input
           type="file"

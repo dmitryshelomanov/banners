@@ -39,11 +39,11 @@ export class ServicesWrapTabs extends Component {
   render() {
     return (
       <FlexWrap
-        width="100%"
+        w="100%"
         fd="column"
       >
         <FlexWrap
-          width="100%"
+          w="100%"
           jc="space-between"
         >
           <Button
@@ -66,7 +66,7 @@ export class ServicesWrapTabs extends Component {
           />
         </FlexWrap>
         <FlexWrap
-          width="100%"
+          w="100%"
         >
           <WrapTab className={this.state.activeIndex === 1 ? 'active' : ''}>
             <StoppedBanner />

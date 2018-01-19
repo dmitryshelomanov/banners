@@ -14,12 +14,12 @@ const ItemWithActive = WithActiveImage(CarouselItem)
 
 const CompressImageWrap = ({ carousel }) => (
   <FlexWrap
-    width="100%"
+    w="100%"
     fd="column"
     ai="center"
   >
     <FlexWrap
-      width="100%"
+      w="100%"
       style={{ marginBottom: 25 }}
     >
       <Button
