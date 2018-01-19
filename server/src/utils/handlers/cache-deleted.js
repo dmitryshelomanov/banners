@@ -1,12 +1,14 @@
 const debug = require('debug')('banner:helpers:cashe-deleted')
 const fs = require('fs-extra')
-const tempPath = require('../temp-path')
+const { types, tempPathGenerated } = require('../temp-path')
 
 
 module.exports = async (nameFolder) => {
   debug('delete cahe with folder name - ', nameFolder)
-  for (const pop in tempPath()) {
-    const folder = tempPath()[pop](nameFolder)
+  const path = tempPathGenerated()
+
+  for (const pop in types) {
+    const folder = path(types[pop], nameFolder)
 
     try {
       if (await fs.exists(folder)) {

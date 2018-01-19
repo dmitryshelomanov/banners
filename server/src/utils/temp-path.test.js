@@ -13,13 +13,13 @@ test('test folder(any folder) path with name', (t) => {
   const { uuid, uuidReturns } = t.context
   const path = tempPathGenerated('test.zip', uuid)(types.ARCHIVE)
 
-  t.is(path, resolve(__dirname, '..', '..', `tmp/archive/${uuidReturns}--test.zip`))
+  t.is(path, resolve(__dirname, '..', '..', `tmp/archives/${uuidReturns}--test.zip`))
 })
 
 test('test folder(any folder) path with folder name', (t) => {
   const path = tempPathGenerated()(types.ARCHIVE, 'main-folder')
 
-  t.is(path, resolve(__dirname, '..', '..', 'tmp/archive/main-folder'))
+  t.is(path, resolve(__dirname, '..', '..', 'tmp/archives/main-folder'))
 })
 
 test('test folder with area name', (t) => {

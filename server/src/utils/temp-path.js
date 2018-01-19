@@ -4,7 +4,7 @@ const uuid = require('./uuid')
 
 const types = {
   DECOMPRESS: 'decompress',
-  ARCHIVE: 'archive',
+  ARCHIVE: 'archives',
   COMPRESS: 'compress',
   DOWNLOAD_ARCHIVE: 'download-archive',
   DOWNLOAD_READY: 'download-ready',
@@ -20,7 +20,7 @@ function tempPathGenerated(name = null, testUiid = null) {
 
   return function tmpPath(type, folder = null, area = null) {
     const str = !folder ? `tmp/${type}/${uuidMain}--${name}`
-      : type === types.FIRMWARE ? `tmp/${type}/${folder}/${area}` : `tmp/${type}/${folder}`
+      : area ? `tmp/${type}/${folder}/${area}` : `tmp/${type}/${folder}`
 
     return path.resolve(__dirname, '..', '..', str)
   }
