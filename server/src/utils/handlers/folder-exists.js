@@ -1,21 +1,23 @@
 const debug = require('debug')('banner:controller:folder-exists')
 const fs = require('fs-extra')
+const { tempPathGenerated } = require('../temp-path')
 
 
-module.exports = (createPath, oldPath) => async (ctx, next) => {
+module.exports = type => async (ctx, next) => {
   const { body } = ctx.request
   const { nameFolder } = body
-  const createPathFolder = createPath(nameFolder)
+  const checkPath = tempPathGenerated()
+  const path = checkPath(type, nameFolder)
 
-  debug(`folder exists with folder name - ${createPathFolder}`)
+  debug(`folder exists with folder name - ${path}`)
   try {
-    if (!await fs.exists(createPathFolder)) {
-      await fs.mkdir(createPathFolder)
+    if (!await fs.exists(path)) {
+      await fs.mkdir(path)
     }
     return await next()
   }
   catch (error) {
     ctx.status = 404
-    ctx.body = `folder ${nameFolder} not found in dir ${oldPath(nameFolder)}`
+    ctx.body = `folder ${nameFolder} not found`
   }
 }
