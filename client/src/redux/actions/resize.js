@@ -21,6 +21,6 @@ export function getMinimalSize(nameFolder, nameFile) {
 
 export function resizeClearState() {
   return function (dispatch) {
-    dispatch({ type: types.RESIZE_CLEAR_STATE })
+    dispatch({ type: types.RESIZE_REST_STATE })
   }
 }

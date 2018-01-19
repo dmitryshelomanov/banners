@@ -22,6 +22,10 @@ export const player = (state = initialState, actions) => {
       ...state,
       borderColor: actions.payload,
     }
+    case types.PLAYER_REST_STATE: return {
+      ...state,
+      ...initialState,
+    }
     default: return state
   }
 }

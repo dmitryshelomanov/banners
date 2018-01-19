@@ -25,6 +25,10 @@ export const firmware = (state = initialState, { type, payload }) => {
       isError: true,
       error: payload,
     }
+    case types.AREA_REST_STATE: return {
+      ...state,
+      ...initialState,
+    }
     default: return state
   }
 }

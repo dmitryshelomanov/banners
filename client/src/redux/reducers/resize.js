@@ -18,7 +18,7 @@ export const resize = (state = initialState, actions) => {
       minimalW: actions.payload.w,
       minimalH: actions.payload.h,
     }
-    case types.RESIZE_CLEAR_STATE: return {
+    case types.RESIZE_REST_STATE: return {
       ...state,
       ...initialState,
     }

@@ -31,7 +31,7 @@ export const carousel = (state = initialState, actions) => {
       ...state,
       activeImage: actions.payload,
     }
-    case types.CAROUSEL_CLEAR_STATE: return {
+    case types.CAROUSEL_REST_STATE: return {
       ...state,
       ...initialState,
     }

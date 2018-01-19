@@ -1,16 +1,15 @@
 import * as types from '../types'
 import fixture from '../../fixture'
-import unload from '../../helpers/unload'
+import io from '../../helpers/io'
 
 
 const initialState = {
-  archiveReady: true,
+  archiveReady: false,
   isLoading: false,
   isError: false,
-  nameHtml: fixture.work.treeFolder.nameHtml,
-  treeFolders: fixture.work.treeFolder.tree,
+  nameHtml: fixture.default.nameHtml,
+  treeFolders: fixture.default.treeFolder,
 }
-const io = unload()
 
 export const archiveUpload = (state = initialState, actions) => {
   switch (actions.type) {
@@ -37,9 +36,9 @@ export const archiveUpload = (state = initialState, actions) => {
       isLoading: false,
       isError: true,
     }
-    case types.ARCHIVE_UPDATE_HTML_FILE_END: return {
+    case types.ARCHIVE_REST_STATE: return {
       ...state,
-      nameHtml: actions.payload,
+      ...initialState,
     }
     default: return state
   }
