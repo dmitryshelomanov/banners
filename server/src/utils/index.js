@@ -4,7 +4,7 @@ const maxSizeFile = require('./handlers/upload/max-size-file')
 const uuid = require('./uuid')
 const decompress = require('./handlers/decompress')
 const folderTree = require('./handlers/folder-tree')
-const tempPath = require('./temp-path')
+const { types, tempPathGenerated } = require('./temp-path')
 const compressImage = require('./handlers/compress-img')
 const copyFolder = require('./handlers/copy-folder')
 const compressPercent = require('./handlers/get-pecent')
@@ -24,7 +24,8 @@ module.exports = {
   decompress,
   folderTree,
   maxSizeFile,
-  tempPath,
+  types,
+  tempPathGenerated,
   compressImage,
   copyFolder,
   compressPercent,
