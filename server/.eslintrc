@@ -8,6 +8,8 @@
     "no-cond-assign":"off",
     "linebreak-style":"off",
     "prefer-promise-reject-errors": "off",
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "prefer-numeric-literals": "off",
+    "id-match": "off"
   }
 }
