@@ -12,6 +12,7 @@ export default (WrapClass) => {
           {
             this.props.folders.name && <WrapClass
               folders={this.props.folders}
+              archiveName={this.props.archiveName}
               onAddImage={this.props.onAddImage}
             />
           }
@@ -27,12 +28,14 @@ export default (WrapClass) => {
       size: PropTypes.number,
       type: PropTypes.string,
     }).isRequired,
+    archiveName: PropTypes.string.isRequired,
     onAddImage: PropTypes.func.isRequired,
   }
 
   return connect(
     state => ({
       folders: state.archiveUpload.treeFolders,
+      archiveName: state.archiveUpload.treeFolders.name,
     }),
     dispatch => ({
       onAddImage: (img) => {

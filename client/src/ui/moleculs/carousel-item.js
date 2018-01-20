@@ -17,8 +17,8 @@ const carouselItem = ({
   className, img, activeImage, ids, width, ...rest
 }) => (
   <FlexWrap
-    width={width}
-    height="146px"
+    w={width}
+    h="146px"
     ai="center"
     jc="center"
     className={`${className} ${activeImage === ids && 'active'}`}
@@ -26,16 +26,16 @@ const carouselItem = ({
   >
     <FlexWrap
       className="percent"
-      width="100%"
-      height="100%"
+      w="100%"
+      h="100%"
       ai="center"
       jc="center"
     >
       {img.info && `-${img.info.percentCompress}%`}
     </FlexWrap>
     <Image
-      width="90%"
-      height="90%"
+      w="90%"
+      h="90%"
       url={`http://localhost:8000/decompress/${img.url}`}
     />
   </FlexWrap>

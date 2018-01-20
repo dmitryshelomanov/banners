@@ -25,7 +25,10 @@ class GifChangeContainer extends PureComponent {
     this.state = {
       isLoading: true,
       isError: false,
-      image: null,
+      image: {
+        replacer: 'gif-original',
+        type: 'gif',
+      },
       quality: 100,
       delay: 200,
       info: {
@@ -57,7 +60,10 @@ class GifChangeContainer extends PureComponent {
       })
 
       this.setState({
-        image: data,
+        image: {
+          ...this.state.image,
+          ...data,
+        },
         isLoading: false,
         info: {
           ...this.state.info,

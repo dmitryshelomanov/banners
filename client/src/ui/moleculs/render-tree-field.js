@@ -26,22 +26,22 @@ const TreeWrap = FlexWrap.extend`
 
 export class RenderTree extends Component {
   addImage = (img) => {
+    const { folders, archiveName } = this.props
+
     if (img.type === 'file'
         && extensions.indexOf(img.extension) !== -1) {
-      let url = img.path.split('decompress\\')[1]
-
-      url = url.replace(/[\\]+/ig, '/')
       this.props.onAddImage({
-        url,
         path: img.path,
         originalSize: img.size,
-        name: url.split('\\')[0],
+        name: img.name,
+        replacer: 'decompress',
+        type: 'process',
       })
     }
   }
 
   render() {
-    const { folders, onAddImage, deep } = this.props
+    const { folders, onAddImage, deep, archiveName } = this.props
 
     return (
       <FlexWrap
@@ -61,6 +61,7 @@ export class RenderTree extends Component {
             folders.children && folders.children.map((item, key) => (
               <RenderTree
                 folders={item}
+                archiveName={archiveName}
                 key={key}
                 onAddImage={onAddImage}
                 deep={key}
@@ -80,6 +81,7 @@ RenderTree.propTypes = {
     type: PropTypes.string,
     size: PropTypes.number,
   }).isRequired,
+  archiveName: PropTypes.string.isRequired,
   onAddImage: PropTypes.func.isRequired,
   deep: PropTypes.number,
 }
