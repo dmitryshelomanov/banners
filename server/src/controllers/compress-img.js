@@ -6,6 +6,7 @@ const {
   compressImage,
   compressPercent,
   bodyExists,
+  replacePath,
 } = require('../utils')
 const {
   defaultQuality,
@@ -17,17 +18,21 @@ const {
 async function compressImg(ctx) {
   const { body } = ctx.request
   const { quality, isGif } = ctx.query
-  const pathWithOutName = body.url.split('/')
+  const { replacer, type, path, name } = body
   const tmpPath = tempPathGenerated()
 
-  pathWithOutName.pop()
-  const path = isGif ? tmpPath(types.GIF, pathWithOutName.join('\\')) : tmpPath(types.PROCESS, pathWithOutName.join('\\'))
-  const pathReady = isGif ? tmpPath(types.GIF, body.url) : tmpPath(types.PROCESS, body.url)
-
+  if (Object.values(types).indexOf(type) === -1) {
+    ctx.status = 404
+    ctx.body = `type ${type} not found in types`
+    return
+  }
   debug('compress img with body -', body)
   try {
-    await compressImage(body.path, path, quality || defaultQuality)
-    const { size } = await fs.stat(pathReady)
+    const pathChankWithName = path.split(replacer)[1]
+    const pathChankWithoutName = pathChankWithName.split(name)[0]
+
+    await compressImage(path, tmpPath(type, pathChankWithoutName), quality || defaultQuality)
+    const { size } = await fs.stat(tmpPath(type, pathChankWithName))
 
     ctx.body = {
       name: body.name,
@@ -44,6 +49,6 @@ async function compressImg(ctx) {
 
 module.exports = (router, method, uri) => router[method](
   uri,
-  bodyExists(['url']),
+  // bodyExists(['url']),
   compressImg,
 )

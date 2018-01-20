@@ -21,20 +21,21 @@ async function uploadImageForGif(ctx) {
   const pathFileOriginal = tmpPath(types.GIF_ORIGINAL, `${nameFolder}/${nameFile}`)
   const pathFileCopy = tmpPath(types.GIF, `${nameFolder}/${nameFile}`)
 
-  debug(`upload image with nameFile - ${nameFile}`)
+  debug(`upload image with nameFile - ${nameFile} original path - ${pathFileOriginal} path copy - ${pathFileCopy}`)
 
   try {
-    await fs.writeFile(pathFileOriginal, img, 'base64')
+    await fs.writeFile(pathFileOriginal, img, {
+      encoding: 'base64',
+      mode: parseInt('0777', 8),
+    })
     await copyFolder(pathFileOriginal, pathFileCopy)
     const { size } = await fs.stat(pathFileOriginal)
-    let url = pathFileOriginal.split('gif-original\\')[1]
 
-    url = url.replace(/[\\]+/ig, '/')
     ctx.status = 201
     ctx.body = {
       path: pathFileOriginal,
       originalSize: size,
-      url,
+      name: nameFile,
     }
   }
   catch (error) {

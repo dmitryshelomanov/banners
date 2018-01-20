@@ -24,7 +24,6 @@ async function lastLoaded(ctx) {
     await fs.rename(files.archive.path, tmpPath(types.ARCHIVE))
     await decompress(tmpPath(types.ARCHIVE), tmpPath(types.DECOMPRESS))
     await copyFolder(tmpPath(types.DECOMPRESS), tmpPath(types.PROCESS))
-    await fs.unlink(tmpPath(types.ARCHIVE))
     ctx.body = await folderTree(tmpPath(types.DECOMPRESS))
   }
   catch (error) {
