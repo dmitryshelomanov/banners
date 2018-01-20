@@ -1,12 +1,12 @@
 {
   "scripts": {
     "dev": "cross-env DEBUG=banner:* nodemon index.js",
-    "test": "yarn test:lint && yarn test:code",
+    "test": "npm run test:lint && npm run test:code",
     "test:lint": "eslint . ",
     "test:code": "ava",
     "test:code:watch": "ava --verbose --watch",
-    "precommit": "yarn test",
-    "prepush": "yarn test",
+    "precommit": "npm run test",
+    "prepush": "npm run test",
     "migrate": "node_modules/.bin/sequelize db:migrate",
     "rollback": "node_modules/.bin/sequelize db:migrate:undo",
     "seed": "node_modules/.bin/sequelize seed:generate",

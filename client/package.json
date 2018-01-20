@@ -30,8 +30,8 @@
     "test:coverage": "react-scripts test --env=jsdom --coverage",
     "eject": "react-scripts eject",
     "test:lint:client": "eslint . ",
-    "precommit": "yarn test:lint:client",
-    "prepush": "yarn test:lint:client"
+    "precommit": "npm run test:lint:client",
+    "prepush": "npm run test:lint:client"
   },
   "devDependencies": {
     "babel-eslint": "^8.0.3",
