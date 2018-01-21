@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import {
   FlexWrap,
 } from '../'
+import { baseURL } from '../../config'
 
 
 const Image = FlexWrap.extend`
@@ -36,7 +37,7 @@ const carouselItem = ({
     <Image
       w="90%"
       h="90%"
-      url={`http://localhost:8000/decompress/${img.url}`}
+      url={`${baseURL}decompress/${img.url}`}
     />
   </FlexWrap>
 )

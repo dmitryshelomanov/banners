@@ -1,12 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import InputNumber from 'rc-input-number'
 import {
   FlexWrap,
   GifItem,
   Carousel,
   Button,
-  CheckBox,
+  Text,
 } from '../'
 import {
   gifGenerated,
@@ -26,10 +27,18 @@ const Wrapper = FlexWrap.extend`
       margin-bottom: 15px
     }
   }
+  & .repeat-wrapper {
+    display: flex;
+    align-items: center;
+    & p {
+      font-weight: bold;
+      margin-right: 15px;
+    }
+  }
 `
 
 const GifWrapper = ({
-  gifs, onGenerateGif, nameFolder, resize, onSetRepeatState,
+  gifs, onGenerateGif, nameFolder, resize, onSetRepeatState, stub,
 }) => (
   <Wrapper>
     {
@@ -39,13 +48,32 @@ const GifWrapper = ({
           fd="column"
           ai="center"
         >
-          <Carousel
-            component={<GifItem />}
-            carousel={gifs.base64}
-            w={gifs.base64[0].w}
-            isGif
-          />
+          {stub.isGif && (
+            <Carousel
+              component={<GifItem />}
+              carousel={gifs.base64}
+              w={gifs.base64[0].w}
+              isGif
+            />
+          )}
           <div className="btn-wrap">
+            {stub.isGif && (
+              <div
+                className="repeat-wrapper"
+              >
+                <Text>
+                  Количество повторов (0 - бесконечно, -1 - не повторять)
+                </Text>
+                <InputNumber
+                  min={-1}
+                  max={10}
+                  value={gifs.repeat}
+                  onChange={(value) => {
+                    onSetRepeatState(value)
+                  }}
+                />
+              </div>
+            )}
             <Button
               className="active-btn"
               text="сохранить"
@@ -56,16 +84,6 @@ const GifWrapper = ({
                 data: gifs.data,
                 repeat: gifs.repeat,
               }, nameFolder)}
-            />
-            <CheckBox
-              name="repeat"
-              id="repeat"
-              type="checkbox"
-              label="повторять?"
-              checked={gifs.repeat}
-              onChange={() => {
-                onSetRepeatState(!gifs.repeat)
-              }}
             />
           </div>
         </FlexWrap>
@@ -83,6 +101,7 @@ export const GifImages = connect(
     gifs: state.gifs,
     resize: state.resize,
     nameFolder: state.archiveUpload.treeFolders.name,
+    stub: state.stub,
   }),
   dispatch => ({
     onGenerateGif: (imgData, nameFolder) => {

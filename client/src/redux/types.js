@@ -53,3 +53,5 @@ export const AREA_FIRMWARE_FETCH = 'AREA/firmware_FETCH'
 export const AREA_FIRMWARE_END = 'AREA/firmware_END'
 export const AREA_FIRMWARE_ERROR = 'AREA/firmware_ERROR'
 export const AREA_REST_STATE = 'AREA/rest_state'
+
+export const STUB_SET_STATE = 'STUB/set_state'

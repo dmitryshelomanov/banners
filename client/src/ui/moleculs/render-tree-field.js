@@ -31,6 +31,7 @@ export class RenderTree extends Component {
     if (img.type === 'file'
         && extensions.indexOf(img.extension) !== -1) {
       this.props.onAddImage({
+        url: `${archiveName}/images/${img.name}`,
         path: img.path,
         originalSize: img.size,
         name: img.name,

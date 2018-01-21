@@ -6,6 +6,7 @@ import { player } from './reducers/banner'
 import { resize } from './reducers/resize'
 import { area } from './reducers/area'
 import { firmware } from './reducers/firmware'
+import { stub } from './reducers/stub'
 
 
 export const reducers = combineReducers({
@@ -16,4 +17,5 @@ export const reducers = combineReducers({
   resize,
   area,
   firmware,
+  stub,
 })
