@@ -18,7 +18,7 @@ module.exports = function wrapGif(imgData, pathReadyGif) {
     .pipe(fs.createWriteStream(pathReadyGif))
 
   gif.start()
-  gif.setRepeat(-1)
+  gif.setRepeat(repeat)
   gif.setQuality(10)
   gif.setDelay(0)
 

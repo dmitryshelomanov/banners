@@ -49,6 +49,6 @@ async function compressImg(ctx) {
 
 module.exports = (router, method, uri) => router[method](
   uri,
-  // bodyExists(['url']),
+  bodyExists(['replacer', 'type', 'path', 'name']),
   compressImg,
 )
