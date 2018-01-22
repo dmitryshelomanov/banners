@@ -5,6 +5,7 @@ import {
   FlexWrap,
 } from '../'
 import { setBorderFromCanvas, setGifImage } from '../../redux/actions/gif'
+import { setJpgStub } from '../../redux/actions/stub'
 import { getMinimalSize } from '../../redux/actions/resize'
 import playIcon from '../../assets/img/play.png'
 import pauseIcon from '../../assets/img/pause.png'
@@ -49,6 +50,18 @@ class Controll extends Component {
     this.playStart()
   }
 
+  getMethodFromStub = () => {
+    const { stub, setImageFromGif, w, onSetStub } = this.props
+
+    if (stub.isGif) {
+      return setImageFromGif(
+        getBanner(true).canvas.toDataURL(`image/${compressExt}`, 1),
+        w,
+      )
+    }
+    return onSetStub(getBanner(true).canvas.toDataURL('image/jpeg', 1))
+  }
+
   playStart = () => {
     const { instance } = this.props
 
@@ -73,7 +86,6 @@ class Controll extends Component {
   render() {
     const { duration, isPlay } = this.state
     const {
-      setImageFromGif,
       w,
       resize,
       onGetMinimalSize,
@@ -111,10 +123,7 @@ class Controll extends Component {
           role="button"
           className="set-screen"
           onClick={() => {
-            setImageFromGif(
-              getBanner(true).canvas.toDataURL(`image/${compressExt}`, 1),
-              w,
-            )
+            this.getMethodFromStub()
           }}
         >
           Заскринить кадр
@@ -142,6 +151,7 @@ export const ControllWithHoc = connect(
     nameFolder: state.archiveUpload.treeFolders.name,
     nameFile: state.archiveUpload.nameHtml,
     resize: state.resize,
+    stub: state.stub,
   }),
   dispatch => ({
     onSetBorder: (data) => {
@@ -149,6 +159,9 @@ export const ControllWithHoc = connect(
     },
     setImageFromGif: (base64, w) => {
       dispatch(setGifImage(base64, w))
+    },
+    onSetStub: (base64) => {
+      dispatch(setJpgStub(base64))
     },
     onGetMinimalSize: (nameFolder, nameFile) => {
       dispatch(getMinimalSize(nameFolder, nameFile))
