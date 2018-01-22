@@ -45,12 +45,8 @@ export default (BaseClass) => {
       },
       onClearState: () => {
         dispatch([
-          { type: types.ARCHIVE_REST_STATE },
-          { type: types.GIF_CLEAR_STATE },
+          { type: types.STATE_CLEAR_GLOBAL },
           { type: types.RESIZE_REST_STATE },
-          { type: types.CAROUSEL_REST_STATE },
-          { type: types.AREA_REST_STATE },
-          { type: types.PLAYER_REST_STATE },
         ])
       },
     }),

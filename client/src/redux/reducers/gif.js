@@ -46,7 +46,7 @@ export const gif = (state = initialState, actions) => {
       ...state,
       repeat: actions.payload,
     }
-    case types.GIF_CLEAR_STATE: return {
+    case types.STATE_CLEAR_GLOBAL: return {
       ...state,
       ...initialState,
     }

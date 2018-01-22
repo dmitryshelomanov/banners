@@ -22,7 +22,7 @@ export const player = (state = initialState, actions) => {
       ...state,
       borderColor: actions.payload,
     }
-    case types.PLAYER_REST_STATE: return {
+    case types.STATE_CLEAR_GLOBAL: return {
       ...state,
       ...initialState,
     }

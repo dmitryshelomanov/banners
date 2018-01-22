@@ -4,11 +4,11 @@ import io from '../../helpers/io'
 
 
 const initialState = {
-  archiveReady: false,
+  archiveReady: true,
   isLoading: false,
   isError: false,
-  nameHtml: fixture.default.nameHtml,
-  treeFolders: fixture.default.treeFolder,
+  nameHtml: fixture.work.treeFolder.nameHtml,
+  treeFolders: fixture.work.treeFolder.tree,
 }
 
 export const archiveUpload = (state = initialState, actions) => {
@@ -36,7 +36,7 @@ export const archiveUpload = (state = initialState, actions) => {
       isLoading: false,
       isError: true,
     }
-    case types.ARCHIVE_REST_STATE: return {
+    case types.STATE_CLEAR_GLOBAL: return {
       ...state,
       ...initialState,
     }

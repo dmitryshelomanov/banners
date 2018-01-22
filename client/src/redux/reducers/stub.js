@@ -7,11 +7,11 @@ const initialState = {
 
 export const stub = (state = initialState, { type, payload }) => {
   switch (type) {
-    case types.RESIZE_TOGGLE_FIXED: return {
+    case types.STUB_SET_STATE: return {
       ...state,
       isGif: payload,
     }
-    case types.RESIZE_REST_STATE: return {
+    case types.STATE_CLEAR_GLOBAL: return {
       ...state,
       ...initialState,
     }
