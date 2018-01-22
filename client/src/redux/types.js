@@ -52,3 +52,5 @@ export const AREA_FIRMWARE_ERROR = 'AREA/firmware_ERROR'
 export const STUB_SET_STATE = 'STUB/set_state'
 
 export const STATE_CLEAR_GLOBAL = 'CLEAR/global_state'
+
+export const SET_JPG_STUB = 'STUB/set_jpg'

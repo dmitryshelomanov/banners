@@ -9,3 +9,12 @@ export function toggleStubState(state) {
     })
   }
 }
+
+export function setJpgStub(base64) {
+  return function (dispatch) {
+    dispatch({
+      type: types.SET_JPG_STUB,
+      payload: base64,
+    })
+  }
+}
