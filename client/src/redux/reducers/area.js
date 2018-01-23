@@ -27,7 +27,7 @@ export const area = (state = initialState, { type, payload }) => {
       isLoading: false,
       isError: true,
     }
-    case types.STATE_CLEAR_GLOBAL: return {
+    case types.AREA_SET_KEY: return {
       ...state,
       activeKey: payload,
     }

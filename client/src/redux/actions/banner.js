@@ -40,3 +40,12 @@ export function setBorderColor(hex) {
     })
   }
 }
+
+export function updateBorderSize(size) {
+  return function (dispatch) {
+    dispatch({
+      type: types.BANNER_UPDATE_BORDER_SIZE,
+      payload: size,
+    })
+  }
+}

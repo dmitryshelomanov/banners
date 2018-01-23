@@ -2,49 +2,39 @@ import * as types from '../types'
 
 /* eslint-disable no-param-reassign */
 const initialState = {
+  ids: 0,
   w: 0,
   h: 0,
   repeat: 0,
   base64: [],
-  data: [],
-  readyURL: '',
 }
 
-export const gif = (state = initialState, actions) => {
-  switch (actions.type) {
-    case types.GIF_SET_IMAGE: return {
-      ...state,
-      data: [...state.data, actions.payload],
-    }
+export const gif = (state = initialState, { type, payload }) => {
+  switch (type) {
     case types.GIS_SET_SIZE: return {
       ...state,
-      w: actions.payload.w,
-      h: actions.payload.h,
+      w: payload.w,
+      h: payload.h,
     }
     case types.GIS_SET_BASE64: return {
       ...state,
-      base64: [...state.base64, actions.payload],
-    }
-    case types.GIS_SET_DATA: return {
-      ...state,
-      data: actions.payload,
-    }
-    case types.GIF_GENERATED_FETCH: return {
-      ...state,
-      readyURL: '',
-    }
-    case types.GIF_GENERATED_END: return {
-      ...state,
-      readyURL: actions.payload,
+      base64: [...state.base64, payload],
     }
     case types.GIF_UNSET_DATA: return {
       ...state,
-      data: actions.payload.gifData,
-      base64: actions.payload.base64Data,
+      base64: payload.base64Data,
+    }
+    case types.GIF_UPDATE_DATA: return {
+      ...state,
+      base64: payload,
     }
     case types.GIF_SET_REPEAT: return {
       ...state,
-      repeat: actions.payload,
+      repeat: payload,
+    }
+    case types.GIF_INCREMENT_IDS: return {
+      ...state,
+      ids: payload,
     }
     case types.STATE_CLEAR_GLOBAL: return {
       ...state,

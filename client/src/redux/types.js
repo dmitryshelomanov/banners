@@ -24,12 +24,16 @@ export const GIS_SET_BASE64 = 'GIF/set_base64'
 export const GIS_SET_DATA = 'GIF/set_data'
 export const GIF_UNSET_DATA = 'GIF/unset_data'
 export const GIF_SET_REPEAT = 'GIF/set_repeat'
+export const GIF_INCREMENT_IDS = 'GIF/increment_ids'
+export const GIF_UPDATE_DATA = 'GIF/update_data'
 
 export const SET_BORDER = 'SET/border_to_canvas'
 
 export const PLAYER_SET_STATE = 'PLAYER/set_state'
 export const PLAYER_SET_BACKGROUND = 'PLAYER/set_bg'
 export const PLAYER_SET_BORDER_COLOR = 'PLAYER/set_border_color'
+
+export const BANNER_UPDATE_BORDER_SIZE = 'BANNER/size_border_update'
 
 export const RESIZE_TOGGLE_FIXED = 'RESIZE/toggle_fixed'
 export const RESIZE_GET_MINIMAL_SIZE = 'RESIZE/get_minimal_size'

@@ -22,6 +22,10 @@ export const player = (state = initialState, actions) => {
       ...state,
       borderColor: actions.payload,
     }
+    case types.BANNER_UPDATE_BORDER_SIZE: return {
+      ...state,
+      borderSize: actions.payload,
+    }
     case types.STATE_CLEAR_GLOBAL: return {
       ...state,
       ...initialState,
