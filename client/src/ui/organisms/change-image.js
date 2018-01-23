@@ -8,7 +8,7 @@ import {
 } from '../'
 import { compressActiveImage } from '../../redux/actions/carousel'
 
-
+/* eslint-disable  react/sort-comp */
 const Wrap = FlexWrap.extend`
   width: 100%;
   padding: 15px;
@@ -17,16 +17,14 @@ const Wrap = FlexWrap.extend`
 `
 
 class Change extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      lastCoords: {
-        x: 0, y: 0,
-      },
-    }
-    this.isPressed = false
-    this.isAdded = false
+  state = {
+    lastCoords: {
+      x: 0, y: 0,
+    },
   }
+
+  isAdded = false
+  isPressed = false
 
   componentDidUpdate() {
     if (this.cloneWrap && this.originalWrap && !this.isAdded) {
@@ -45,7 +43,6 @@ class Change extends Component {
     [this.originalWrap, this.cloneWrap].forEach((i) => {
       i.addEventListener('mousedown', this.imageHandleDown)
       i.addEventListener('mouseup', this.imageHandleUp)
-      i.addEventListener('mousewheel', this.scale)
     })
   }
 
@@ -53,11 +50,11 @@ class Change extends Component {
     [this.originalWrap, this.cloneWrap].forEach((i) => {
       i.removeEventListener('mousedown', this.imageHandleDown)
       i.removeEventListener('mouseup', this.imageHandleUp)
-      i.removeEventListener('mousewheel', this.scale)
     })
   }
 
   imageHandleDown = (e) => {
+    e.preventDefault()
     this.isPressed = true
     this.setState({
       lastCoords: {
@@ -70,7 +67,8 @@ class Change extends Component {
     })
   }
 
-  imageHandleUp = () => {
+  imageHandleUp = (e) => {
+    e.preventDefault()
     this.isPressed = false
     return false
   }
@@ -137,12 +135,14 @@ class Change extends Component {
             <Wrap>
               <ImageReview
                 isOrigin
+                onWheel={this.scale}
                 nestedRef={(comp) => {
                   this.originalWrap = comp
                 }}
               />
               <ImageReview
                 isOrigin={false}
+                onWheel={this.scale}
                 nestedRef={(comp) => {
                   this.cloneWrap = comp
                 }}
@@ -160,7 +160,6 @@ Change.propTypes = {
     activeImage: PropTypes.number,
     images: PropTypes.array,
   }).isRequired,
-  onCompress: PropTypes.func.isRequired,
 }
 
 export const ChangeImage = connect(

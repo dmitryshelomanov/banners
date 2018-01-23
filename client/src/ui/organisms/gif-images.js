@@ -14,6 +14,7 @@ import {
   setRepeat,
 } from '../../redux/actions/gif'
 import { toggleStubState } from '../../redux/actions/stub'
+import WithContainer from '../../hocs/with-gif-change-container'
 /* eslint-disable react/no-array-index-key */
 
 const Wrapper = FlexWrap.extend`
@@ -43,6 +44,7 @@ const Wrapper = FlexWrap.extend`
     display: flex;
     width: 100%;
     justify-content: center;
+    margin-bottom: 25px;
   }
   & .gif-wrapper {
     display: flex;
@@ -51,6 +53,8 @@ const Wrapper = FlexWrap.extend`
     align-items: center
   }
 `
+
+const GifItemWithHoc = WithContainer(GifItem)
 
 class GifWrapper extends Component {
   getSaveComputed = () => {
@@ -65,7 +69,7 @@ class GifWrapper extends Component {
     if (stub.isGif) {
       return {
         ...size,
-        data: gifs.data,
+        data: gifs.base64,
       }
     }
     return {
@@ -106,50 +110,46 @@ class GifWrapper extends Component {
             />
           </div>
         )}
-        {
-          gifs.base64.length > 0 && (
-            <div className="gif-wrapper">
-              {stub.isGif && (
-                <Carousel
-                  component={<GifItem />}
-                  carousel={gifs.base64}
-                  w={gifs.base64[0].w}
-                  isGif
-                />
-              )}
-              <div className="btn-wrap">
-                {stub.isGif && (
-                  <div
-                    className="repeat-wrapper"
-                  >
-                    <Text>
-                      Количество повторов (0 - бесконечно, -1 - не повторять)
-                    </Text>
-                    <InputNumber
-                      min={-1}
-                      max={10}
-                      value={gifs.repeat}
-                      onChange={(value) => {
-                        onSetRepeatState(value)
-                      }}
-                    />
-                  </div>
-                )}
-                <Button
-                  className="active-btn"
-                  text="сохранить"
-                  thirty
-                  onClick={() => {
-                    onGenerateGif(
-                      this.getSaveComputed(),
-                      nameFolder,
-                    )
+        <div className="gif-wrapper">
+          {stub.isGif && gifs.base64.length > 0 && (
+            <Carousel
+              component={<GifItemWithHoc />}
+              carousel={gifs.base64}
+              w={gifs.base64[0].w}
+              isGif
+            />
+          )}
+          {((gifs.base64.length > 0 && stub.isGif) || (stub.jpgStub && !stub.isGif)) && (
+            <div className="btn-wrap">
+              <div
+                className="repeat-wrapper"
+              >
+                <Text>
+                  Количество повторов (0 - бесконечно, -1 - не повторять)
+                </Text>
+                <InputNumber
+                  min={-1}
+                  max={10}
+                  value={gifs.repeat}
+                  onChange={(value) => {
+                    onSetRepeatState(value)
                   }}
                 />
               </div>
+              <Button
+                className="active-btn"
+                text="сохранить"
+                thirty
+                onClick={() => {
+                  onGenerateGif(
+                    this.getSaveComputed(),
+                    nameFolder,
+                  )
+                }}
+              />
             </div>
-          )
-        }
+          )}
+        </div>
       </Wrapper>
     )
   }

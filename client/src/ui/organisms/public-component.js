@@ -53,11 +53,11 @@ export const PublicComponentWithStyle = styled(Public)`
   }
 `
 
-const DataSelector = (activeKey, firmwareData) => typeof firmwareData.find(i => i.areaId === activeKey) === 'undefined'
+const dataSelector = (activeKey, firmwareData) => typeof firmwareData.find(i => i.areaId === activeKey) === 'undefined'
 
 export const PublicComponent = connect(state => ({
   nameFolder: state.archiveUpload.treeFolders.name,
   nameFile: state.archiveUpload.nameHtml,
   area: state.area,
-  isFirmware: DataSelector(state.area.activeKey, state.firmware.firmwareData),
+  isFirmware: dataSelector(state.area.activeKey, state.firmware.firmwareData),
 }))(PublicComponentWithStyle)
