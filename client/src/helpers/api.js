@@ -66,8 +66,8 @@ class API {
    * @param {*} imgDat
    * @param {*} nameFolde
    */
-  async gifGenerated(imgData, nameFolder) {
-    const data = await this.request.post('gif/generated', {
+  async stubGenerated(imgData, nameFolder) {
+    const data = await this.request.post('stub/generated', {
       imgData,
       nameFolder,
     })
