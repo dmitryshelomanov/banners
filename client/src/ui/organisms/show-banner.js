@@ -14,6 +14,7 @@ import createStyle from '../../helpers/create-style'
 
 
 /* eslint-disable  react/no-unused-state */
+/* eslint-disable  no-underscore-dangle */
 const BnnerWrap = FlexWrap.extend`
   background: #fff;
   margin: 25px 0;
@@ -72,7 +73,8 @@ class ShowBanner extends Component {
         nextProps.bodyColor,
       )
     }
-    if (nextProps.borderColor !== this.props.borderColor) {
+    if (nextProps.borderColor !== this.props.borderColor
+    || nextProps.borderSize !== this.props.borderSize) {
       this.removeOldBorder()
       this.props.onSetBorder({
         nameFile: this.props.nameHtml,
@@ -80,7 +82,10 @@ class ShowBanner extends Component {
         color: nextProps.borderColor,
         w: this.props.gifW,
         h: this.props.gifH,
+        s: this.props.borderSize,
       })
+
+      this.state.s.graphics._oldStrokeStyle.width = this.props.borderSize
     }
   }
 
@@ -175,6 +180,7 @@ export const ShowBannerWithArchive = connect(
     gifW: state.gifs.w,
     playerReady: state.player.playerReady,
     bodyColor: state.player.bodyColor,
+    borderSize: state.player.borderSize,
     borderColor: state.player.borderColor,
     resize: state.resize,
   }),

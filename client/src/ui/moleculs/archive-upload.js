@@ -17,6 +17,7 @@ import treeMenu from '../../assets/img/tree-menu.png'
 import {
   setBgPlayer,
   setBorderColor,
+  updateBorderSize,
 } from '../../redux/actions/banner'
 
 
@@ -85,7 +86,9 @@ export class ArchiveUploadWrapper extends Component {
       borderColor,
       onToggleFixedState,
       resize,
+      borderSize,
       onClearSizse,
+      onUpdateSize,
     } = this.props
 
     return (
@@ -156,6 +159,10 @@ export class ArchiveUploadWrapper extends Component {
                   min={1}
                   max={10}
                   step={1}
+                  value={borderSize}
+                  onChange={(value) => {
+                    onUpdateSize(value)
+                  }}
                 />
               </BorderChangeWrap>
             )}
@@ -196,6 +203,7 @@ export const ArchiveUpload = connect(
   state => ({
     playerReady: state.player.playerReady,
     bodyColor: state.player.bodyColor,
+    borderSize: state.player.borderSize,
     borderColor: state.player.borderColor,
     resize: state.resize,
   }),
@@ -211,6 +219,9 @@ export const ArchiveUpload = connect(
     },
     onClearSizse: () => {
       dispatch(resizeClearState())
+    },
+    onUpdateSize: (size) => {
+      dispatch(updateBorderSize(size))
     },
   }),
 )(ArchiveUploadWrapper)
