@@ -4,7 +4,7 @@ const {
   compressImg,
   parseBanner,
   uploadImageForGif,
-  generatedGif,
+  stubGenerated,
   updateBorder,
   downloadArchive,
   getMinimalSize,
@@ -20,7 +20,7 @@ compressImg(router, 'post', '/compress/img')
 uploadBanner(router, 'post', '/upload')
 parseBanner(router, 'get', '/parse/banner')
 uploadImageForGif(router, 'post', '/upload/image')
-generatedGif(router, 'post', '/gif/generated')
+stubGenerated(router, 'post', '/stub/generated')
 updateBorder(router, 'post', '/update/border')
 getMinimalSize(router, 'post', '/get/minimal-size')
 firmware(router, 'post', '/firmware')

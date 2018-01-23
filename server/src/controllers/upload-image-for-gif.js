@@ -35,7 +35,6 @@ async function uploadImageForGif(ctx) {
     ctx.body = {
       path: pathFileOriginal,
       originalSize: size,
-      name: nameFile,
     }
   }
   catch (error) {

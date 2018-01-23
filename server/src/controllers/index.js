@@ -2,7 +2,7 @@ const uploadBanner = require('./upload-banner')
 const compressImg = require('./compress-img')
 const parseBanner = require('./parse-banner')
 const uploadImageForGif = require('./upload-image-for-gif')
-const generatedGif = require('./gif-generated')
+const stubGenerated = require('./stub-generated')
 const updateBorder = require('./border-update')
 const downloadArchive = require('./download-archive')
 const getMinimalSize = require('./get-minimal-size')
@@ -15,7 +15,7 @@ module.exports = {
   compressImg,
   parseBanner,
   uploadImageForGif,
-  generatedGif,
+  stubGenerated,
   updateBorder,
   downloadArchive,
   getMinimalSize,

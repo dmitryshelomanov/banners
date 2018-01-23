@@ -1,6 +1,7 @@
 const debug = require('debug')('banner:update-color-bg')
 const fs = require('fs-extra')
 const cheerio = require('cheerio')
+const UglifyJS = require('uglify-js')
 const {
   types,
   tempPathGenerated,
@@ -8,25 +9,35 @@ const {
   bodyExists,
 } = require('../utils')
 
-const data = function data(color, w, h) {
-  return `
+const options = {
+  output: {
+    comments: true,
+  },
+}
+
+function data(color, w, h, s) {
+  const code = `
     /*service_function*/
-    function%serviceCallback(e){
+    function serviceCallback(e){
+      var canvas = document.getElementById('canvas');
+      var oldW = 0;
+      var oldH = 0;
       fireFunction(e);
-      function%resize() {
-        canvas = document.getElementById('canvas');
-        window.s.graphics.command.w = canvas.width;
-      };
-      window.g = new%createjs.Graphics();
-      g.beginStroke('${color}').setStrokeStyle(2).drawRect(0, 0, ${w}, ${h});
-      window.s = new%createjs.Shape(window.g);exportRoot.addChild(window.s);
-      window.onresize = resize;
-      resize();
+      window.g = new createjs.Graphics();
+      g.beginStroke('${color}').setStrokeStyle(${s}).drawRect(0, 0, ${w}, ${h});
+      window.s = new createjs.Shape(window.g);exportRoot.addChild(window.s);
+      exportRoot.addEventListener('tick', function() {
+        if (oldW !== canvas.width) {
+          window.s.graphics.command.w = canvas.width;
+          window.s.graphics.command.h = canvas.height;
+          oldW = canvas.width;
+        }
+      });
     }
     /*service_function_end*/
   `
-    .replace(/\s+/igm, '')
-    .replace(/%/igm, ' ')
+
+  return UglifyJS.minify(code, options).code
 }
 
 const replace = function replaceFn(str) {
@@ -47,7 +58,7 @@ const replaceOldCb = str => str.replace(/\/\*service_function\*\/(.+?)\/\*servic
  */
 async function updateBorder(ctx) {
   const { body } = ctx.request
-  const { nameFolder, color, nameFile, w, h } = body
+  const { nameFolder, color, nameFile, w, h, s } = body
   const tmpPath = tempPathGenerated()
 
   debug('color change -', body)
@@ -58,7 +69,9 @@ async function updateBorder(ctx) {
       if ($(this).attr('src') === undefined) {
         const str = replace(replaceOldCb($(this).html()))
 
-        $(this).html(`${str} ${data(color, w, h)}`)
+        $(this)
+          .html('')
+          .text(`${UglifyJS.minify(str).code} ${data(color, w, h, s)}`)
       }
     })
     await fs.writeFile(tmpPath(types.PROCESS, `${nameFolder}/${nameFile}`), $.html())
@@ -71,7 +84,7 @@ async function updateBorder(ctx) {
 
 module.exports = (router, method, uri) => router[method](
   uri,
-  bodyExists(['nameFolder', 'color', 'nameFile', 'w', 'h']),
+  bodyExists(['nameFolder', 'color', 'nameFile', 'w', 'h', 's']),
   folderExists(types.PROCESS),
   updateBorder,
 )
