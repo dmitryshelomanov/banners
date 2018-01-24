@@ -13,19 +13,24 @@
   font-family: 'Myriad' !important;
 }
 
-.gif-compress .input-range__track--active {
+.gif-compress .input-range__track--active,
+.change-image .input-range__track--active {
   background: #92b5d9 !important;
 }
-.gif-compress .input-range__label {
+.gif-compress .input-range__label,
+.change-image .input-range__label  {
   opacity: 0
 }
-.gif-compress .input-range__slider {
+.gif-compress .input-range__slider,
+.change-image .input-range__slider {
   background: #c8c8c8;
   border: none
 }
-.gif-compress .input-range__track--background {
+.gif-compress .input-range__track--background,
+.change-image .input-range__track--background {
   background: #515151;
 }
-.gif-compress .input-range {
+.gif-compress .input-range,
+.change-image .input-range {
   width: 130px;
 }
