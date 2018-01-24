@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import {
   FlexWrap,
@@ -19,9 +18,6 @@ const Folder = Text.extend`
   margin: 0;
   color: #0366d6;
   cursor: pointer;
-`
-const TreeWrap = FlexWrap.extend`
-  
 `
 
 export class RenderTree extends Component {

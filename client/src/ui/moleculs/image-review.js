@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import styled from 'styled-components'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
   FlexWrap,
 } from '../'
+import CacheLinks from '../../helpers/image-cache'
 import { baseURL } from '../../config'
 import updateSystem from '../../helpers/update-system'
 
@@ -37,17 +36,37 @@ const Wrapper = FlexWrap.extend`
   }
 `
 
-class ImageWrap extends Component {
-  componentWillUpdate(nextProps) {
-    if (this.props.carousel.activeImage !== nextProps.carousel.activeImage) this.img.removeAttribute('style')
+export class ImageReview extends Component {
+  constructor(props) {
+    super(props)
+    this.cache = new CacheLinks()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.imageActive.name !== nextProps.imageActive.name) {
+      this.img.removeAttribute('style')
+      this.cache.clear()
+    }
+    if (!nextProps.isCompress && this.props.isCompress) {
+      const folder = this.props.isOrigin ? 'decompress' : 'process'
+
+      this.cache.update(`${baseURL}${folder}/${this.props.imageActive.url}`)
+    }
+  }
+
+  linkGenerate() {
+    const { isOrigin, imageActive } = this.props
+    const folder = isOrigin ? 'decompress' : 'process'
+
+    if (!this.cache.isset(`${baseURL}${folder}/${imageActive.url}`)) {
+      this.cache.add(`${baseURL}${folder}/${imageActive.url}`)
+    }
+    return this.cache.get(`${baseURL}${folder}/${imageActive.url}`)
   }
 
   render() {
-    const { carousel, isOrigin, nestedRef, dispatch, ...rest } = this.props
-
+    const { isOrigin, nestedRef, dispatch, imageActive, isCompress, ...rest } = this.props
     const folder = isOrigin ? 'decompress' : 'process'
-    const v = Math.floor(Math.random() * 2000)
-    const imageActive = carousel.images[carousel.activeImage]
 
     return (
       <Wrapper>
@@ -66,7 +85,7 @@ class ImageWrap extends Component {
             ref={(c) => {
               this.img = c
             }}
-            src={`${baseURL}${folder}/${imageActive.url}?v=${v}`}
+            src={this.linkGenerate()}
             draggable={false}
           />
         </div>
@@ -75,22 +94,25 @@ class ImageWrap extends Component {
   }
 }
 
-ImageWrap.propTypes = {
-  className: PropTypes.string.isRequired,
+ImageReview.propTypes = {
   isOrigin: PropTypes.bool.isRequired,
+  imageActive: PropTypes.shape({
+    quality: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
+    name: PropTypes.string,
+    originalSize: PropTypes.number,
+    path: PropTypes.string,
+    replacer: PropTypes.string,
+    type: PropTypes.string,
+    url: PropTypes.string,
+  }).isRequired,
   nestedRef: PropTypes.oneOfType([
     PropTypes.func,
   ]),
-  carousel: PropTypes.shape({
-    activeImage: PropTypes.number,
-    images: PropTypes.array,
-  }).isRequired,
 }
 
-ImageWrap.defaultProps = {
+ImageReview.defaultProps = {
   nestedRef: () => { },
 }
-
-export const ImageReview = connect(state => ({
-  carousel: state.carousel,
-}))(ImageWrap)

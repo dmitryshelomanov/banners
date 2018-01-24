@@ -6,14 +6,23 @@ import {
   FlexWrap,
   ImageReview,
 } from '../'
-import { compressActiveImage } from '../../redux/actions/carousel'
+import {
+  compressActiveImage,
+  updateCarouselData,
+} from '../../redux/actions/carousel'
 
 /* eslint-disable  react/sort-comp */
 const Wrap = FlexWrap.extend`
   width: 100%;
   padding: 15px;
   box-sizing: border-box;
-  justify-content: space-around;
+  flex-direction: column;
+  & .image-review {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin-bottom: 50px;
+  }
 `
 
 class Change extends Component {
@@ -124,27 +133,52 @@ class Change extends Component {
   }
 
   render() {
-    const { activeImage } = this.props.carousel
+    const { activeImage, isCompress } = this.props.carousel
+    const { carousel, onUpdateData, onCompress } = this.props
 
     return (
       <FlexWrap
         w="100%"
+        className="change-image"
       >
         {
           activeImage !== null && (
             <Wrap>
-              <ImageReview
-                isOrigin
-                onWheel={this.scale}
-                nestedRef={(comp) => {
-                  this.originalWrap = comp
+              <div className="image-review">
+                <ImageReview
+                  isOrigin
+                  imageActive={carousel.images[activeImage]}
+                  onWheel={this.scale}
+                  nestedRef={(comp) => {
+                    this.originalWrap = comp
+                  }}
+                />
+                <ImageReview
+                  isOrigin={false}
+                  isCompress={isCompress}
+                  imageActive={carousel.images[activeImage]}
+                  onWheel={this.scale}
+                  nestedRef={(comp) => {
+                    this.cloneWrap = comp
+                  }}
+                />
+              </div>
+              <InputRange
+                step={1}
+                minValue={0}
+                maxValue={100}
+                value={Number(this.props.carousel.images[activeImage].info.quality) || 0}
+                orientation="vertical"
+                onChange={(v) => {
+                  onUpdateData(activeImage, {
+                    info: {
+                      ...carousel.images[activeImage].info,
+                      quality: v,
+                    },
+                  })
                 }}
-              />
-              <ImageReview
-                isOrigin={false}
-                onWheel={this.scale}
-                nestedRef={(comp) => {
-                  this.cloneWrap = comp
+                onChangeComplete={(v) => {
+                  onCompress(carousel.images[activeImage], v)
                 }}
               />
             </Wrap>
@@ -169,6 +203,9 @@ export const ChangeImage = connect(
   dispatch => ({
     onCompress: (img, q) => {
       dispatch(compressActiveImage(img, q))
+    },
+    onUpdateData: (ids, data) => {
+      dispatch(updateCarouselData(ids, data))
     },
   }),
 )(Change)

@@ -121,21 +121,23 @@ class GifWrapper extends Component {
           )}
           {((gifs.base64.length > 0 && stub.isGif) || (stub.jpgStub && !stub.isGif)) && (
             <div className="btn-wrap">
-              <div
-                className="repeat-wrapper"
-              >
-                <Text>
-                  Количество повторов (0 - бесконечно, -1 - не повторять)
-                </Text>
-                <InputNumber
-                  min={-1}
-                  max={10}
-                  value={gifs.repeat}
-                  onChange={(value) => {
-                    onSetRepeatState(value)
-                  }}
-                />
-              </div>
+              {stub.isGif && (
+                <div
+                  className="repeat-wrapper"
+                >
+                  <Text>
+                    Количество повторов (0 - бесконечно, -1 - не повторять)
+                  </Text>
+                  <InputNumber
+                    min={-1}
+                    max={10}
+                    value={gifs.repeat}
+                    onChange={(value) => {
+                      onSetRepeatState(value)
+                    }}
+                  />
+                </div>
+              )}
               <Button
                 className="active-btn"
                 text="сохранить"
