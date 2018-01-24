@@ -49,7 +49,7 @@ const replace = function replaceFn(str) {
   })
 }
 
-const replaceOldCb = str => str.replace(/\/\*service_function\*\/(.+?)\/\*service_function_end\*\//igm, '')
+const replaceOldCb = str => str.replace(/\/\*service_function\*\/[S\s].+[S\s]\/\*service_function_end\*\//igm, '')
 
 /**
  * изменение границы в файле
@@ -71,7 +71,7 @@ async function updateBorder(ctx) {
 
         $(this)
           .html('')
-          .text(`${UglifyJS.minify(str).code} ${data(color, w, h, s)}`)
+          .text(`${str} ${data(color, w, h, s)}`)
       }
     })
     await fs.writeFile(tmpPath(types.PROCESS, `${nameFolder}/${nameFile}`), $.html())
