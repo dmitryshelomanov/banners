@@ -16,6 +16,14 @@ export default class CacheLinks {
     this.cache.set(link, 0)
   }
 
+  clear() {
+    this.cache.clear()
+  }
+
+  isset(link) {
+    return this.cache.has(link)
+  }
+
   update(link) {
     const version = this.cache.get(link)
 
