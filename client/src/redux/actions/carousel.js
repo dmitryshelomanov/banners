@@ -31,3 +31,21 @@ export function compressActiveImage(image, q) {
     })
   }
 }
+
+/**
+ * Изменение данных для карусели
+ * @param {*} ids
+ * @param {*} data
+ */
+export function updateCarouselData(ids, data) {
+  return async function (dispatch, getState) {
+    const { images } = getState().carousel
+
+    images[ids] = {
+      ...images[ids],
+      ...data,
+    }
+
+    dispatch({ type: types.CAROUSEL_UPDATE_DATA, payload: images })
+  }
+}

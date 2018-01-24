@@ -2,21 +2,26 @@ import * as types from '../types'
 
 
 const initialState = {
+  isCompress: false,
   activeImage: null,
   images: [],
 }
 
-export const carousel = (state = initialState, actions) => {
-  switch (actions.type) {
+export const carousel = (state = initialState, { type, payload }) => {
+  switch (type) {
     case types.CAROUSEL_ADD: {
-      const dublicate = state.images.find(i => i.name === actions.payload.name)
+      const dublicate = state.images.find(i => i.name === payload.name)
 
       return dublicate
         ? state
-        : { ...state, images: [...state.images, actions.payload] }
+        : { ...state, images: [...state.images, payload] }
+    }
+    case types.COMPRESS_FETCH: return {
+      ...state,
+      isCompress: true,
     }
     case types.COMPRESS_END: {
-      const { name, quality, percentCompress, newSize, originalSize } = actions.payload
+      const { name, quality, percentCompress, newSize, originalSize } = payload
       const img = state.images.find(i => i.name === name)
 
       img.info = {
@@ -25,11 +30,18 @@ export const carousel = (state = initialState, actions) => {
         newSize,
         originalSize,
       }
-      return { ...state }
+      return {
+        ...state,
+        isCompress: false,
+      }
     }
     case types.CAROUSEL_SET_ACTIVE_IMAGE: return {
       ...state,
-      activeImage: actions.payload,
+      activeImage: payload,
+    }
+    case types.CAROUSEL_UPDATE_DATA: return {
+      ...state,
+      images: payload,
     }
     case types.STATE_CLEAR_GLOBAL: return {
       ...state,
