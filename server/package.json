@@ -1,6 +1,7 @@
 {
   "scripts": {
     "dev": "cross-env DEBUG=banner:* nodemon index.js",
+    "start": "cross-env PORT=8000 NODE_ENV=production pm2 start  index.js",
     "test": "npm run test:lint && npm run test:code",
     "test:lint": "eslint . ",
     "test:code": "ava",
