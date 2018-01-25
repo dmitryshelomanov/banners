@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { getCarouselData } from '../redux/carousel/selectors'
 import * as types from '../redux/types'
 
 
@@ -31,14 +32,15 @@ export default (WrapClass) => {
     }).isRequired,
   }
 
-  return connect(
-    state => ({
-      carousel: state.carousel,
-    }),
-    dispatch => ({
-      onSetActiveImage: (ids) => {
-        dispatch({ type: types.CAROUSEL_SET_ACTIVE_IMAGE, payload: ids })
-      },
-    }),
-  )(WithActiveImage)
+  const mapStateToProps = (state, props) => ({
+    carousel: getCarouselData(state, props),
+  })
+
+  const mapDispatchToProps = (dispatch) => ({
+    onSetActiveImage: (ids) => {
+      dispatch({ type: types.CAROUSEL_SET_ACTIVE_IMAGE, payload: ids })
+    },
+  })
+
+  return connect(mapStateToProps, mapDispatchToProps)(WithActiveImage)
 }

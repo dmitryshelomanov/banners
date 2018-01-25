@@ -1,35 +1,23 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { baseURL } from '../../config'
 import {
   FlexWrap,
 } from '../'
-import vg from '../../helpers/version-generated'
+import { getGifSize } from '../../redux/gif/selectors'
 
 
-const WrapGif = FlexWrap.extend`
-  margin: 50px 25px
-`
-const ShowGif = ({ readyURL, gifH }) => (
+const ShowGif = ({ gifSize }) => (
   <FlexWrap
     width="100%"
     ai="center"
     jc="center"
   >
-    {
-      readyURL && (
-        <WrapGif>
-          <img
-            alt="readygif"
-            src={`${baseURL}gif-ready/${readyURL}?v=${vg()}`}
-          />
-        </WrapGif>
-      )
-    }
+    gif
   </FlexWrap>
 )
 
-export const ShowGifWithGif = connect(state => ({
-  readyURL: state.gifs.readyURL,
-  gifH: state.gifs.h,
-}))(ShowGif)
+const mapStateToProps = (state, props) => ({
+  gifSize: getGifSize(state, props),
+})
+
+export const ShowGifWithGif = connect(mapStateToProps)(ShowGif)

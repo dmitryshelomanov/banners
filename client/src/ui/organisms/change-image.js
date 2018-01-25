@@ -10,6 +10,7 @@ import {
   compressActiveImage,
   updateCarouselData,
 } from '../../redux/carousel/actions'
+import { getCarouselData } from '../../redux/carousel/selectors'
 
 /* eslint-disable  react/sort-comp */
 const Wrap = FlexWrap.extend`
@@ -196,16 +197,20 @@ Change.propTypes = {
   }).isRequired,
 }
 
+const mapStateToProps = (state, props) => ({
+  carousel: getCarouselData(state, props),
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  onCompress: (img, q) => {
+    dispatch(compressActiveImage(img, q))
+  },
+  onUpdateData: (ids, data) => {
+    dispatch(updateCarouselData(ids, data))
+  },
+})
+
 export const ChangeImage = connect(
-  state => ({
-    carousel: state.carousel,
-  }),
-  dispatch => ({
-    onCompress: (img, q) => {
-      dispatch(compressActiveImage(img, q))
-    },
-    onUpdateData: (ids, data) => {
-      dispatch(updateCarouselData(ids, data))
-    },
-  }),
+  mapStateToProps,
+  mapDispatchToProps,
 )(Change)

@@ -114,5 +114,5 @@ ImageReview.propTypes = {
 }
 
 ImageReview.defaultProps = {
-  nestedRef: () => { },
+  nestedRef: null,
 }

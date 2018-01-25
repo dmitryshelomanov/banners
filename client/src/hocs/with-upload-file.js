@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { uploadFile } from '../redux/tree-folder/actions'
-import * as types from '../redux/types'
+import { getArchiveReadyState } from '../redux/tree-folder/selectors'
 import io from '../helpers/io'
 
 
@@ -35,17 +35,18 @@ export default (BaseClass) => {
     onUploadFile: PropTypes.func.isRequired,
   }
 
-  return connect(
-    state => ({
-      archiveReady: state.archiveUpload.archiveReady,
-    }),
-    dispatch => ({
-      onUploadFile: (file) => {
-        dispatch(uploadFile(file))
-      },
-      onClearState: () => {
-        dispatch({ type: 'clearing' })
-      },
-    }),
-  )(withUploadFile)
+  const mapStateToProps = (state, props) => ({
+    archiveReady: getArchiveReadyState(state, props),
+  })
+
+  const mapDispatchToProps = (dispatch) => ({
+    onUploadFile: (file) => {
+      dispatch(uploadFile(file))
+    },
+    onClearState: () => {
+      dispatch({ type: 'clearing' })
+    },
+  })
+
+  return connect(mapStateToProps, mapDispatchToProps)(withUploadFile)
 }

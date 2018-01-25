@@ -1,17 +1,28 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
+import createStyle from '../../helpers/create-style'
 import {
   setSize,
   setBorderFromCanvas,
 } from '../../redux/gif/actions'
 import { togglePlayerReady } from '../../redux/banner/actions'
 import {
+  getPlayerBgColor,
+  getPlayerBorderColor,
+  getPlayerBorderSize,
+  getPlayerReadyState,
+} from '../../redux/banner/selectors'
+import { getGifSize } from '../../redux/gif/selectors'
+import {
+  getArchiveName,
+  getArchiveFileName,
+} from '../../redux/tree-folder/selectors'
+import { getResize } from '../../redux/resize/selectors'
+import {
   FlexWrap,
   ControllWithHoc as Controll,
 } from '../'
-import createStyle from '../../helpers/create-style'
-
 
 /* eslint-disable  react/no-unused-state */
 /* eslint-disable  no-underscore-dangle */
@@ -80,8 +91,8 @@ class ShowBanner extends Component {
         nameFile: this.props.nameHtml,
         nameFolder: this.props.nameFolder,
         color: nextProps.borderColor,
-        w: this.props.gifW,
-        h: this.props.gifH,
+        w: this.props.gifSize.gifW,
+        h: this.props.gifSize.gifH,
         s: this.props.borderSize,
       })
 
@@ -111,12 +122,12 @@ class ShowBanner extends Component {
   }
 
   getComputedSize = () => {
-    const { resize, gifW } = this.props
+    const { resize, gifSize } = this.props
     const { isFixed, minimalW, minimalH } = resize
 
     if (isFixed || Number(minimalW) === 0) {
       if (this.state.s !== null && this.state.s.graphics.command) {
-        this.state.s.graphics.command.w = gifW
+        this.state.s.graphics.command.w = gifSize.gifW
       }
       return { h: '100%', w: '100%' }
     }
@@ -134,13 +145,13 @@ class ShowBanner extends Component {
   }
 
   render() {
-    const { gifH, playerReady } = this.props
+    const { gifSize, playerReady } = this.props
     const { h, w } = this.getComputedSize()
 
     return (
       <BnnerWrap
         w="100%"
-        h={`${gifH + 150}px`}
+        h={`${gifSize.gifH + 150}px`}
         fd="column"
         jc="center"
         ai="center"
@@ -172,27 +183,30 @@ class ShowBanner extends Component {
   }
 }
 
+const mapStateToProps = (state, props) => ({
+  nameFolder: getArchiveName(state, props),
+  nameHtml: getArchiveFileName(state, props),
+  gifSize: getGifSize(state, props),
+  playerReady: getPlayerReadyState(state, props),
+  bodyColor: getPlayerBgColor(state, props),
+  borderSize: getPlayerBorderSize(state, props),
+  borderColor: getPlayerBorderColor(state, props),
+  resize: getResize(state, props),
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  onSetGifSize: (size) => {
+    dispatch(setSize(size))
+  },
+  togglePlayerState(state) {
+    dispatch(togglePlayerReady(state))
+  },
+  onSetBorder: (data) => {
+    dispatch(setBorderFromCanvas(data))
+  },
+})
+
 export const ShowBannerWithArchive = connect(
-  state => ({
-    nameFolder: state.archiveUpload.treeFolders.name,
-    nameHtml: state.archiveUpload.nameHtml,
-    gifH: state.gifs.h,
-    gifW: state.gifs.w,
-    playerReady: state.player.playerReady,
-    bodyColor: state.player.bodyColor,
-    borderSize: state.player.borderSize,
-    borderColor: state.player.borderColor,
-    resize: state.resize,
-  }),
-  dispatch => ({
-    onSetGifSize: (size) => {
-      dispatch(setSize(size))
-    },
-    togglePlayerState(state) {
-      dispatch(togglePlayerReady(state))
-    },
-    onSetBorder: (data) => {
-      dispatch(setBorderFromCanvas(data))
-    },
-  }),
+  mapStateToProps,
+  mapDispatchToProps,
 )(ShowBanner)

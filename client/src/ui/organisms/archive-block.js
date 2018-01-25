@@ -1,10 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { getArea } from '../../redux/area/selectors'
 import {
   ArchiveUpload,
   FlexWrap,
   RulesWrapTabsWithHoc,
 } from '../'
+
 
 const InnerComponent = ({ isActive, html }) => (
   <div
@@ -28,7 +30,8 @@ const ArchiveBlock = ({ area }) => (
   </FlexWrap>
 )
 
+const mapStateToProps = (state, props) => ({
+  area: getArea(state, props),
+})
 
-export const ArchiveBlockWithHoc = connect(state => ({
-  area: state.area,
-}))(ArchiveBlock)
+export const ArchiveBlockWithHoc = connect(mapStateToProps)(ArchiveBlock)

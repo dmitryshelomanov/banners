@@ -102,11 +102,13 @@ class RulesWrapTabs extends Component {
   }
 }
 
-export const RulesWrapTabsWithHoc = connect(null, (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
   onGetArea: () => {
     dispatch(getAreaInfo())
   },
   onSetActiveKey: (key) => {
     dispatch(setActiveKey(key))
   },
-}))(RulesWrapTabs)
+})
+
+export const RulesWrapTabsWithHoc = connect(null, mapDispatchToProps)(RulesWrapTabs)

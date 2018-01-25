@@ -1,20 +1,12 @@
-import React, { PureComponent, Component } from 'react'
+import React, { Component } from 'react'
 import styled, { keyframes } from 'styled-components'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import InputNumber from 'rc-input-number'
 import InputRange from 'react-input-range'
 import {
   FlexWrap,
   Text,
 } from '../'
-import { api } from '../../helpers/api'
-import {
-  setGifData,
-  unsetData,
-} from '../../redux/gif/actions'
-import { compressExt, baseURL } from '../../config'
-import ImageCache from '../../helpers/image-cache'
+import { baseURL } from '../../config'
 import updateSystem from '../../helpers/update-system'
 import closeIcon from '../../assets/img/close.png'
 

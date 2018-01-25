@@ -7,6 +7,13 @@ import {
 import { setBorderFromCanvas, setGifImage } from '../../redux/gif/actions'
 import { setJpgStub } from '../../redux/stub/actions'
 import { getMinimalSize } from '../../redux/resize/actions'
+import { getGifSize } from '../../redux/gif/selectors'
+import { getResize } from '../../redux/resize/selectors'
+import { getStub } from '../../redux/stub/selectors'
+import {
+  getArchiveName,
+  getArchiveFileName,
+} from '../../redux/tree-folder/selectors'
 import playIcon from '../../assets/img/play.png'
 import pauseIcon from '../../assets/img/pause.png'
 import getBanner from '../../helpers/get-banner'
@@ -51,15 +58,15 @@ class Controll extends Component {
   }
 
   getMethodFromStub = () => {
-    const { stub, setImageFromGif, w, onSetStub } = this.props
+    const { stub, setImageFromGif, gifSize, onSetStub } = this.props
 
     if (stub.isGif) {
       return setImageFromGif(
         getBanner(true).canvas.toDataURL(`image/${compressExt}`, 1),
-        w,
+        gifSize.gifW,
       )
     }
-    return onSetStub(getBanner(true).canvas.toDataURL('image/jpeg', 1))
+    return onSetStub(getBanner(true).canvas.toDataURL('image/jpeg', 0.6))
   }
 
   playStart = () => {
@@ -86,7 +93,7 @@ class Controll extends Component {
   render() {
     const { duration, isPlay } = this.state
     const {
-      w,
+      gifSize,
       resize,
       onGetMinimalSize,
       nameFolder,
@@ -144,27 +151,31 @@ class Controll extends Component {
   }
 }
 
+const mapStateToProps = (state, props) => ({
+  gifSize: getGifSize(state, props),
+  nameFolder: getArchiveName(state, props),
+  nameFile: getArchiveFileName(state, props),
+  resize: getResize(state, props),
+  stub: getStub(state, props),
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  onSetBorder: (data) => {
+    dispatch(setBorderFromCanvas(data))
+  },
+  setImageFromGif: (base64, w) => {
+    dispatch(setGifImage(base64, w))
+  },
+  onSetStub: (base64) => {
+    dispatch(setJpgStub(base64))
+  },
+  onGetMinimalSize: (nameFolder, nameFile) => {
+    dispatch(getMinimalSize(nameFolder, nameFile))
+  },
+})
+
+
 export const ControllWithHoc = connect(
-  state => ({
-    w: state.gifs.w,
-    h: state.gifs.h,
-    nameFolder: state.archiveUpload.treeFolders.name,
-    nameFile: state.archiveUpload.nameHtml,
-    resize: state.resize,
-    stub: state.stub,
-  }),
-  dispatch => ({
-    onSetBorder: (data) => {
-      dispatch(setBorderFromCanvas(data))
-    },
-    setImageFromGif: (base64, w) => {
-      dispatch(setGifImage(base64, w))
-    },
-    onSetStub: (base64) => {
-      dispatch(setJpgStub(base64))
-    },
-    onGetMinimalSize: (nameFolder, nameFile) => {
-      dispatch(getMinimalSize(nameFolder, nameFile))
-    },
-  }),
+  mapStateToProps,
+  mapDispatchToProps,
 )(Controll)

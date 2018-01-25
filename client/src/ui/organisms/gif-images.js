@@ -14,6 +14,10 @@ import {
   setRepeat,
 } from '../../redux/gif/actions'
 import { toggleStubState } from '../../redux/stub/actions'
+import { getGifs } from '../../redux/gif/selectors'
+import { getResize } from '../../redux/resize/selectors'
+import { getStub } from '../../redux/stub/selectors'
+import { getArchiveName } from '../../redux/tree-folder/selectors'
 import WithContainer from '../../hocs/with-gif-change-container'
 /* eslint-disable react/no-array-index-key */
 
@@ -157,22 +161,26 @@ class GifWrapper extends Component {
   }
 }
 
+const mapStateToProps = (state, props) => ({
+  gifs: getGifs(state, props),
+  resize: getResize(state, props),
+  nameFolder: getArchiveName(state, props),
+  stub: getStub(state, props),
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  onGenerateGif: (imgData, nameFolder) => {
+    dispatch(gifGenerated(imgData, nameFolder))
+  },
+  onSetRepeatState: (state) => {
+    dispatch(setRepeat(state))
+  },
+  onToggleStub: (state) => {
+    dispatch(toggleStubState(state))
+  },
+})
+
 export const GifImages = connect(
-  state => ({
-    gifs: state.gifs,
-    resize: state.resize,
-    nameFolder: state.archiveUpload.treeFolders.name,
-    stub: state.stub,
-  }),
-  dispatch => ({
-    onGenerateGif: (imgData, nameFolder) => {
-      dispatch(gifGenerated(imgData, nameFolder))
-    },
-    onSetRepeatState: (state) => {
-      dispatch(setRepeat(state))
-    },
-    onToggleStub: (state) => {
-      dispatch(toggleStubState(state))
-    },
-  }),
+  mapStateToProps,
+  mapDispatchToProps,
 )(GifWrapper)

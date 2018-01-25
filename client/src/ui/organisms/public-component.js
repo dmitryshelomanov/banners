@@ -7,6 +7,9 @@ import {
   Button,
 } from '../'
 import { firmware } from '../../redux/area/actions'
+import { getArchiveName, getArchiveFileName } from '../../redux/tree-folder/selectors'
+import { getArea } from '../../redux/area/selectors'
+import { getIsFirmware } from '../../redux/firmware/selectors'
 
 
 const Public = ({
@@ -53,11 +56,11 @@ export const PublicComponentWithStyle = styled(Public)`
   }
 `
 
-const dataSelector = (activeKey, firmwareData) => typeof firmwareData.find(i => i.areaId === activeKey) === 'undefined'
+const mapStateToProps = (state, props) => ({
+  nameFolder: getArchiveName(state, props),
+  nameFile: getArchiveFileName(state, props),
+  area: getArea(state, props),
+  isFirmware: getIsFirmware(state, props),
+})
 
-export const PublicComponent = connect((state) => ({
-  nameFolder: state.archiveUpload.treeFolders.name,
-  nameFile: state.archiveUpload.nameHtml,
-  area: state.area,
-  isFirmware: dataSelector(state.area.activeKey, state.firmware.firmwareData),
-}))(PublicComponentWithStyle)
+export const PublicComponent = connect(mapStateToProps)(PublicComponentWithStyle)

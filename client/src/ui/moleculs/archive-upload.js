@@ -9,16 +9,23 @@ import {
   ColorPreview,
 } from '../'
 import { toggleFixedState, resizeClearState } from '../../redux/resize/actions'
-import { RenderTree } from './render-tree-field'
+import treeMenu from '../../assets/img/tree-menu.png'
 import WithUploadHoc from '../../hocs/with-upload-file'
 import WithFolderTree from '../../hocs/with-folder-tree'
-import { UploadBtn } from './upload-button'
-import treeMenu from '../../assets/img/tree-menu.png'
 import {
   setBgPlayer,
   setBorderColor,
   updateBorderSize,
 } from '../../redux/banner/actions'
+import {
+  getPlayerBgColor,
+  getPlayerBorderSize,
+  getPlayerReadyState,
+  getPlayerBorderColor,
+} from '../../redux/banner/selectors'
+import { getResize } from '../../redux/resize/selectors'
+import { UploadBtn } from './upload-button'
+import { RenderTree } from './render-tree-field'
 
 
 const Button = WithUploadHoc(UploadBtn)
@@ -199,29 +206,33 @@ export class ArchiveUploadWrapper extends Component {
   }
 }
 
+const mapStateToProps = (state, props) => ({
+  playerReady: getPlayerReadyState(state, props),
+  bodyColor: getPlayerBgColor(state, props),
+  borderSize: getPlayerBorderSize(state, props),
+  borderColor: getPlayerBorderColor(state, props),
+  resize: getResize(state, props),
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  setBgColor: (hex) => {
+    dispatch(setBgPlayer(hex))
+  },
+  onSetBorderColor: (hex) => {
+    dispatch(setBorderColor(hex))
+  },
+  onToggleFixedState: (state) => {
+    dispatch(toggleFixedState(state))
+  },
+  onClearSizse: () => {
+    dispatch(resizeClearState())
+  },
+  onUpdateSize: (size) => {
+    dispatch(updateBorderSize(size))
+  },
+})
+
 export const ArchiveUpload = connect(
-  state => ({
-    playerReady: state.player.playerReady,
-    bodyColor: state.player.bodyColor,
-    borderSize: state.player.borderSize,
-    borderColor: state.player.borderColor,
-    resize: state.resize,
-  }),
-  dispatch => ({
-    setBgColor: (hex) => {
-      dispatch(setBgPlayer(hex))
-    },
-    onSetBorderColor: (hex) => {
-      dispatch(setBorderColor(hex))
-    },
-    onToggleFixedState: (state) => {
-      dispatch(toggleFixedState(state))
-    },
-    onClearSizse: () => {
-      dispatch(resizeClearState())
-    },
-    onUpdateSize: (size) => {
-      dispatch(updateBorderSize(size))
-    },
-  }),
+  mapStateToProps,
+  mapDispatchToProps,
 )(ArchiveUploadWrapper)

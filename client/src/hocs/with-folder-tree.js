@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { addImageToCarousel } from '../redux/carousel/actions'
+import { getArchiveName, getFolders } from '../redux/tree-folder/selectors'
 
 
 export default (WrapClass) => {
@@ -32,15 +33,16 @@ export default (WrapClass) => {
     onAddImage: PropTypes.func.isRequired,
   }
 
-  return connect(
-    state => ({
-      folders: state.archiveUpload.treeFolders,
-      archiveName: state.archiveUpload.treeFolders.name,
-    }),
-    dispatch => ({
-      onAddImage: (img) => {
-        dispatch(addImageToCarousel(img))
-      },
-    }),
-  )(WithFolderTree)
+  const mapStateToProps = (state, props) => ({
+    folders: getFolders(state, props),
+    archiveName: getArchiveName(state, props),
+  })
+
+  const mapDispatchToProps = (dispatch) => ({
+    onAddImage: (img) => {
+      dispatch(addImageToCarousel(img))
+    },
+  })
+
+  return connect(mapStateToProps, mapDispatchToProps)(WithFolderTree)
 }

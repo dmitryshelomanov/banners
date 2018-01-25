@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
 import {
   setGifData,
   unsetData,
   updateGifData,
 } from '../redux/gif/actions'
+import { getArchiveName } from '../redux/tree-folder/selectors'
+import { getGifData, getGifSize } from '../redux/gif/selectors'
 import { api } from '../helpers/api'
 import { compressExt } from '../config'
-import * as types from '../redux/types'
 
 
 export default (WrapClass) => {
@@ -63,8 +63,7 @@ export default (WrapClass) => {
       const {
         onUnsetData, onUpdateData,
         carousel, archiveName,
-        gifH, gifW,
-        className,
+        gifSize, className,
       } = this.props
 
       return (
@@ -77,8 +76,8 @@ export default (WrapClass) => {
           {this.state.isLoading || (
             <WrapClass
               ids={carousel.ids}
-              gifH={gifH}
-              gifW={gifW}
+              gifH={gifSize.gifH}
+              gifW={gifSize.gifW}
               data={carousel}
               archiveName={archiveName}
               unsetData={() => onUnsetData(carousel.ids)}
@@ -93,29 +92,29 @@ export default (WrapClass) => {
 
   const WithStyle = styled(WithGifChangeContainer)`
     & .preloader {
-      width: ${props => props.gifW}px;
-      height: ${props => props.gifH}px;
+      width: ${props => props.gifSize.gifW}px;
+      height: ${props => props.gifSize.gifH}px;
       background: #fff url(${({ theme }) => theme.preloader}) center center no-repeat;
     }
   `
 
-  return connect(
-    state => ({
-      archiveName: state.archiveUpload.treeFolders.name,
-      gifH: state.gifs.h,
-      gifW: state.gifs.w,
-      data: state.gifs.data,
-    }),
-    dispatch => ({
-      onSetGifData: (data) => {
-        dispatch(setGifData(data))
-      },
-      onUnsetData: (ids) => {
-        dispatch(unsetData(ids))
-      },
-      onUpdateData: (ids, data) => {
-        dispatch(updateGifData(ids, data))
-      },
-    }),
-  )(WithStyle)
+  const mapStateToProps = (state, props) => ({
+    gifSize: getGifSize(state, props),
+    archiveName: getArchiveName(state, props),
+    data: getGifData(state, props),
+  })
+
+  const mapDispatchToProps = (dispatch) => ({
+    onSetGifData: (data) => {
+      dispatch(setGifData(data))
+    },
+    onUnsetData: (ids) => {
+      dispatch(unsetData(ids))
+    },
+    onUpdateData: (ids, data) => {
+      dispatch(updateGifData(ids, data))
+    },
+  })
+
+  return connect(mapStateToProps, mapDispatchToProps)(WithStyle)
 }

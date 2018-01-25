@@ -8,6 +8,7 @@ import {
   Button,
 } from '../'
 import WithActiveImage from '../../hocs/with-active-image'
+import { getCarouselData } from '../../redux/carousel/selectors'
 
 
 const ItemWithActive = WithActiveImage(CarouselItem)
@@ -37,6 +38,8 @@ const CompressImageWrap = ({ carousel }) => (
   </FlexWrap>
 )
 
-export const CompressImage = connect(state => ({
-  carousel: state.carousel,
-}))(CompressImageWrap)
+const mapStateToProps = (state, props) => ({
+  carousel: getCarouselData(state, props),
+})
+
+export const CompressImage = connect(mapStateToProps)(CompressImageWrap)
