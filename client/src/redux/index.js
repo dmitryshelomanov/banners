@@ -1,12 +1,13 @@
 import { combineReducers } from 'redux'
-import { archiveUpload } from './reducers/tree-folder'
-import { carousel } from './reducers/carousel'
-import { gif } from './reducers/gif'
-import { player } from './reducers/banner'
-import { resize } from './reducers/resize'
-import { area } from './reducers/area'
-import { firmware } from './reducers/firmware'
-import { stub } from './reducers/stub'
+
+import { archiveUpload } from './tree-folder/reducer'
+import { firmware } from './firmware/reducer'
+import { resize } from './resize/reducer'
+import { stub } from './stub/reducer'
+import { gif } from './gif/reducer'
+import { area } from './area/reducer'
+import { player } from './banner/reducer'
+import { carousel } from './carousel/reducer'
 
 
 export const reducers = combineReducers({
