@@ -30,7 +30,9 @@
 .change-image .input-range__track--background {
   background: #515151;
 }
-.gif-compress .input-range,
-.change-image .input-range {
+.gif-compress .input-range {
   width: 130px;
+}
+.change-image .input-range {
+  width: 100%;
 }
