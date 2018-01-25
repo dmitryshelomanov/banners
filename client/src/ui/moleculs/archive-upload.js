@@ -8,7 +8,7 @@ import {
   ColorPicker,
   ColorPreview,
 } from '../'
-import { toggleFixedState, resizeClearState } from '../../redux/actions/resize'
+import { toggleFixedState, resizeClearState } from '../../redux/resize/actions'
 import { RenderTree } from './render-tree-field'
 import WithUploadHoc from '../../hocs/with-upload-file'
 import WithFolderTree from '../../hocs/with-folder-tree'
@@ -18,7 +18,7 @@ import {
   setBgPlayer,
   setBorderColor,
   updateBorderSize,
-} from '../../redux/actions/banner'
+} from '../../redux/banner/actions'
 
 
 const Button = WithUploadHoc(UploadBtn)

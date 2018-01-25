@@ -4,9 +4,9 @@ import InputRange from 'react-input-range'
 import {
   FlexWrap,
 } from '../'
-import { setBorderFromCanvas, setGifImage } from '../../redux/actions/gif'
-import { setJpgStub } from '../../redux/actions/stub'
-import { getMinimalSize } from '../../redux/actions/resize'
+import { setBorderFromCanvas, setGifImage } from '../../redux/gif/actions'
+import { setJpgStub } from '../../redux/stub/actions'
+import { getMinimalSize } from '../../redux/resize/actions'
 import playIcon from '../../assets/img/play.png'
 import pauseIcon from '../../assets/img/pause.png'
 import getBanner from '../../helpers/get-banner'

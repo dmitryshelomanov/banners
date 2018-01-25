@@ -12,7 +12,7 @@ import { api } from '../../helpers/api'
 import {
   setGifData,
   unsetData,
-} from '../../redux/actions/gif'
+} from '../../redux/gif/actions'
 import { compressExt, baseURL } from '../../config'
 import ImageCache from '../../helpers/image-cache'
 import updateSystem from '../../helpers/update-system'

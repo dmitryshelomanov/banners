@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import {
   setSize,
   setBorderFromCanvas,
-} from '../../redux/actions/gif'
-import { togglePlayerReady } from '../../redux/actions/banner'
+} from '../../redux/gif/actions'
+import { togglePlayerReady } from '../../redux/banner/actions'
 import {
   FlexWrap,
   ControllWithHoc as Controll,

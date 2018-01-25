@@ -6,7 +6,7 @@ import { baseURL } from '../../config'
 import {
   Button,
 } from '../'
-import { firmware } from '../../redux/actions/area'
+import { firmware } from '../../redux/area/actions'
 
 
 const Public = ({
@@ -55,7 +55,7 @@ export const PublicComponentWithStyle = styled(Public)`
 
 const dataSelector = (activeKey, firmwareData) => typeof firmwareData.find(i => i.areaId === activeKey) === 'undefined'
 
-export const PublicComponent = connect(state => ({
+export const PublicComponent = connect((state) => ({
   nameFolder: state.archiveUpload.treeFolders.name,
   nameFile: state.archiveUpload.nameHtml,
   area: state.area,

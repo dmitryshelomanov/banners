@@ -5,9 +5,9 @@ import {
   CheckBox,
 } from '../'
 import {
-  getAreaInfo,
   setActiveKey,
-} from '../../redux/actions/area'
+  getAreaInfo,
+} from '../../redux/area/actions'
 
 
 const Wrapper = FlexWrap.extend`
@@ -66,7 +66,7 @@ class RulesWrapTabs extends Component {
       <Wrapper>
         {isLoading || (
           <div className="btn-wrapper">
-            {this.props.tabs.map(el => (
+            {this.props.tabs.map((el) => (
               <div
                 key={el.id}
                 className={el.id === this.props.activeKey ? 'btn-tab button-active' : 'btn-tab'}
@@ -102,7 +102,7 @@ class RulesWrapTabs extends Component {
   }
 }
 
-export const RulesWrapTabsWithHoc = connect(null, dispatch => ({
+export const RulesWrapTabsWithHoc = connect(null, (dispatch) => ({
   onGetArea: () => {
     dispatch(getAreaInfo())
   },

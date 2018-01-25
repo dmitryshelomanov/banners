@@ -12,8 +12,8 @@ import {
 import {
   gifGenerated,
   setRepeat,
-} from '../../redux/actions/gif'
-import { toggleStubState } from '../../redux/actions/stub'
+} from '../../redux/gif/actions'
+import { toggleStubState } from '../../redux/stub/actions'
 import WithContainer from '../../hocs/with-gif-change-container'
 /* eslint-disable react/no-array-index-key */
 

@@ -9,7 +9,7 @@ import {
 import {
   compressActiveImage,
   updateCarouselData,
-} from '../../redux/actions/carousel'
+} from '../../redux/carousel/actions'
 
 /* eslint-disable  react/sort-comp */
 const Wrap = FlexWrap.extend`

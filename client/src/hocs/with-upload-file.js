@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { uploadFile } from '../redux/actions/tree-folder'
+import { uploadFile } from '../redux/tree-folder/actions'
 import * as types from '../redux/types'
 import io from '../helpers/io'
 
@@ -44,10 +44,7 @@ export default (BaseClass) => {
         dispatch(uploadFile(file))
       },
       onClearState: () => {
-        dispatch([
-          { type: types.STATE_CLEAR_GLOBAL },
-          { type: types.RESIZE_REST_STATE },
-        ])
+        dispatch({ type: 'clearing' })
       },
     }),
   )(withUploadFile)

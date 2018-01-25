@@ -6,7 +6,7 @@ import {
   setGifData,
   unsetData,
   updateGifData,
-} from '../redux/actions/gif'
+} from '../redux/gif/actions'
 import { api } from '../helpers/api'
 import { compressExt } from '../config'
 import * as types from '../redux/types'
