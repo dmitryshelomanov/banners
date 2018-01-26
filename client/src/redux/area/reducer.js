@@ -9,7 +9,7 @@ const initialState = {
   data: [],
 }
 
-export const area = (state = initialState, { type, payload }) => {
+const area = (state = initialState, { type, payload }) => {
   switch (type) {
     case types.AREA_GET_FETCH: return {
       ...state,
@@ -34,3 +34,5 @@ export const area = (state = initialState, { type, payload }) => {
     default: return state
   }
 }
+
+export default area

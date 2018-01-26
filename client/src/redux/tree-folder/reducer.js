@@ -1,4 +1,5 @@
 import * as types from '../types'
+import { withClearing } from '../../helpers/hof'
 import fixture from '../../fixture'
 import io from '../../helpers/io'
 
@@ -11,8 +12,8 @@ const initialState = {
   treeFolders: fixture.work.treeFolder.tree,
 }
 
-export const archiveUpload = (state = initialState, actions) => {
-  switch (actions.type) {
+const archiveUpload = (state = initialState, { payload, type }) => {
+  switch (type) {
     case types.ARCHIVE_FETCH: return {
       ...state,
       isLoading: true,
@@ -20,15 +21,15 @@ export const archiveUpload = (state = initialState, actions) => {
     }
     case types.ARCHIVE_END:
       io.emit('banner:set-archive-name', {
-        nameFolder: actions.payload.tree.name,
+        nameFolder: payload.tree.name,
       })
 
       return {
         ...state,
         archiveReady: true,
         isLoading: false,
-        nameHtml: actions.payload.nameHtml,
-        treeFolders: typeof actions.payload === 'string' ? state.treeFolders : actions.payload.tree,
+        nameHtml: payload.nameHtml,
+        treeFolders: typeof payload === 'string' ? state.treeFolders : payload.tree,
       }
     case types.ARCHIVE_ERROR: return {
       ...state,
@@ -36,10 +37,8 @@ export const archiveUpload = (state = initialState, actions) => {
       isLoading: false,
       isError: true,
     }
-    case types.STATE_CLEAR_GLOBAL: return {
-      ...state,
-      ...initialState,
-    }
     default: return state
   }
 }
+
+export default withClearing(archiveUpload)

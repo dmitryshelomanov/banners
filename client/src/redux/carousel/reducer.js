@@ -1,3 +1,4 @@
+import { withClearing } from '../../helpers/hof'
 import * as types from '../types'
 
 
@@ -7,14 +8,11 @@ const initialState = {
   images: [],
 }
 
-export const carousel = (state = initialState, { type, payload }) => {
+const carousel = (state = initialState, { type, payload }) => {
   switch (type) {
-    case types.CAROUSEL_ADD: {
-      const dublicate = state.images.find(i => i.name === payload.name)
-
-      return dublicate
-        ? state
-        : { ...state, images: [...state.images, payload] }
+    case types.CAROUSEL_ADD: return {
+      ...state,
+      images: [...state.images, payload],
     }
     case types.COMPRESS_FETCH: return {
       ...state,
@@ -43,10 +41,8 @@ export const carousel = (state = initialState, { type, payload }) => {
       ...state,
       images: payload,
     }
-    case types.STATE_CLEAR_GLOBAL: return {
-      ...state,
-      ...initialState,
-    }
     default: return state
   }
 }
+
+export default withClearing(carousel)

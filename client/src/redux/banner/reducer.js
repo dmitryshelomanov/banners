@@ -1,3 +1,4 @@
+import { withClearing } from '../../helpers/hof'
 import * as types from '../types'
 
 /* eslint-disable no-param-reassign */
@@ -8,28 +9,26 @@ const initialState = {
   borderSize: 1,
 }
 
-export const player = (state = initialState, actions) => {
-  switch (actions.type) {
+const player = (state = initialState, { payload, type }) => {
+  switch (type) {
     case types.PLAYER_SET_STATE: return {
       ...state,
-      playerReady: actions.payload,
+      playerReady: payload,
     }
     case types.PLAYER_SET_BACKGROUND: return {
       ...state,
-      bodyColor: actions.payload,
+      bodyColor: payload,
     }
     case types.PLAYER_SET_BORDER_COLOR: return {
       ...state,
-      borderColor: actions.payload,
+      borderColor: payload,
     }
     case types.BANNER_UPDATE_BORDER_SIZE: return {
       ...state,
-      borderSize: actions.payload,
-    }
-    case types.STATE_CLEAR_GLOBAL: return {
-      ...state,
-      ...initialState,
+      borderSize: payload,
     }
     default: return state
   }
 }
+
+export default withClearing(player)

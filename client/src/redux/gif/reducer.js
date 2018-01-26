@@ -1,3 +1,4 @@
+import { withClearing } from '../../helpers/hof'
 import * as types from '../types'
 
 /* eslint-disable no-param-reassign */
@@ -9,7 +10,7 @@ const initialState = {
   base64: [],
 }
 
-export const gif = (state = initialState, { type, payload }) => {
+const gif = (state = initialState, { type, payload }) => {
   switch (type) {
     case types.GIS_SET_SIZE: return {
       ...state,
@@ -36,10 +37,8 @@ export const gif = (state = initialState, { type, payload }) => {
       ...state,
       ids: payload,
     }
-    case types.STATE_CLEAR_GLOBAL: return {
-      ...state,
-      ...initialState,
-    }
     default: return state
   }
 }
+
+export default withClearing(gif)

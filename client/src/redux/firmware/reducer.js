@@ -1,3 +1,4 @@
+import { withClearing } from '../../helpers/hof'
 import * as types from '../types'
 
 /* eslint-disable no-param-reassign */
@@ -8,7 +9,7 @@ const initialState = {
   firmwareData: [],
 }
 
-export const firmware = (state = initialState, { type, payload }) => {
+const firmware = (state = initialState, { type, payload }) => {
   switch (type) {
     case types.AREA_FIRMWARE_FETCH: return {
       ...state,
@@ -25,10 +26,8 @@ export const firmware = (state = initialState, { type, payload }) => {
       isError: true,
       error: payload,
     }
-    case types.STATE_CLEAR_GLOBAL: return {
-      ...state,
-      ...initialState,
-    }
     default: return state
   }
 }
+
+export default withClearing(firmware)

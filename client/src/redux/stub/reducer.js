@@ -1,3 +1,4 @@
+import { withClearing } from '../../helpers/hof'
 import * as types from '../types'
 
 
@@ -6,7 +7,7 @@ const initialState = {
   jpgStub: null,
 }
 
-export const stub = (state = initialState, { type, payload }) => {
+const stub = (state = initialState, { type, payload }) => {
   switch (type) {
     case types.STUB_SET_STATE: return {
       ...state,
@@ -16,10 +17,8 @@ export const stub = (state = initialState, { type, payload }) => {
       ...state,
       jpgStub: payload,
     }
-    case types.STATE_CLEAR_GLOBAL: return {
-      ...state,
-      ...initialState,
-    }
     default: return state
   }
 }
+
+export default withClearing(stub)

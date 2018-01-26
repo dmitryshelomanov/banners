@@ -1,3 +1,4 @@
+import { withClearing } from '../../helpers/hof'
 import * as types from '../types'
 
 
@@ -7,21 +8,19 @@ const initialState = {
   minimalH: 0,
 }
 
-export const resize = (state = initialState, actions) => {
-  switch (actions.type) {
+const resize = (state = initialState, { payload, type }) => {
+  switch (type) {
     case types.RESIZE_TOGGLE_FIXED: return {
       ...state,
-      isFixed: actions.payload,
+      isFixed: payload,
     }
     case types.RESIZE_GET_MINIMAL_END: return {
       ...state,
-      minimalW: actions.payload.w,
-      minimalH: actions.payload.h,
-    }
-    case types.RESIZE_REST_STATE: return {
-      ...state,
-      ...initialState,
+      minimalW: payload.w,
+      minimalH: payload.h,
     }
     default: return state
   }
 }
+
+export default withClearing(resize)

@@ -7,6 +7,11 @@ import * as types from '../types'
  */
 export function addImageToCarousel(image) {
   return async function (dispatch, getState, { api }) {
+    const { carousel } = getState()
+    const dublicate = carousel.images.find(i => i.name === image.name)
+
+    if (dublicate) return
+
     dispatch({
       type: types.CAROUSEL_ADD,
       payload: image,
