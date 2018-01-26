@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { css } from 'styled-components'
+import { ifProp } from '../../helpers/theming'
 import {
   FlexWrap,
   CarouselBtn,
@@ -11,9 +13,13 @@ const CarouselWrap = FlexWrap.extend`
   width: 100%;
   overflow: hidden;
   transition: all .5s;
-  border: ${props => !props.isGif ? '2px dashed #e3e3e3' : 'none'};
-  background-color:  ${props => !props.isGif ? '#f6f6f6' : 'transparent'};
-  padding: 15px 40px;
+  border: 2px dashed #e3e3e3;
+  background-color: #f6f6f6;
+  ${ifProp('isGif', css`
+    border: none;
+    background-color: transparent;
+  `)}
+  padding: 0;
   box-sizing: border-box;
   position: relative;
   align-items: center;
@@ -47,8 +53,15 @@ export class Carousel extends Component {
     this.state = {
       currentSlide: 0,
       slideNext: 1,
-      width: props.width,
+      width: props.w,
     }
+  }
+
+  getComputedSize = () => {
+    if (!this.nestedImage) {
+      return this.state.width
+    }
+    return this.nestedImage.width
   }
 
   nextSlide = () => {
@@ -56,7 +69,7 @@ export class Carousel extends Component {
     const len = carousel.images ? carousel.images.length : carousel.length
     const wrapperWidth = this.wrap.getBoundingClientRect().width
 
-    if (len * this.state.width < wrapperWidth) return
+    if (len * this.getComputedSize() < wrapperWidth) return
     this.setState({ currentSlide: this.state.currentSlide + this.state.slideNext })
   }
 
@@ -68,7 +81,7 @@ export class Carousel extends Component {
   render() {
     const { carousel, component, isGif } = this.props
     const { width, currentSlide } = this.state
-    const transform = `${-(width * currentSlide)}px`
+    const transform = `${-(this.getComputedSize() * currentSlide) + 5}px`
     const len = carousel.images ? carousel.images.length : carousel.length
     const data = carousel.images ? carousel.images : carousel
 
@@ -89,7 +102,7 @@ export class Carousel extends Component {
           isGif={isGif}
         >
           <CarouselInner
-            w={`${width * len}px`}
+            w="100%"
             style={{
               transform: `translateX(${transform})`,
             }}
@@ -101,6 +114,9 @@ export class Carousel extends Component {
                   ids: k,
                   carousel: i,
                   width: `${width}px`,
+                  nestedRef: (c) => {
+                    this.nestedImage = c
+                  },
                 })
               ))
             }
@@ -123,11 +139,11 @@ Carousel.propTypes = {
     }),
     PropTypes.array,
   ]).isRequired,
-  width: PropTypes.number,
+  w: PropTypes.number,
   isGif: PropTypes.bool,
 }
 
 Carousel.defaultProps = {
-  width: 180,
+  w: 180,
   isGif: false,
 }

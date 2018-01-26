@@ -63,7 +63,7 @@ export default (WrapClass) => {
       const {
         onUnsetData, onUpdateData,
         carousel, archiveName,
-        gifSize, className,
+        gifSize, className, nestedRef,
       } = this.props
 
       return (
@@ -83,6 +83,7 @@ export default (WrapClass) => {
               unsetData={() => onUnsetData(carousel.ids)}
               updateData={data => onUpdateData(carousel.ids, data)}
               compressImage={this.compressImage}
+              nestedRef={nestedRef}
             />
           )}
         </div>
