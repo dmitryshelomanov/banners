@@ -9,6 +9,8 @@ const {
   decompress,
   folderTree,
   copyFolder,
+  caheDeleted,
+  uuid,
 } = require('../utils')
 
 /**
@@ -17,14 +19,22 @@ const {
  */
 async function lastLoaded(ctx) {
   const { files } = ctx.request
-  const tmpPath = tempPathGenerated(files.archive.name)
+  const u = uuid()
+  const tmpPath = tempPathGenerated(files.archive.name, () => u)
 
   debug(`upload banner with archive - ${files.archive.name}`)
   try {
     await fs.rename(files.archive.path, tmpPath(types.ARCHIVE))
     await decompress(tmpPath(types.ARCHIVE), tmpPath(types.DECOMPRESS))
     await copyFolder(tmpPath(types.DECOMPRESS), tmpPath(types.PROCESS))
-    ctx.body = await folderTree(tmpPath(types.DECOMPRESS))
+    const tree = await folderTree(tmpPath(types.DECOMPRESS))
+
+    if (!tree) {
+      ctx.body = 'this folder is not banner-type'
+      await caheDeleted(`${u}--${files.archive.name}`)
+      return
+    }
+    ctx.body = tree
   }
   catch (error) {
     ctx.throw(error)
