@@ -26,6 +26,7 @@ const Wrapper = FlexWrap.extend`
   flex-direction: column;
   & .btn-wrap {
     display: flex;
+    width: 100%;
     justify-content: center;
     flex-direction: column;
     align-items: center;

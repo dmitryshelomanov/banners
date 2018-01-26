@@ -23,6 +23,7 @@ import {
   FlexWrap,
   ControllWithHoc as Controll,
 } from '../'
+import { baseURL } from '../../config'
 
 /* eslint-disable  react/no-unused-state */
 /* eslint-disable  no-underscore-dangle */
@@ -161,7 +162,7 @@ class ShowBanner extends Component {
           title="banner"
           onLoad={this.getInitialState}
           srcDoc={this.state.html}
-          // src={`http://localhost:8000/process/${this.props.nameFolder}/${this.props.nameHtml}`}
+          // src={`${baseURL}/process/${this.props.nameFolder}/${this.props.nameHtml}`}
           width={w}
           height={h}
           frameBorder="0"

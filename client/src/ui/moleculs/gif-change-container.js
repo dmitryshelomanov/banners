@@ -25,7 +25,7 @@ class GifChangeContainer extends Component {
       data, unsetData: dropData,
       updateData, archiveName,
       className, ids,
-      compressImage,
+      compressImage, nestedRef,
     } = this.props
 
     return (
@@ -45,6 +45,7 @@ class GifChangeContainer extends Component {
             <img
               src={`${baseURL}gif/${archiveName}/${data.name}?v${Math.random()}`}
               alt="img"
+              ref={nestedRef && nestedRef}
             />
           </div>
           <div
@@ -116,6 +117,9 @@ export const GifItem = styled(GifChangeContainer)`
     box-sizing: border-box;
     background-color: #e3e3e3;
     margin-bottom: 15px;
+    & img {
+      max-width: 507px;
+    }
   }
   & .controll-wrap {
     display: flex;
