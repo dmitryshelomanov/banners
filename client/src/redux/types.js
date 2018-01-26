@@ -33,6 +33,7 @@ export const SET_BORDER = 'SET/border_to_canvas'
 export const PLAYER_SET_STATE = 'PLAYER/set_state'
 export const PLAYER_SET_BACKGROUND = 'PLAYER/set_bg'
 export const PLAYER_SET_BORDER_COLOR = 'PLAYER/set_border_color'
+export const PLAYER_SET_FPS = 'PLAYER/set_fps'
 
 export const BANNER_UPDATE_BORDER_SIZE = 'BANNER/size_border_update'
 

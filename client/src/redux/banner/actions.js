@@ -49,3 +49,13 @@ export function updateBorderSize(size) {
     })
   }
 }
+
+export function setFps(fps) {
+  return function (dispatch) {
+    dispatch({
+      type: types.PLAYER_SET_FPS,
+      payload: fps,
+    })
+  }
+}
+

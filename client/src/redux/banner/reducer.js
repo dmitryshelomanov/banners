@@ -7,6 +7,7 @@ const initialState = {
   bodyColor: '#ffffff',
   borderColor: 'transparent',
   borderSize: 1,
+  fps: -1,
 }
 
 const player = (state = initialState, { payload, type }) => {
@@ -26,6 +27,10 @@ const player = (state = initialState, { payload, type }) => {
     case types.BANNER_UPDATE_BORDER_SIZE: return {
       ...state,
       borderSize: payload,
+    }
+    case types.PLAYER_SET_FPS: return {
+      ...state,
+      fps: payload,
     }
     default: return state
   }

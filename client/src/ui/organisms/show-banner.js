@@ -6,12 +6,16 @@ import {
   setSize,
   setBorderFromCanvas,
 } from '../../redux/gif/actions'
-import { togglePlayerReady } from '../../redux/banner/actions'
+import {
+  togglePlayerReady,
+  setFps,
+} from '../../redux/banner/actions'
 import {
   getPlayerBgColor,
   getPlayerBorderColor,
   getPlayerBorderSize,
   getPlayerReadyState,
+  getPlayerFps,
 } from '../../redux/banner/selectors'
 import { getGifSize } from '../../redux/gif/selectors'
 import {
@@ -56,6 +60,7 @@ class ShowBanner extends Component {
         this.props.onSetGifSize({ w: canvas.width, h: canvas.height })
         inst.gotoAndStop(1)
         this.props.togglePlayerState(true)
+        this.props.onSetFps(this.banner.contentWindow.lib.properties.fps)
         this.setVariables(
           this.banner.contentWindow.window.createjs,
           this.banner.contentWindow.window.exportRoot,
@@ -204,6 +209,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onSetBorder: (data) => {
     dispatch(setBorderFromCanvas(data))
+  },
+  onSetFps: (fps) => {
+    dispatch(setFps(fps))
   },
 })
 

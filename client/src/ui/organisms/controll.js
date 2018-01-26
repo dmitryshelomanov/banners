@@ -10,6 +10,7 @@ import { getMinimalSize } from '../../redux/resize/actions'
 import { getGifSize } from '../../redux/gif/selectors'
 import { getResize } from '../../redux/resize/selectors'
 import { getStub } from '../../redux/stub/selectors'
+import { getPlayerFps } from '../../redux/banner/selectors'
 import {
   getArchiveName,
   getArchiveFileName,
@@ -98,6 +99,7 @@ class Controll extends Component {
       onGetMinimalSize,
       nameFolder,
       nameFile,
+      fps,
     } = this.props
 
     return (
@@ -120,7 +122,7 @@ class Controll extends Component {
           />
         )}
         <InputRange
-          formatLabel={value => `${value}мск`}
+          formatLabel={value => `${Number.parseInt((value / fps) * 1000)}мc`}
           maxValue={duration}
           minValue={1}
           value={this.state.step}
@@ -157,6 +159,7 @@ const mapStateToProps = (state, props) => ({
   nameFile: getArchiveFileName(state, props),
   resize: getResize(state, props),
   stub: getStub(state, props),
+  fps: getPlayerFps(state),
 })
 
 const mapDispatchToProps = (dispatch) => ({
