@@ -19,6 +19,10 @@ const resize = (state = initialState, { payload, type }) => {
       minimalW: payload.w,
       minimalH: payload.h,
     }
+    case types.RESIZE_REST_STATE: return {
+      ...state,
+      ...initialState,
+    }
     default: return state
   }
 }

@@ -58,10 +58,11 @@ export class Carousel extends Component {
   }
 
   getComputedSize = () => {
-    if (!this.nestedImage) {
-      return this.state.width
+    if (typeof this.nestedImage !== 'undefined'
+      && this.nestedImage.width > 0) {
+      return this.nestedImage.width
     }
-    return this.nestedImage.width
+    return this.state.width
   }
 
   nextSlide = () => {
@@ -85,6 +86,11 @@ export class Carousel extends Component {
     const len = carousel.images ? carousel.images.length : carousel.length
     const data = carousel.images ? carousel.images : carousel
 
+
+    console.log(currentSlide)
+    console.log(this.getComputedSize())
+    console.log(this.state.width)
+    console.log(this.nestedImage)
     return (
       <Wrapper
         style={{
