@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import { getStub } from '../../redux/stub/selectors'
 import { getFirmware } from '../../redux/firmware/selectors'
 import { getState } from '../../redux/tree-folder/selectors'
+import { getStateBorder } from '../../redux/banner/selectors'
 
 
 class Wrapper extends Component {
@@ -13,16 +14,25 @@ class Wrapper extends Component {
         isLoading: 'Загружаю архив ...',
         isError: 'Ошибка загрузки архива',
         isSuccess: 'Загрузил',
+        msg: '',
       },
       stub: {
         isLoading: 'Заглушка генерируется',
         isError: 'Ошибка генерации заглушки',
         isSuccess: 'Заглушка готова',
+        msg: '',
       },
       firmware: {
         isLoading: 'Прошиваю ...',
         isError: 'Ошибка прошивки',
         isSuccess: 'Прошил',
+        msg: '',
+      },
+      border: {
+        isLoading: 'Изменяю border ...',
+        isError: 'Ошибка измения border',
+        isSuccess: 'Изменил border',
+        msg: '',
       },
     },
   }
@@ -31,19 +41,20 @@ class Wrapper extends Component {
     this.notifyFormated('archive', nextProps.archive, this.props.archive)
     this.notifyFormated('stub', nextProps.stub, this.props.stub)
     this.notifyFormated('firmware', nextProps.firmware, this.props.firmware)
+    this.notifyFormated('border', nextProps.border, this.props.border)
   }
 
   notifyFormated = (name, nextState, propState) => {
     if (nextState.isLoading && !propState.isLoading) {
-      toast.info(this.state.msg[name].isLoading)
+      toast.info(`${this.state.msg[name].isLoading} ${this.state.msg[name].msg}`)
     }
     if (!nextState.isLoading
       && propState.isLoading
       && !nextState.isError) {
-      toast.success(this.state.msg[name].isSuccess)
+      toast.success(`${this.state.msg[name].isSuccess} ${this.state.msg[name].msg}`)
     }
     if (nextState.isError && !propState.isError) {
-      toast.error(this.state.msg[name].isError)
+      toast.error(`${this.state.msg[name].isError} ${this.state.msg[name].msg}`)
     }
   }
 
@@ -56,6 +67,7 @@ const mapStatetoProps = (state) => ({
   stub: getStub(state),
   firmware: getFirmware(state),
   archive: getState(state),
+  border: getStateBorder(state),
 })
 
 export const Notification = connect(mapStatetoProps)(Wrapper)

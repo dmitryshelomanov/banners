@@ -29,6 +29,9 @@ export const GIF_INCREMENT_IDS = 'GIF/increment_ids'
 export const GIF_UPDATE_DATA = 'GIF/update_data'
 
 export const SET_BORDER = 'SET/border_to_canvas'
+export const SET_BORDER_FETH = 'SET/border_to_canvas_FETCH'
+export const SET_BORDER_END = 'SET/border_to_canvas_END'
+export const SET_BORDER_ERROR = 'SET/border_to_canvas_ERROR'
 
 export const PLAYER_SET_STATE = 'PLAYER/set_state'
 export const PLAYER_SET_BACKGROUND = 'PLAYER/set_bg'
