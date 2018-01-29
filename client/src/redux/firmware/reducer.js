@@ -14,6 +14,7 @@ const firmware = (state = initialState, { type, payload }) => {
     case types.AREA_FIRMWARE_FETCH: return {
       ...state,
       isLoading: true,
+      isError: false,
     }
     case types.AREA_FIRMWARE_END:
       return {

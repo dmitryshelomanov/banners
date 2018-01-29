@@ -17,6 +17,7 @@ const archiveUpload = (state = initialState, { payload, type }) => {
     case types.ARCHIVE_FETCH: return {
       ...state,
       isLoading: true,
+      isError: false,
       archiveReady: false,
     }
     case types.ARCHIVE_END:
