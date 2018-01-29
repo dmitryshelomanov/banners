@@ -10,7 +10,7 @@ module.exports = ({
     $('script').each(function each() {
       const $script = $(this)
 
-      if ($script.attr('src') && $script.attr('src').match(/libs/)) {
+      if ($script.attr('src') && ($script.attr('src').match(/libs/) || $script.attr('src').match(/http/))) {
         $script.remove()
       }
     })
