@@ -5,6 +5,8 @@ import * as types from '../types'
 const initialState = {
   isGif: true,
   jpgStub: null,
+  isLoading: false,
+  isError: false,
   weight: {
     gif: 0,
     jpg: 0,
@@ -27,6 +29,18 @@ const stub = (state = initialState, { type, payload }) => {
         ...state.weight,
         [payload.stub]: payload.weight,
       },
+    }
+    case types.GIF_GENERATED: return {
+      ...state,
+      isLoading: true,
+    }
+    case types.GIF_GENERATED_END: return {
+      ...state,
+      isLoading: false,
+    }
+    case types.GIF_GENERATED_ERROR: return {
+      ...state,
+      isError: true,
     }
     default: return state
   }

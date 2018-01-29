@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
   RootContainer,
@@ -8,7 +8,11 @@ import {
   ShowBannerWithArchive,
   ServicesWrapTabs,
   PublicComponent,
+  Notification,
 } from '../ui'
+import { getArchiveReadyState } from '../redux/tree-folder/selectors'
+import { getPlayerReadyState } from '../redux/banner/selectors'
+
 
 const H1 = Caption.extend`
   width: 100%;
@@ -19,6 +23,7 @@ const H1 = Caption.extend`
 
 const MainPage = ({ archiveReady, playerReady }) => (
   <RootContainer>
+    <Notification />
     <FlexWrap
       fd="column"
       w="100%"
@@ -47,7 +52,9 @@ const MainPage = ({ archiveReady, playerReady }) => (
   </RootContainer>
 )
 
-export const Main = connect(state => ({
-  archiveReady: state.archiveUpload.archiveReady,
-  playerReady: state.player.playerReady,
-}))(MainPage)
+const mapStateToProps = (state, props) => ({
+  archiveReady: getArchiveReadyState(state),
+  playerReady: getPlayerReadyState(state),
+})
+
+export const Main = connect(mapStateToProps)(MainPage)

@@ -19,6 +19,7 @@
     "linebreak-style":"off",
     "jsx-a11y/no-noninteractive-element-interactions": "off",
     "react/prefer-stateless-function": "off",
-    "id-match": "off"
+    "id-match": "off",
+    "default-case": "off"
   }
 }

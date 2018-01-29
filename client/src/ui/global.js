@@ -9,7 +9,7 @@ import mariadTtf from '../assets/fonts/8143.ttf'
 import mariadSvg from '../assets/fonts/8143.svg'
 
 
-export const globalStyles = theme => injectGlobal`
+export const globalStyles = (theme) => injectGlobal`
   @font-face {
     font-family: 'Myriad';
     src: url(${mariadEot});

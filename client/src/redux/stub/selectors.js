@@ -1,2 +1,2 @@
-export const getStub = (state, props) => state.stub
+export const getStub = (state) => state.stub
 export const getStubWeight = (state) => state.stub.weight
