@@ -8,6 +8,7 @@ import { reducers } from '../redux'
 import fetch from './middleware/fetch'
 import nextDispatch from './middleware/next-dispatch'
 import reduxMultiplyDispatch from './middleware/redux-multiply-dispatch'
+import setStubWeight from './middleware/set-stub-weight'
 import { api } from './api'
 
 
@@ -19,5 +20,6 @@ export const store = createStore(
     fetch,
     nextDispatch,
     reduxMultiplyDispatch,
+    setStubWeight,
   ),
 )

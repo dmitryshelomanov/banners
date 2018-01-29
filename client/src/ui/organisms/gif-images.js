@@ -8,6 +8,7 @@ import {
   Button,
   Text,
   CheckBox,
+  WeightStubDisplay,
 } from '../'
 import {
   gifGenerated,
@@ -16,7 +17,7 @@ import {
 import { toggleStubState } from '../../redux/stub/actions'
 import { getGifs } from '../../redux/gif/selectors'
 import { getResize } from '../../redux/resize/selectors'
-import { getStub } from '../../redux/stub/selectors'
+import { getStub, getStubWeight } from '../../redux/stub/selectors'
 import { getArchiveName } from '../../redux/tree-folder/selectors'
 import WithContainer from '../../hocs/with-gif-change-container'
 /* eslint-disable react/no-array-index-key */
@@ -34,7 +35,7 @@ const Wrapper = FlexWrap.extend`
   & .repeat-wrapper {
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
+    margin: 30px 0;
     & p {
       font-weight: bold;
       margin-right: 15px;
@@ -90,12 +91,17 @@ class GifWrapper extends Component {
       nameFolder,
       onSetRepeatState,
       stub,
+      weight,
       onToggleStub,
     } = this.props
 
     return (
       <Wrapper>
         <div className="stub-wrapper">
+          <WeightStubDisplay
+            stub={stub}
+            weight={weight}
+          />
           <CheckBox
             checked={stub.isGif}
             id="stub"
@@ -163,10 +169,11 @@ class GifWrapper extends Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  gifs: getGifs(state, props),
-  resize: getResize(state, props),
-  nameFolder: getArchiveName(state, props),
-  stub: getStub(state, props),
+  gifs: getGifs(state),
+  weight: getStubWeight(state),
+  resize: getResize(state),
+  nameFolder: getArchiveName(state),
+  stub: getStub(state),
 })
 
 const mapDispatchToProps = (dispatch) => ({

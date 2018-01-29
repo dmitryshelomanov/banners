@@ -1,6 +1,6 @@
-export const getGifData = (state, props) => state.gifs.data
-export const getGifs = (state, props) => state.gifs
-export const getGifSize = (state, props) => ({
+export const getGifData = (state) => state.gifs.data
+export const getGifs = (state) => state.gifs
+export const getGifSize = (state) => ({
   gifH: state.gifs.h,
   gifW: state.gifs.w,
 })

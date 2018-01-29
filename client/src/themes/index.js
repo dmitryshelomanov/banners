@@ -12,6 +12,7 @@ export const defaultTheme = {
     color10: '#6e99c3',
     color11: '#3c638a',
     color12: '#1a3a5b',
+    color13: '#BF360C',
     white: '#fff',
   },
   fontFamily: 'Myriad',
