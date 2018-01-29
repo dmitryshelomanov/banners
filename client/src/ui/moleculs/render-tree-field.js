@@ -17,7 +17,15 @@ const Folder = Text.extend`
   box-sizing: border-box;
   margin: 0;
   color: #0366d6;
-  cursor: pointer;
+  &.link {
+    color: ${({ theme }) => theme.color.color13};
+    cursor: pointer;
+    transition: .5s;
+    &:hover {
+      text-decoration: underline;
+      opacity: .5
+    }
+  }
 `
 
 export class RenderTree extends Component {
@@ -47,6 +55,7 @@ export class RenderTree extends Component {
       >
         <Folder
           onClick={() => this.addImage(folders)}
+          className={extensions.indexOf(folders.extension) !== -1 && 'link'}
         >
           {folders.name}
         </Folder>

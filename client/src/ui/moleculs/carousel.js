@@ -87,10 +87,6 @@ export class Carousel extends Component {
     const data = carousel.images ? carousel.images : carousel
 
 
-    console.log(currentSlide)
-    console.log(this.getComputedSize())
-    console.log(this.state.width)
-    console.log(this.nestedImage)
     return (
       <Wrapper
         style={{
