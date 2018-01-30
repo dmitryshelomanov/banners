@@ -8,6 +8,7 @@ import gif from './gif/reducer'
 import area from './area/reducer'
 import player from './banner/reducer'
 import carousel from './carousel/reducer'
+import stoppedBanner from './stopped-banner/reducer'
 
 
 export const reducers = combineReducers({
@@ -19,4 +20,5 @@ export const reducers = combineReducers({
   area,
   firmware,
   stub,
+  stoppedBanner,
 })

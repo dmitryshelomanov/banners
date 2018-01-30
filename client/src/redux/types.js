@@ -64,3 +64,9 @@ export const SET_STUB_WEIGHT = 'STUB/set_gif_weight'
 export const STATE_CLEAR_GLOBAL = 'CLEAR/global_state'
 
 export const SET_JPG_STUB = 'STUB/set_jpg'
+
+export const STOPPED_BANNER = 'STOPPED_BANNER/GET'
+export const STOPPED_BANNER_TOGGLE_STATE = 'STOPPED_BANNER/toggle_state'
+export const STOPPED_BANNER_FETCH = 'STOPPED_BANNER/GET_FETCH'
+export const STOPPED_BANNER_END = 'STOPPED_BANNER/GET_END'
+export const STOPPED_BANNER_ERROR = 'STOPPED_BANNER/GET_ERROR'
