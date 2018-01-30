@@ -36,7 +36,7 @@ io.on('connect', (s) => {
     if (!isDelete) return
     folder[s.id] = data
   })
-  s.on('banner:delete-cache', (data) => {
+  s.on('banner:delete-cache', () => {
     deleteCacheHelper(s)
   })
 })
