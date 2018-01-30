@@ -1,5 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { getStoppedState } from '../../redux/stopped-banner/selectors'
+import { setStoppedState } from '../../redux/stopped-banner/actions'
 import {
   Button,
   Text,
@@ -7,7 +10,7 @@ import {
 } from '../'
 
 
-const Stopped = ({ ...rest }) => (
+const Stopped = ({ isStopped, onSetStoppedState, ...rest }) => (
   <div {...rest}>
     <Text>
       Количество повторов банера
@@ -20,6 +23,10 @@ const Stopped = ({ ...rest }) => (
       id="stopped"
       type="checkbox"
       name="stopped"
+      checked={isStopped}
+      onChange={() => {
+        onSetStoppedState(!isStopped, 580)
+      }}
     />
     <Button
       className="active-btn"
@@ -29,7 +36,23 @@ const Stopped = ({ ...rest }) => (
   </div>
 )
 
-export const StoppedBanner = styled(Stopped)`
+const mapStateToProps = (state) => ({
+  isStopped: getStoppedState(state),
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  onSetStoppedState: (state, times) => {
+    dispatch(setStoppedState(state, times))
+  },
+})
+
+
+const StoppedWithConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Stopped)
+
+export const StoppedBanner = styled(StoppedWithConnect)`
   display: flex;
   justify-content: space-around;
   align-items: center;
