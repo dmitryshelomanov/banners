@@ -18,6 +18,7 @@ import {
 import playIcon from '../../assets/img/play.png'
 import pauseIcon from '../../assets/img/pause.png'
 import getBanner from '../../helpers/get-banner'
+import Emitter from '../../helpers/emitter'
 import { compressExt } from '../../config'
 /* eslint-disable  radix */
 
@@ -51,11 +52,11 @@ class Controll extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      step: 1,
       duration: props.instance.timeline.duration,
       isPlay: false,
     }
-    this.playStart()
+    this.emitter = Emitter.getInstance()
+    this.registerEvent()
   }
 
   getMethodFromStub = () => {
@@ -70,25 +71,56 @@ class Controll extends Component {
     return onSetStub(getBanner(true).canvas.toDataURL('image/jpeg', 0.6))
   }
 
-  playStart = () => {
+  getComputedValue = (value) => {
+    const { fps } = this.props
+
+    return `${Number.parseInt((value / fps) * 1000)}мc`
+  }
+
+  getComputedPecent = (value) => (value * 100) / this.state.duration
+
+  getElements = () => {
+    const el = this.timelineRange.node.querySelector('.input-range__track--active')
+    const labelContainer = this.timelineRange.node.querySelector('.input-range__slider-container')
+    const label = labelContainer.querySelector('.input-range__label-container')
+
+    return { el, labelContainer, label }
+  }
+
+  setInfoFromTimeline = () => {
+    const { instance } = this.props
+    const { el, label, labelContainer } = this.getElements()
+
+    el.style.width = `${this.getComputedPecent(instance.timeline.position)}%`
+    labelContainer.style.left = `${this.getComputedPecent(instance.timeline.position)}%`
+    label.innerText = this.getComputedValue(instance.timeline.position)
+    instance.gotoAndStop(instance.timeline.position)
+  }
+
+  animated = () => {
     const { instance } = this.props
 
-    setInterval(() => {
-      if (!this.state.isPlay
-        || this.state.step > this.state.duration) return
+    if (!this.state.isPlay
+      || instance.timeline.position > this.state.duration) return
 
-      this.setState({ step: parseInt(this.state.step) + 1 }, () => {
-        instance.gotoAndStop(this.state.step)
-      })
-    }, 30)
+    instance.timeline.position++
+    this.setInfoFromTimeline()
+    requestAnimationFrame(this.animated)
   }
 
   changeTimeLine = (value) => {
-    this.setState({ step: value }, () => {
-      const { instance } = this.props
+    const { instance } = this.props
 
-      instance.gotoAndStop(this.state.step)
-    })
+    instance.timeline.position = value
+    this.setInfoFromTimeline()
+    instance.gotoAndStop(value)
+  }
+
+  registerEvent = () => {
+    this.emitter.on('get:time:data', () => ({
+      duration: this.state.duration,
+      time: this.props.instance.timeline.position,
+    }))
   }
 
   render() {
@@ -99,7 +131,7 @@ class Controll extends Component {
       onGetMinimalSize,
       nameFolder,
       nameFile,
-      fps,
+      instance,
     } = this.props
 
     return (
@@ -111,7 +143,10 @@ class Controll extends Component {
           <img
             alt="play"
             src={playIcon}
-            onClick={() => this.setState({ isPlay: true })}
+            onClick={() => {
+              this.setState({ isPlay: true })
+              requestAnimationFrame(this.animated)
+            }}
           />
         )}
         {isPlay && (
@@ -122,10 +157,13 @@ class Controll extends Component {
           />
         )}
         <InputRange
-          formatLabel={value => `${Number.parseInt((value / fps) * 1000)}мc`}
+          ref={(c) => {
+            this.timelineRange = c
+          }}
+          formatLabel={value => this.getComputedValue(value)}
           maxValue={duration}
           minValue={1}
-          value={this.state.step}
+          value={instance.timeline.position}
           onChange={this.changeTimeLine}
         />
         <div

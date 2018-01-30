@@ -28,9 +28,10 @@ import {
   ControllWithHoc as Controll,
 } from '../'
 import { baseURL } from '../../config'
-
+import Emmiter from '../../helpers/emitter'
 /* eslint-disable  react/no-unused-state */
 /* eslint-disable  no-underscore-dangle */
+
 const BnnerWrap = FlexWrap.extend`
   background: #fff;
   margin: 25px 0;
@@ -42,9 +43,14 @@ const BnnerWrap = FlexWrap.extend`
 `
 
 class ShowBanner extends Component {
-  state = {
-    html: null,
-    s: null,
+  constructor(props) {
+    super(props)
+    this.state = {
+      html: null,
+      s: null,
+    }
+    this.emitter = Emmiter.getInstance()
+    this.registerEmiterListeners()
   }
 
   getInitialState = () => {
@@ -139,6 +145,15 @@ class ShowBanner extends Component {
     }
     this.state.s.graphics.command.w = minimalW
     return { h: `${Number(minimalH) + 2}px`, w: `${Number(minimalW) + 2}px` }
+  }
+
+  registerEmiterListeners = () => {
+    this.emitter.on('set-stub-gif', (...rest) => {
+
+    })
+    this.emitter.on('set-stub-jpg', (...rest) => {
+
+    })
   }
 
   removeOldBorder = () => {
