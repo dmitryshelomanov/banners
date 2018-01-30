@@ -8,6 +8,7 @@ const downloadArchive = require('./download-archive')
 const getMinimalSize = require('./get-minimal-size')
 const firmware = require('./firmware')
 const getArea = require('./get-area')
+const stoppedBanner = require('./stopped-banner')
 
 
 module.exports = {
@@ -21,4 +22,5 @@ module.exports = {
   getMinimalSize,
   firmware,
   getArea,
+  stoppedBanner,
 }

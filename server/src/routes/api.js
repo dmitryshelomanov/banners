@@ -10,6 +10,7 @@ const {
   getMinimalSize,
   firmware,
   getArea,
+  stoppedBanner,
 } = require('../controllers')
 
 
@@ -25,5 +26,6 @@ updateBorder(router, 'post', '/update/border')
 getMinimalSize(router, 'post', '/get/minimal-size')
 firmware(router, 'post', '/firmware')
 getArea(router, 'get', '/area')
+stoppedBanner(router, 'post', '/stopped-banner')
 
 module.exports = router

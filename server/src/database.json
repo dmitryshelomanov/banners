@@ -8,7 +8,7 @@
   },
   "production": {
     "username": "root",
-    "password": "",
+    "password": "1111111",
     "database": "service_production",
     "host": "localhost",
     "dialect": "mysql"
