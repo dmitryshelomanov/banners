@@ -1,14 +1,14 @@
 import * as types from '../types'
 /* eslint-disable func-names */
 
-export function setStoppedState(state, times) {
+export function setStoppedState(data) {
   return function (dispatch, getState, { api }) {
     dispatch({
       type: types.STOPPED_BANNER_TOGGLE_STATE,
-      payload: state,
+      payload: data.isStopped,
       nextDispatch: () => ({
         type: types.STOPPED_BANNER,
-        request: () => api.setStoppedState({ state, times }),
+        request: () => api.setStoppedState(data),
       }),
     })
   }
