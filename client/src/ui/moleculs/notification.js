@@ -5,6 +5,7 @@ import { getStub } from '../../redux/stub/selectors'
 import { getFirmware } from '../../redux/firmware/selectors'
 import { getState } from '../../redux/tree-folder/selectors'
 import { getStateBorder } from '../../redux/banner/selectors'
+import { getStateFetch } from '../../redux/stopped-banner/selectors'
 
 
 class Wrapper extends Component {
@@ -34,6 +35,12 @@ class Wrapper extends Component {
         isSuccess: 'Изменил border',
         msg: '',
       },
+      stoppedBanner: {
+        isLoading: 'Останавливаю баннер ...',
+        isError: 'Ошибка остановки',
+        isSuccess: 'Остановил банер',
+        msg: '',
+      },
     },
   }
 
@@ -42,6 +49,7 @@ class Wrapper extends Component {
     this.notifyFormated('stub', nextProps.stub, this.props.stub)
     this.notifyFormated('firmware', nextProps.firmware, this.props.firmware)
     this.notifyFormated('border', nextProps.border, this.props.border)
+    this.notifyFormated('stoppedBanner', nextProps.stoppedBanner, this.props.stoppedBanner)
   }
 
   notifyFormated = (name, nextState, propState) => {
@@ -68,6 +76,7 @@ const mapStatetoProps = (state) => ({
   firmware: getFirmware(state),
   archive: getState(state),
   border: getStateBorder(state),
+  stoppedBanner: getStateFetch(state),
 })
 
 export const Notification = connect(mapStatetoProps)(Wrapper)

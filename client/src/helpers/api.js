@@ -115,6 +115,12 @@ class API {
 
     return resolve
   }
+
+  async setStoppedState(data) {
+    const resolve = await this.request.post('stopped-banner', data)
+
+    return resolve
+  }
 }
 
 export const api = new API()
