@@ -17,12 +17,16 @@ function stub(condition, {
       encoding: 'base64',
       mode: parseInt('0777', 8),
     })
-    this.body = `${nameFolder}/banner.jpeg`
+    const { size } = await fs.stat(pathReadyJpg)
+
+    return size
   }
 
   async function gif() {
     await gifEncoder(data, pathReadyGif)
-    this.body = `${nameFolder}/banner.gif`
+    const { size } = await fs.stat(pathReadyGif)
+
+    return size
   }
 
   return condition ? gif : jpg
@@ -48,8 +52,9 @@ async function stubGenerated(ctx) {
       nameFolder,
     })
 
-    callfn.call(ctx)
-    ctx.body = 'stub generated'
+    const size = await callfn.call(ctx)
+
+    ctx.body = size
   }
   catch (error) {
     debug('handle error - ', error)
