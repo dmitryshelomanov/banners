@@ -1,4 +1,4 @@
-export default class EventEmitter {
+class EventEmitter {
   constructor() {
     this.events = {}
     this.instance = null
@@ -25,3 +25,5 @@ export default class EventEmitter {
     throw new Error(`event ${name} not found`)
   }
 }
+
+export default new EventEmitter()
