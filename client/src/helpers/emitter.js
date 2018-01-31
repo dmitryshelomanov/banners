@@ -4,14 +4,6 @@ class EventEmitter {
     this.instance = null
   }
 
-  static getInstance() {
-    if (!this.instance) {
-      this.instance = new EventEmitter()
-      return this.instance
-    }
-    return this.instance
-  }
-
   on(name, callback) {
     if (!this.events[name]) {
       this.events[name] = callback
@@ -23,6 +15,10 @@ class EventEmitter {
       return this.events[name](...rest)
     }
     throw new Error(`event ${name} not found`)
+  }
+
+  clearStare() {
+    this.events = {}
   }
 }
 
