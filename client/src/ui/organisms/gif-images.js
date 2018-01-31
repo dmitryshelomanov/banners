@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import InputNumber from 'rc-input-number'
+import ImportRange from 'react-input-range'
 import {
   FlexWrap,
   GifItem,
@@ -9,6 +10,7 @@ import {
   Text,
   CheckBox,
   WeightStubDisplay,
+  JpgStubShow,
 } from '../'
 import {
   gifGenerated,
@@ -45,12 +47,6 @@ const Wrapper = FlexWrap.extend`
     display: flex;
     width: 100%;
     justify-content: flex-end;
-  }
-  & .stub-wrapper-image {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    margin-bottom: 25px;
   }
   & .gif-wrapper {
     display: flex;
@@ -113,14 +109,7 @@ class GifWrapper extends Component {
             }}
           />
         </div>
-        {!stub.isGif && stub.jpgStub && (
-          <div className="stub-wrapper-image">
-            <img
-              alt="stub"
-              src={stub.jpgStub}
-            />
-          </div>
-        )}
+        {!stub.isGif && stub.jpgStub && <JpgStubShow />}
         <div className="gif-wrapper">
           {stub.isGif && gifs.base64.length > 0 && (
             <Carousel

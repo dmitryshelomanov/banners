@@ -160,11 +160,11 @@ class ShowBanner extends Component {
         this.props.gifSize.gifW,
       )
     })
-    emitter.on('set-stub-jpg', (...rest) => {
+    emitter.on('set-stub-jpg', (q = 1) => {
       const doc = this.banner.contentDocument || this.banner.contentWindow.document
       const canvas = doc.getElementById('canvas')
 
-      this.props.onSetStub(canvas.toDataURL('image/jpeg', 1))
+      this.props.onSetStub(canvas.toDataURL('image/jpeg', q))
     })
   }
 
