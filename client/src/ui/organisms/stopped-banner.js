@@ -11,7 +11,9 @@ import {
   CheckBox,
 } from '../'
 
-const Stopped = ({ isStopped, onSetStoppedState, nameFolder, nameFile, ...rest }) => (
+const Stopped = ({
+  isStopped, onSetStoppedState, nameFolder, nameFile, ...rest
+}) => (
   <div {...rest}>
     <Text>
       Количество повторов банера

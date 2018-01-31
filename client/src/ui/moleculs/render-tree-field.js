@@ -29,6 +29,8 @@ const Folder = Text.extend`
 `
 
 export class RenderTree extends Component {
+  componentDidMount = () => this.addImage(this.props.folders)
+
   addImage = (img) => {
     const { folders, archiveName } = this.props
 
@@ -53,10 +55,7 @@ export class RenderTree extends Component {
         w="100%"
         fd="column"
       >
-        <Folder
-          onClick={() => this.addImage(folders)}
-          className={extensions.indexOf(folders.extension) !== -1 && 'link'}
-        >
+        <Folder>
           {folders.name}
         </Folder>
         <FlexWrap
