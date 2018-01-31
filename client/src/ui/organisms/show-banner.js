@@ -5,11 +5,15 @@ import createStyle from '../../helpers/create-style'
 import {
   setSize,
   setBorderFromCanvas,
+  setGifImage,
 } from '../../redux/gif/actions'
 import {
   togglePlayerReady,
   setFps,
 } from '../../redux/banner/actions'
+import {
+  setJpgStub,
+} from '../../redux/stub/actions'
 import {
   getPlayerBgColor,
   getPlayerBorderColor,
@@ -27,8 +31,8 @@ import {
   FlexWrap,
   ControllWithHoc as Controll,
 } from '../'
-import { baseURL } from '../../config'
-import Emmiter from '../../helpers/emitter'
+import { baseURL, compressExt } from '../../config'
+import emitter from '../../helpers/emitter'
 /* eslint-disable  react/no-unused-state */
 /* eslint-disable  no-underscore-dangle */
 
@@ -49,7 +53,6 @@ class ShowBanner extends Component {
       html: null,
       s: null,
     }
-    this.emitter = Emmiter.getInstance()
     this.registerEmiterListeners()
   }
 
@@ -105,7 +108,7 @@ class ShowBanner extends Component {
         color: nextProps.borderColor,
         w: this.props.gifSize.gifW,
         h: this.props.gifSize.gifH,
-        s: this.props.borderSize,
+        s: nextProps.borderSize,
       })
 
       this.state.s.graphics._oldStrokeStyle.width = this.props.borderSize
@@ -148,11 +151,20 @@ class ShowBanner extends Component {
   }
 
   registerEmiterListeners = () => {
-    this.emitter.on('set-stub-gif', (...rest) => {
+    emitter.on('set-stub-gif', (...rest) => {
+      const doc = this.banner.contentDocument || this.banner.contentWindow.document
+      const canvas = doc.getElementById('canvas')
 
+      this.props.setImageFromGif(
+        canvas.toDataURL(`image/${compressExt}`, 1),
+        this.props.gifSize.gifW,
+      )
     })
-    this.emitter.on('set-stub-jpg', (...rest) => {
+    emitter.on('set-stub-jpg', (...rest) => {
+      const doc = this.banner.contentDocument || this.banner.contentWindow.document
+      const canvas = doc.getElementById('canvas')
 
+      this.props.onSetStub(canvas.toDataURL('image/jpeg', 1))
     })
   }
 
@@ -227,6 +239,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onSetFps: (fps) => {
     dispatch(setFps(fps))
+  },
+  setImageFromGif: (base64, w) => {
+    dispatch(setGifImage(base64, w))
+  },
+  onSetStub: (base64) => {
+    dispatch(setJpgStub(base64))
   },
 })
 

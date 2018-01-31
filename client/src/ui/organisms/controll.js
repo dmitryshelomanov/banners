@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import InputRange from 'react-input-range'
 import {
   FlexWrap,
+  StoppedPoint,
 } from '../'
 import { setBorderFromCanvas, setGifImage } from '../../redux/gif/actions'
 import { setJpgStub } from '../../redux/stub/actions'
@@ -17,9 +18,8 @@ import {
 } from '../../redux/tree-folder/selectors'
 import playIcon from '../../assets/img/play.png'
 import pauseIcon from '../../assets/img/pause.png'
-import getBanner from '../../helpers/get-banner'
-import Emitter from '../../helpers/emitter'
-import { compressExt } from '../../config'
+import emitter from '../../helpers/emitter'
+
 /* eslint-disable  radix */
 
 const ControllWrapp = FlexWrap.extend`
@@ -27,6 +27,7 @@ const ControllWrapp = FlexWrap.extend`
   background: ${({ theme }) => theme.color.color5};
   align-items: center;
   height: 90px;
+  position: relative;
   & img {
     margin: 0 35px;
     cursor: pointer;
@@ -55,27 +56,17 @@ class Controll extends Component {
       duration: props.instance.timeline.duration,
       isPlay: false,
     }
-    this.emitter = Emitter.getInstance()
     this.registerEvent()
   }
 
   getMethodFromStub = () => {
-    const { stub, setImageFromGif, gifSize, onSetStub } = this.props
-
-    if (stub.isGif) {
-      return setImageFromGif(
-        getBanner(true).canvas.toDataURL(`image/${compressExt}`, 1),
-        gifSize.gifW,
-      )
+    if (this.props.stub.isGif) {
+      return emitter.emit('set-stub-gif')
     }
-    return onSetStub(getBanner(true).canvas.toDataURL('image/jpeg', 0.6))
+    return emitter.emit('set-stub-jpg')
   }
 
-  getComputedValue = (value) => {
-    const { fps } = this.props
-
-    return `${Number.parseInt((value / fps) * 1000)}мc`
-  }
+  getComputedValue = (value) => `${Number.parseInt((value / this.props.fps) * 1000)}мc`
 
   getComputedPecent = (value) => (value * 100) / this.state.duration
 
@@ -117,9 +108,9 @@ class Controll extends Component {
   }
 
   registerEvent = () => {
-    this.emitter.on('get:time:data', () => ({
-      duration: this.state.duration,
-      time: this.props.instance.timeline.position,
+    emitter.on('get:time:data', () => ({
+      time: (this.props.instance.timeline.position / this.props.fps) * 1000,
+      duration: (this.props.instance.timeline.duration / this.props.fps) * 1000,
     }))
   }
 

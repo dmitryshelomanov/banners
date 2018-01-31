@@ -1,61 +1,49 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { getStoppedState } from '../../redux/stopped-banner/selectors'
 import { setStoppedState } from '../../redux/stopped-banner/actions'
 import { getArchiveName, getArchiveFileName } from '../../redux/tree-folder/selectors'
-import Emitter from '../../helpers/emitter'
+import emitter from '../../helpers/emitter'
 import {
   Button,
   Text,
   CheckBox,
 } from '../'
 
+const Stopped = ({ isStopped, onSetStoppedState, nameFolder, nameFile, ...rest }) => (
+  <div {...rest}>
+    <Text>
+      Количество повторов банера
+    </Text>
+    <Text>
+      Застопить баннер на маркере
+      (установите маркер на нужном кадре)
+    </Text>
+    <CheckBox
+      id="stopped"
+      type="checkbox"
+      name="stopped"
+      checked={isStopped}
+      onChange={() => {
+        const { time, duration } = emitter.emit('get:time:data')
 
-class Stopped extends Component {
-  constructor(props) {
-    super(props)
-    this.emitter = Emitter.getInstance()
-  }
-
-  render() {
-    const { isStopped, onSetStoppedState, nameFolder, nameFile, ...rest } = this.props
-
-    return (
-      <div {...rest}>
-        <Text>
-          Количество повторов банера
-        </Text>
-        <Text>
-          Застопить баннер на маркере
-          (установите маркер на нужном кадре)
-        </Text>
-        <CheckBox
-          id="stopped"
-          type="checkbox"
-          name="stopped"
-          checked={isStopped}
-          onChange={() => {
-            const { time, duration } = this.emitter.emit('get:time:data')
-
-            onSetStoppedState({
-              isStopped: !isStopped,
-              time,
-              nameFolder,
-              nameFile,
-              duration,
-            })
-          }}
-        />
-        <Button
-          className="active-btn"
-          text="застопить"
-          thirty
-        />
-      </div>
-    )
-  }
-}
+        onSetStoppedState({
+          isStopped: !isStopped,
+          time,
+          nameFolder,
+          nameFile,
+          duration,
+        })
+      }}
+    />
+    <Button
+      className="active-btn"
+      text="застопить"
+      thirty
+    />
+  </div>
+)
 
 const mapStateToProps = (state) => ({
   isStopped: getStoppedState(state),
