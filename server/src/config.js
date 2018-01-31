@@ -10,4 +10,8 @@ module.exports = {
   ext: 'png',
   isDelete: false,
   db: dbConfig[NODE_ENV],
+  minifyOpt: {
+    collapseInlineTagWhitespace: true,
+    collapseWhitespace: true,
+  },
 }

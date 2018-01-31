@@ -1,43 +1,55 @@
 const debug = require('debug')('banner:update-color-bg')
 const fs = require('fs-extra')
 const cheerio = require('cheerio')
-const UglifyJS = require('uglify-js')
+const { minify } = require('html-minifier')
 const {
   types,
   tempPathGenerated,
   folderExists,
   bodyExists,
 } = require('../utils')
+const { minifyOpt } = require('../config')
 
-const options = {
-  output: {
-    comments: true,
-  },
+
+function setVarriable($, s, w, h, c) {
+  if ($('script[data-varriables="setBorder"]').length > 0) {
+    $('script[data-varriables="setBorder"]').remove()
+  }
+  const varriable = `
+    <script data-varriables="setBorder">
+      var sv = ${s}, wv = ${w}, hv = ${h}, cv = '${c}';
+    </script>
+  `
+
+  $('head').prepend(varriable)
 }
 
-function data(color, w, h, s) {
-  const code = `
-    /*service_function*/
-    function serviceCallback(e){
-      var canvas = document.getElementById('canvas');
-      var oldW = 0;
-      var oldH = 0;
-      fireFunction(e);
-      window.g = new createjs.Graphics();
-      g.beginStroke('${color}').setStrokeStyle(${s}).drawRect(0, 0, ${w}, ${h});
-      window.s = new createjs.Shape(window.g);exportRoot.addChild(window.s);
-      exportRoot.addEventListener('tick', function() {
+function setServiceFunction($) {
+  const fn = `
+    <script data-serviceFunction="setBorder">
+        function serviceCallback(e){
+        fireFunction(e);
+        if (typeof stopped === 'function' && isStopped) {
+          stopped();
+        }
+        var oldW = 0, oldH = 0;
+        window.g = new createjs.Graphics();
+        g.beginStroke(cv).setStrokeStyle(sv).drawRect(0, 0, wv, hv);
+        window.s = new createjs.Shape(window.g);exportRoot.addChild(window.s);
+        exportRoot.addEventListener('tick', function() {
         if (oldW !== canvas.width) {
           window.s.graphics.command.w = canvas.width;
           window.s.graphics.command.h = canvas.height;
           oldW = canvas.width;
         }
-      });
-    }
-    /*service_function_end*/
+        });
+      }
+    </script>
   `
 
-  return UglifyJS.minify(code, options).code
+  if ($('script[data-serviceFunction="setBorder"]').length === 0) {
+    $('body').append(fn)
+  }
 }
 
 const replace = function replaceFn(str) {
@@ -48,8 +60,6 @@ const replace = function replaceFn(str) {
     return i === 0 ? 'serviceCallback' : 'fireFunction'
   })
 }
-
-const replaceOldCb = str => str.replace(/\/\*service_function\*\/[S\s].+[S\s]\/\*service_function_end\*\//igm, '')
 
 /**
  * изменение границы в файле
@@ -66,15 +76,19 @@ async function updateBorder(ctx) {
     const $ = cheerio.load(await fs.readFile(tmpPath(types.PROCESS, `${nameFolder}/${nameFile}`)))
 
     $('script').each(function each() {
-      if ($(this).attr('src') === undefined) {
-        const str = replace(replaceOldCb($(this).html()))
+      const $this = $(this)
 
-        $(this)
-          .html('')
-          .text(`${str} ${data(color, w, h, s)}`)
+      if ($this.attr('src') === undefined
+        && Object.keys($this.data()).length === 0) {
+        const str = $this.html()
+
+        $this.html('')
+          .text(replace(str))
       }
     })
-    await fs.writeFile(tmpPath(types.PROCESS, `${nameFolder}/${nameFile}`), $.html())
+    setVarriable($, s, w, h, color)
+    setServiceFunction($)
+    await fs.writeFile(tmpPath(types.PROCESS, `${nameFolder}/${nameFile}`), minify($.html(), minifyOpt))
     ctx.body = 'border color updated!'
   }
   catch (error) {
