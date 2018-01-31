@@ -1,5 +1,9 @@
 {
-  "extends": "atomix-base",
+  "extends": "@atomix/eslint-config",
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
   "rules": {
     "object-curly-newline": "off",
     "object-curly-spacing": "off",

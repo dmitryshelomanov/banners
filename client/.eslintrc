@@ -1,5 +1,5 @@
 {
-  "extends": "atomix-react",
+  "extends": "@atomix/eslint-config-react",
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 2017

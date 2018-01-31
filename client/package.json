@@ -2,6 +2,17 @@
   "name": "banners",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test:code:client": "react-scripts test --env=jsdom",
+    "test:code:debug": "react-scripts test --env=jsdom --notify --verbose",
+    "test:coverage": "react-scripts test --env=jsdom --coverage",
+    "eject": "react-scripts eject",
+    "test:lint:client": "eslint . ",
+    "precommit": "npm run test:lint:client",
+    "prepush": "npm run test:lint:client"
+  },
   "dependencies": {
     "axios": "^0.17.1",
     "enzyme": "^3.2.0",
@@ -23,21 +34,10 @@
     "socket.io": "^2.0.4",
     "styled-components": "^2.2.4"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test:code:client": "react-scripts test --env=jsdom",
-    "test:code:debug": "react-scripts test --env=jsdom --notify --verbose",
-    "test:coverage": "react-scripts test --env=jsdom --coverage",
-    "eject": "react-scripts eject",
-    "test:lint:client": "eslint . ",
-    "precommit": "npm run test:lint:client",
-    "prepush": "npm run test:lint:client"
-  },
   "devDependencies": {
-    "babel-eslint": "^8.0.3",
-    "eslint": "^4.13.1",
-    "eslint-config-atomix-react": "^4.1.1",
+    "@atomix/eslint-config-react": "^6.1.1",
+    "babel-eslint": "^8.2.1",
+    "eslint": "^4.16.0",
     "husky": "^0.14.3"
   }
 }
