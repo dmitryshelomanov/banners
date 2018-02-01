@@ -8,38 +8,33 @@ import { getStateBorder } from '../../redux/banner/selectors'
 import { getStateFetch } from '../../redux/stopped-banner/selectors'
 
 
-class Wrapper extends Component {
+class notification extends Component {
   state = {
     msg: {
       archive: {
         isLoading: 'Загружаю архив ...',
         isError: 'Ошибка загрузки архива',
         isSuccess: 'Загрузил',
-        msg: '',
       },
       stub: {
         isLoading: 'Заглушка генерируется',
         isError: 'Ошибка генерации заглушки',
         isSuccess: 'Заглушка готова',
-        msg: '',
       },
       firmware: {
         isLoading: 'Прошиваю ...',
         isError: 'Ошибка прошивки',
         isSuccess: 'Прошил',
-        msg: '',
       },
       border: {
         isLoading: 'Изменяю border ...',
         isError: 'Ошибка измения border',
         isSuccess: 'Изменил border',
-        msg: '',
       },
       stoppedBanner: {
         isLoading: 'Останавливаю баннер ...',
         isError: 'Ошибка остановки',
         isSuccess: 'Остановил банер',
-        msg: '',
       },
     },
   }
@@ -52,17 +47,21 @@ class Wrapper extends Component {
     this.notifyFormated('stoppedBanner', nextProps.stoppedBanner, this.props.stoppedBanner)
   }
 
-  notifyFormated = (name, nextState, propState) => {
-    if (nextState.isLoading && !propState.isLoading) {
-      toast.info(`${this.state.msg[name].isLoading} ${this.state.msg[name].msg}`)
+  getError = (name, nextProps) => typeof nextProps !== 'boolean'
+    ? nextProps
+    : this.state.msg[name].isError
+
+  notifyFormated = (name, nextProps, propState) => {
+    if (nextProps.isLoading && !propState.isLoading) {
+      toast.info(`${this.state.msg[name].isLoading}`)
     }
-    if (!nextState.isLoading
+    if (!nextProps.isLoading
       && propState.isLoading
-      && !nextState.isError) {
-      toast.success(`${this.state.msg[name].isSuccess} ${this.state.msg[name].msg}`)
+      && !nextProps.isError) {
+      toast.success(`${this.state.msg[name].isSuccess}`)
     }
-    if (nextState.isError && !propState.isError) {
-      toast.error(`${this.state.msg[name].isError} ${this.state.msg[name].msg}`)
+    if (nextProps.isError && !propState.isError) {
+      toast.error(`${this.getError(name, nextProps.isError)}`)
     }
   }
 
@@ -79,4 +78,4 @@ const mapStatetoProps = (state) => ({
   stoppedBanner: getStateFetch(state),
 })
 
-export const Notification = connect(mapStatetoProps)(Wrapper)
+export const Notification = connect(mapStatetoProps)(notification)

@@ -7,13 +7,16 @@ import {
   Button,
 } from '../'
 import { firmware } from '../../redux/area/actions'
+import { getGifSize } from '../../redux/gif/selectors'
+import { getStub } from '../../redux/stub/selectors'
 import { getArchiveName, getArchiveFileName } from '../../redux/tree-folder/selectors'
+import { getResize } from '../../redux/resize/selectors'
 import { getArea } from '../../redux/area/selectors'
 import { getIsFirmware } from '../../redux/firmware/selectors'
 
 
 const Public = ({
-  nameFolder, dispatch, area, nameFile, isFirmware, ...rest
+  nameFolder, dispatch, area, nameFile, isFirmware, stub, gifSize, resize, ...rest
 }) => (
   <div {...rest}>
     <Button
@@ -24,6 +27,7 @@ const Public = ({
           nameFolder,
           fileName: nameFile,
           areaId: area.activeKey,
+          isGif: stub.isGif,
         }))
       }}
     />
@@ -35,6 +39,9 @@ const Public = ({
         const { data } = await axios.post(`${baseURL}api/download/archive`, {
           nameFolder,
           areaName: area.data.find(el => el.id === area.activeKey).name,
+          isGif: stub.isGif,
+          w: resize.isFixed ? gifSize.gifW : resize.minimalW,
+          h: resize.isFixed ? gifSize.gifH : resize.minimalH,
         })
 
         window.open(`${baseURL}download-ready/${data}`)
@@ -56,11 +63,14 @@ export const PublicComponentWithStyle = styled(Public)`
   }
 `
 
-const mapStateToProps = (state, props) => ({
-  nameFolder: getArchiveName(state, props),
-  nameFile: getArchiveFileName(state, props),
-  area: getArea(state, props),
-  isFirmware: getIsFirmware(state, props),
+const mapStateToProps = (state) => ({
+  nameFolder: getArchiveName(state),
+  nameFile: getArchiveFileName(state),
+  area: getArea(state),
+  isFirmware: getIsFirmware(state),
+  stub: getStub(state),
+  gifSize: getGifSize(state),
+  resize: getResize(state),
 })
 
 export const PublicComponent = connect(mapStateToProps)(PublicComponentWithStyle)

@@ -5,7 +5,6 @@ import * as types from '../types'
 const initialState = {
   isLoading: false,
   isError: false,
-  error: {},
   firmwareData: [],
 }
 
@@ -24,8 +23,8 @@ const firmware = (state = initialState, { type, payload }) => {
       }
     case types.AREA_FIRMWARE_ERROR: return {
       ...state,
-      isError: true,
-      error: payload,
+      isError: payload.response.data,
+      isLoading: false,
     }
     default: return state
   }

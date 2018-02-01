@@ -57,10 +57,11 @@ class ShowBanner extends Component {
   }
 
   getInitialState = () => {
-    if (!this.banner) return
     try {
       const doc = this.banner.contentDocument || this.banner.contentWindow.document
       const canvas = doc.getElementById('canvas')
+
+      if (!canvas) return
 
       setTimeout(() => {
         const inst = this.banner.contentWindow.window.exportRoot.instance
@@ -193,6 +194,7 @@ class ShowBanner extends Component {
           id="bannerFrame"
           title="banner"
           onLoad={this.getInitialState}
+          
           srcDoc={this.state.html}
           // src={`${baseURL}/process/${this.props.nameFolder}/${this.props.nameHtml}`}
           width={w}
