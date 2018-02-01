@@ -40,11 +40,14 @@ class notification extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.notifyFormated('archive', nextProps.archive, this.props.archive)
-    this.notifyFormated('stub', nextProps.stub, this.props.stub)
-    this.notifyFormated('firmware', nextProps.firmware, this.props.firmware)
-    this.notifyFormated('border', nextProps.border, this.props.border)
-    this.notifyFormated('stoppedBanner', nextProps.stoppedBanner, this.props.stoppedBanner)
+    Object.keys(this.state.msg).forEach((key) => {
+      this.notifyFormated(key, nextProps[key], this.props[key])
+    })
+    // this.notifyFormated('archive', nextProps.archive, this.props.archive)
+    // this.notifyFormated('stub', nextProps.stub, this.props.stub)
+    // this.notifyFormated('firmware', nextProps.firmware, this.props.firmware)
+    // this.notifyFormated('border', nextProps.border, this.props.border)
+    // this.notifyFormated('stoppedBanner', nextProps.stoppedBanner, this.props.stoppedBanner)
   }
 
   getError = (name, nextProps) => typeof nextProps !== 'boolean'
