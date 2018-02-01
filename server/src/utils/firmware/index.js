@@ -1,16 +1,17 @@
 const cheerio = require('cheerio')
 const debug = require('debug')('banner:firmware-util')
 const fs = require('fs-extra')
-const { Area, Rules } = require('../../models')
+const { Area } = require('../../models')
 const { types, tempPathGenerated } = require('../temp-path')
 const computed = require('./computed')
 const asyncMap = require('./mapper')
 const resolveFn = require('./resolve-fn')
 const mapperFn = require('./mapper-fn')
-const checkSize = require('./chek-size')
+const sizeStarter = require('./hooks/chek-size')
+const checkStubExists = require('./check-stub-exists')
 
 
-module.exports = async ({ nameFolder, areaId, fileName }) => {
+module.exports = async ({ nameFolder, areaId, fileName, isGif }) => {
   const rs = []
   const data = await Area.getAreaInfo(areaId)
   const path = tempPathGenerated()
@@ -38,17 +39,15 @@ module.exports = async ({ nameFolder, areaId, fileName }) => {
 
     return asyncMap(rs, mapperFn, $.html())
       .then(async (lastResolve) => {
+        await checkStubExists({ nameFolder, isGif })
         await resolveFn(lastResolve, data, areaPath, fileName)
-        const size = await Rules.getCheckSizeRule(areaId)
-        const sizeRs = await checkSize(size, areaPath, nameFolder)
+        await sizeStarter({ nameFolder, areaId, fileName, isGif })
 
-        if (sizeRs) return true
-        return {
-          status: 500,
-          message: 'size expected',
-        }
+        return true
       })
-      .catch(error => error)
+      .catch((error) => {
+        throw error
+      })
   }
   catch (error) {
     throw error

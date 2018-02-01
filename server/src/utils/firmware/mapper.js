@@ -1,5 +1,5 @@
 /* eslint-disable  no-return-assign */
-module.exports = function asyncMap(arr, mapper, initialData) {
+module.exports = function asyncMap(arr, mapper, initialData = null) {
   let q = Promise.resolve()
 
   return Promise

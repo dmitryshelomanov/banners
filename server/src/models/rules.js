@@ -1,5 +1,3 @@
-
-
 module.exports = (sequelize, DataTypes) => {
   const Rules = sequelize.define('rules', {
     area_id: {
@@ -19,11 +17,22 @@ module.exports = (sequelize, DataTypes) => {
 
   Rules.Models = null
 
-  Rules.getCheckSizeRule = async function getCheckSizeRule(areaId) {
+  Rules.getCheckSizeArchive = async function getCheckSizeArchive(areaId) {
     const data = await Rules.findOne({
       where: {
         area_id: areaId,
-        type: 'check_size',
+        type: 'check_size_archive',
+      },
+    })
+
+    return data
+  }
+
+  Rules.getCheckSizeStub = async function getCheckSizeStub(areaId) {
+    const data = await Rules.findOne({
+      where: {
+        area_id: areaId,
+        type: 'check_size_stub',
       },
     })
 

@@ -13,20 +13,16 @@ async function firmWare(ctx) {
   debug('firmware archive with body - ', body)
 
   try {
-    const data = await start(body)
+    await start(body)
 
-    if (typeof data === 'boolean') {
-      ctx.body = {
-        message: 'archive is firmware!',
-        areaId: body.areaId,
-      }
-      return
+    ctx.body = {
+      message: 'archive is firmware!',
+      areaId: body.areaId,
     }
-    ctx.status = data.status
-    ctx.body = data.message
   }
   catch (error) {
-    ctx.throw(error)
+    ctx.status = error.status
+    ctx.body = error.message
   }
 }
 
