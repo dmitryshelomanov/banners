@@ -56,8 +56,7 @@ class ShowBanner extends Component {
 
   getInitialState = () => {
     try {
-      const doc = this.banner.contentDocument || this.banner.contentWindow.document
-      const canvas = doc.getElementById('canvas')
+      const canvas = this.getCanvas()
 
       if (!canvas) return
 
@@ -137,12 +136,11 @@ class ShowBanner extends Component {
   }
 
   getComputedSize = () => {
-    const { resize, gifSize } = this.props
-    const { isFixed, minimalW, minimalH } = resize
+    const { isFixed, minimalW, minimalH } = this.props.resize
 
     if (isFixed || Number(minimalW) === 0) {
       if (this.state.s !== null && this.state.s.graphics.command) {
-        this.state.s.graphics.command.w = gifSize.gifW
+        this.state.s.graphics.command.w = this.props.gifSize.gifW
       }
       return { h: '100%', w: '100%' }
     }
@@ -150,21 +148,21 @@ class ShowBanner extends Component {
     return { h: `${Number(minimalH) + 2}px`, w: `${Number(minimalW) + 2}px` }
   }
 
-  registerEmiterListeners = () => {
-    emitter.on('set-stub-gif', (...rest) => {
-      const doc = this.banner.contentDocument || this.banner.contentWindow.document
-      const canvas = doc.getElementById('canvas')
+  getCanvas = () => {
+    const doc = this.banner.contentDocument || this.banner.contentWindow.document
 
+    return doc.getElementById('canvas')
+  }
+
+  registerEmiterListeners = () => {
+    emitter.on('set-stub-gif', () => {
       this.props.setImageFromGif(
-        canvas.toDataURL(`image/${compressExt}`, 1),
+        this.getCanvas().toDataURL(`image/${compressExt}`, 1),
         this.props.gifSize.gifW,
       )
     })
     emitter.on('set-stub-jpg', (q = 1) => {
-      const doc = this.banner.contentDocument || this.banner.contentWindow.document
-      const canvas = doc.getElementById('canvas')
-
-      this.props.onSetStub(canvas.toDataURL('image/jpeg', q))
+      this.props.onSetStub(this.getCanvas().toDataURL('image/jpeg', q))
     })
   }
 
