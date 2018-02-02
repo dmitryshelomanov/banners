@@ -7,7 +7,7 @@ const computed = require('./computed')
 const asyncMap = require('./mapper')
 const resolveFn = require('./resolve-fn')
 const mapperFn = require('./mapper-fn')
-const sizeStarter = require('./hooks/chek-size')
+const sizeStarter = require('./hooks/check-size')
 const checkStubExists = require('./check-stub-exists')
 
 
