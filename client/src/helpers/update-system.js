@@ -3,7 +3,7 @@
 export default (num, system = 'kb') => {
   switch (system) {
     case 'kb':
-      return `${Math.floor(num / 1024)}кб`
+      return `${Math.ceil(num / 1024)}кб`
     default:
       return 0
   }
