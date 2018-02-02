@@ -19,7 +19,6 @@ import {
   getPlayerBorderColor,
   getPlayerBorderSize,
   getPlayerReadyState,
-  getPlayerFps,
 } from '../../redux/banner/selectors'
 import { getGifSize } from '../../redux/gif/selectors'
 import {
@@ -53,7 +52,6 @@ class ShowBanner extends Component {
       html: null,
       s: null,
     }
-    this.registerEmiterListeners()
   }
 
   getInitialState = () => {
@@ -67,6 +65,7 @@ class ShowBanner extends Component {
         const inst = this.banner.contentWindow.window.exportRoot.instance
           || this.banner.contentWindow.window.exportRoot.main
 
+        this.registerEmiterListeners()
         this.props.onSetGifSize({ w: canvas.width, h: canvas.height })
         inst.gotoAndStop(1)
         this.props.togglePlayerState(true)
@@ -194,7 +193,6 @@ class ShowBanner extends Component {
           id="bannerFrame"
           title="banner"
           onLoad={this.getInitialState}
-          
           srcDoc={this.state.html}
           // src={`${baseURL}/process/${this.props.nameFolder}/${this.props.nameHtml}`}
           width={w}

@@ -19,6 +19,7 @@ class EventEmitter {
 
   clearStare() {
     this.events = {}
+    console.log(`this events was cleared ! ${JSON.stringify(this.events)}`)
   }
 }
 
