@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { uploadFile } from '../redux/tree-folder/actions'
+import emitter from '../helpers/emitter'
 import { getArchiveReadyState } from '../redux/tree-folder/selectors'
 import io from '../helpers/io'
 
@@ -45,6 +46,7 @@ export default (BaseClass) => {
     },
     onClearState: () => {
       dispatch({ type: 'clearing' })
+      emitter.clearStare()
     },
   })
 
