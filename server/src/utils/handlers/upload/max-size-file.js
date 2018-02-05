@@ -1,6 +1,9 @@
 const debug = require('debug')('banner:helpers:upload:maxSizeFile')
 
-
+/**
+ * Проверить максимальный размер архива
+ * @param {*} size
+ */
 module.exports = (size) => async (ctx, next) => {
   const { files } = ctx.request
 

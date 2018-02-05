@@ -6,7 +6,10 @@ const {
   types,
 } = require('../utils')
 
-
+/**
+ * Прошивка банера
+ * Используется утилита firmware
+ */
 async function firmWare(ctx) {
   const { body } = ctx.request
 

@@ -7,7 +7,10 @@ const {
   bodyExists,
 } = require('../utils')
 
-
+/**
+ * Получить минимальный размер канваса
+ * @param {*} ctx
+ */
 async function getMinimalSize(ctx) {
   const { body } = ctx.request
   const tmpPath = tempPathGenerated()

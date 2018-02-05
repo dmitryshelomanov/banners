@@ -15,6 +15,10 @@ function getHtml(tree) {
   return { nameHtml, tree }
 }
 
+/**
+ * Получение дерева каталога
+ * @param {*} path
+ */
 module.exports = async (path) => {
   debug(`tree folder for ${path}`)
   try {

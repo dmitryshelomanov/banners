@@ -45,7 +45,7 @@ function setServiceFunction($) {
 }
 
 async function stoppedBanner(ctx) {
-  const { time, isStopped, nameFolder, nameFile, duration } = ctx.request.body
+  const { time, isStopped, nameFolder, nameFile, duration, repeat } = ctx.request.body
   const path = tempPathGenerated()
   const file = path(types.PROCESS, `${nameFolder}/${nameFile}`)
 
@@ -53,7 +53,7 @@ async function stoppedBanner(ctx) {
   try {
     const $ = cheerio.load(await fs.readFile(file))
 
-    setVarriable($, time + duration, isStopped)
+    setVarriable($, time + (duration * repeat), isStopped)
     setServiceFunction($)
     await fs.writeFile(file, minify($.html(), minifyOpt))
     ctx.body = 'banner is stopped'
@@ -65,6 +65,6 @@ async function stoppedBanner(ctx) {
 
 module.exports = (router, method, path) => router[method](
   path,
-  bodyExists(['time', 'isStopped', 'nameFolder', 'nameFile', 'duration']),
+  bodyExists(['time', 'isStopped', 'nameFolder', 'nameFile', 'duration', 'repeat']),
   stoppedBanner,
 )

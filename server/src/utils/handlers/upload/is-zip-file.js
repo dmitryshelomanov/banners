@@ -6,6 +6,11 @@ const types = [
   'application/x-zip-compressed',
 ]
 
+/**
+ * Проверить является ли файл архивом
+ * @param {*} ctx
+ * @param {*} next
+ */
 module.exports = (ctx, next) => {
   const { files } = ctx.request
 

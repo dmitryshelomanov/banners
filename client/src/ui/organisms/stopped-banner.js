@@ -1,23 +1,38 @@
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { getStoppedState } from '../../redux/stopped-banner/selectors'
-import { setStoppedState } from '../../redux/stopped-banner/actions'
+import InputRange from 'rc-input-number'
+import { getStoppedState, getStoppedRepeat } from '../../redux/stopped-banner/selectors'
+import { setStoppedState, setRepeat } from '../../redux/stopped-banner/actions'
 import { getArchiveName, getArchiveFileName } from '../../redux/tree-folder/selectors'
 import emitter from '../../helpers/emitter'
 import {
-  Button,
   Text,
   CheckBox,
 } from '../'
 
+
 const Stopped = ({
-  isStopped, onSetStoppedState, nameFolder, nameFile, ...rest
+  isStopped,
+  onSetStoppedState,
+  nameFolder,
+  nameFile,
+  onSetRepeat,
+  repeat,
+  ...rest
 }) => (
   <div {...rest}>
     <Text>
       Количество повторов банера
     </Text>
+    <InputRange
+      min={1}
+      max={10}
+      value={repeat}
+      onChange={(num) => {
+        onSetRepeat(num)
+      }}
+    />
     <Text>
       Застопить баннер на маркере
       (установите маркер на нужном кадре)
@@ -36,13 +51,9 @@ const Stopped = ({
           nameFolder,
           nameFile,
           duration,
+          repeat,
         })
       }}
-    />
-    <Button
-      className="active-btn"
-      text="застопить"
-      thirty
     />
   </div>
 )
@@ -51,11 +62,15 @@ const mapStateToProps = (state) => ({
   isStopped: getStoppedState(state),
   nameFolder: getArchiveName(state),
   nameFile: getArchiveFileName(state),
+  repeat: getStoppedRepeat(state),
 })
 
 const mapDispatchToProps = (dispatch) => ({
   onSetStoppedState: (data) => {
     dispatch(setStoppedState(data))
+  },
+  onSetRepeat: (num) => {
+    dispatch(setRepeat(num))
   },
 })
 

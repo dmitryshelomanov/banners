@@ -1,4 +1,10 @@
-module.exports = params => (ctx, next) => {
+
+/**
+ * Проверка наличия параметров
+ * В post запросе
+ * @param {*} params
+ */
+module.exports = (params) => (ctx, next) => {
   const { body } = ctx.request
 
   for (let i = 0; i < params.length; i++) {

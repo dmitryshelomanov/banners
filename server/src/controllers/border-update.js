@@ -62,8 +62,8 @@ const replace = function replaceFn(str) {
 }
 
 /**
- * изменение границы в файле
- * замена существующей функции на свою
+ * Изменение границы в файле
+ * Замена существующей функции на свою
  * @param {*} ctx
  */
 async function updateBorder(ctx) {

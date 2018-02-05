@@ -26,7 +26,7 @@ async function parserBanner(ctx) {
   const pathBanner = tmpPath(types.PROCESS, `${banner}/${file}`)
 
   if (!await fs.exists(pathBanner)) {
-    ctx.status = 204
+    ctx.status = 404
     ctx.body = `file ${banner} not found in ${pathBanner}`
     return
   }

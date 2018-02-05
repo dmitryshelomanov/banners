@@ -5,7 +5,10 @@ const {
 } = require('../temp-path')
 const getStubExtension = require('./get-stub-extension')
 
-
+/**
+ * Нахожление заглушки
+ * @param {*} param0
+ */
 module.exports = ({ isGif, nameFolder }) => new Promise(async (res, rej) => {
   const path = tempPathGenerated()
   const file = path(types.GIF_READY, `${nameFolder}/banner${getStubExtension(isGif)}`)

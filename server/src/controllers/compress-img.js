@@ -23,7 +23,7 @@ function getQ(...args) {
  */
 async function compressImg(ctx) {
   const { body } = ctx.request
-  const { quality, isGif } = ctx.query
+  const { quality } = ctx.query
   const { replacer, type, path, name, quality: bodyQuality } = body
   const tmpPath = tempPathGenerated()
 
@@ -54,7 +54,6 @@ async function compressImg(ctx) {
     }
   }
   catch (error) {
-    console.log(error)
     ctx.throw(error)
   }
 }

@@ -14,8 +14,17 @@ function minifyHtml(string) {
   })
 }
 
+/**
+ * Здесь выполнить то что нужно сделать
+ * После того как прошили архив и
+ * Положили в папку
+ * @param {*} lastResolve
+ * @param {*} data
+ * @param {*} areaPath
+ * @param {*} fileName
+ */
 module.exports = async (lastResolve, data, areaPath, fileName) => {
-  const scriptSub = data.rules.find(rule => rule.type === types.SCRIPT_SUB)
+  const scriptSub = data.rules.find((rule) => rule.type === types.SCRIPT_SUB)
 
   if (typeof scriptSub !== 'undefined') {
     await fs.remove(`${areaPath}/libs`)

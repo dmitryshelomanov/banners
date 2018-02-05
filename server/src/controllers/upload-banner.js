@@ -16,6 +16,7 @@ const {
 /**
  * Загрузка архива на сервер
  * Возврат дерева каталога
+ * @param ctx { Koa context }
  */
 async function lastLoaded(ctx) {
   const { files } = ctx.request

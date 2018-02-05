@@ -6,6 +6,7 @@ const initialState = {
   isStopped: false,
   isLoading: false,
   isError: false,
+  repeatNumber: 1,
 }
 
 const gif = (state = initialState, { type, payload }) => {
@@ -22,6 +23,10 @@ const gif = (state = initialState, { type, payload }) => {
     case types.STOPPED_BANNER_END: return {
       ...state,
       isLoading: false,
+    }
+    case types.STOPPED_BANNER_SET_REPEAT: return {
+      ...state,
+      repeatNumber: payload,
     }
     case types.STOPPED_BANNER_ERROR: return {
       ...state,

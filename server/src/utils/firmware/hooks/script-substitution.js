@@ -1,6 +1,10 @@
 const cheerio = require('cheerio')
 
-
+/**
+ * удаление всех скриптов (из папки libs) и добавление глобальных
+ * @param {*} param0
+ * @param {*} html
+ */
 module.exports = ({
   content,
 }, html) => new Promise(async (res, rej) => {

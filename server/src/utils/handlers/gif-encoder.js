@@ -8,6 +8,11 @@ function replaceOriginalToGif(path) {
   return path.replace(/gif-original/, 'gif')
 }
 
+/**
+ * генерация гифок
+ * @param {*} imgData данные типа (data: путь к картинке, repeat: повторение)
+ * @param {*} pathReadyGif куда положить готовую гифку
+ */
 module.exports = function wrapGif(imgData, pathReadyGif) {
   const { w, h, data, repeat } = imgData
   const gif = new GIFEncoder(w, h)

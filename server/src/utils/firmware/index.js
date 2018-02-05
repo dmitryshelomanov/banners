@@ -10,7 +10,15 @@ const mapperFn = require('./mapper-fn')
 const sizeStarter = require('./hooks/check-size')
 const checkStubExists = require('./check-stub-exists')
 
-
+/**
+ * Главная функция для прошивки банера
+ * Соберет все правила из бд и создаст хуки
+ * По которым проверит и если ок вернет 200
+ * И сложит прошитое в папку firmware
+ * Дальше проверить есть ли заглушка
+ * И проверить размеры заглушки и архива
+ * @param {*} param0
+ */
 module.exports = async ({ nameFolder, areaId, fileName, isGif }) => {
   const rs = []
   const data = await Area.getAreaInfo(areaId)

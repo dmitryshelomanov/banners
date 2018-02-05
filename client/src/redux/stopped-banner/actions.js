@@ -13,3 +13,12 @@ export function setStoppedState(data) {
     })
   }
 }
+
+export function setRepeat(num) {
+  return function (dispatch) {
+    dispatch({
+      type: types.STOPPED_BANNER_SET_REPEAT,
+      payload: num,
+    })
+  }
+}

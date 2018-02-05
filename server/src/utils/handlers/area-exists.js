@@ -1,8 +1,11 @@
 const debug = require('debug')('banner:util:area-exists')
 const fs = require('fs-extra')
 
-
-module.exports = path => async (ctx, next) => {
+/**
+ * Проверка есть ли папка для арены
+ * @param {*} path
+ */
+module.exports = (path) => async (ctx, next) => {
   const { body } = ctx.request
   const { nameFolder, area } = body
   const pathFolder = path(nameFolder, area)

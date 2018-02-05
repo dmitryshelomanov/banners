@@ -32,7 +32,7 @@ export class RenderTree extends Component {
   componentDidMount = () => this.addImage(this.props.folders)
 
   addImage = (img) => {
-    const { folders, archiveName } = this.props
+    const { archiveName } = this.props
 
     if (img.type === 'file'
         && extensions.indexOf(img.extension) !== -1) {
@@ -63,7 +63,7 @@ export class RenderTree extends Component {
           w="100%"
         >
           {
-            folders.children && folders.children.map((item, key) => (
+            folders.children && deep < 1 && folders.children.map((item, key) => (
               <RenderTree
                 folders={item}
                 archiveName={archiveName}

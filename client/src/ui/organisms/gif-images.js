@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import InputNumber from 'rc-input-number'
-import ImportRange from 'react-input-range'
 import {
   FlexWrap,
   GifItem,
@@ -157,7 +156,7 @@ class GifWrapper extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   gifs: getGifs(state),
   weight: getStubWeight(state),
   resize: getResize(state),

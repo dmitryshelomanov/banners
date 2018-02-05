@@ -10,12 +10,12 @@ const {
 
 
 function stub(condition, {
-  pathReadyGif, pathReadyJpg, data, nameFolder,
+  pathReadyGif, pathReadyJpg, data,
 }) {
   async function jpg() {
     await fs.writeFile(pathReadyJpg, data, {
       encoding: 'base64',
-      mode: parseInt('0777', 8),
+      mode: Number.parseInt('0777', 8),
     })
     const { size } = await fs.stat(pathReadyJpg)
 
@@ -57,7 +57,6 @@ async function stubGenerated(ctx) {
     ctx.body = size
   }
   catch (error) {
-    debug('handle error - ', error)
     ctx.throw(error)
   }
 }

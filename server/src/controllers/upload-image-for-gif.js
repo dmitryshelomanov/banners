@@ -26,7 +26,7 @@ async function uploadImageForGif(ctx) {
   try {
     await fs.writeFile(pathFileOriginal, img, {
       encoding: 'base64',
-      mode: parseInt('0777', 8),
+      mode: Number.parseInt('0777', 8),
     })
     await copyFolder(pathFileOriginal, pathFileCopy)
     const { size } = await fs.stat(pathFileOriginal)

@@ -15,6 +15,11 @@ const types = {
   FIRMWARE: 'firmware',
 }
 
+/**
+ * Возврат правильного пути к файлу | папке
+ * @param {*} name
+ * @param {*} testUiid для теста
+ */
 function tempPathGenerated(name = null, testUiid = null) {
   const uuidMain = testUiid ? testUiid() : uuid()
 

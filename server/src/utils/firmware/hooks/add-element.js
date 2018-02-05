@@ -1,7 +1,11 @@
 const cheerio = require('cheerio')
 const types = require('../types')
 
-
+/**
+ * добавление данных
+ * @param {*} param0
+ * @param {*} html код архива. Передается между хуками по цепочки и модифицируется
+ */
 module.exports = ({
   bind_element: element, position, content,
 }, html) => new Promise(async (res, rej) => {

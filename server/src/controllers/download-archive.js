@@ -13,6 +13,10 @@ const getExtension = require('../utils/firmware/get-stub-extension')
 const getStubName = (isGif, w, h) => `${w}x${h}${getExtension(isGif)}`
 const getName = (w, h) => `${w}x${h}`
 
+/**
+ * Подготовка и скачивание архива
+ * @param {*} ctx
+ */
 async function downloadArchive(ctx) {
   const { nameFolder, areaName, w, h, isGif } = ctx.request.body
   const tmpPath = tempPathGenerated()
