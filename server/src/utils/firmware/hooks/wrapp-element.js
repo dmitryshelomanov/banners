@@ -22,8 +22,9 @@ module.exports = ({
   const $wrapper = $(content)
 
   if ($parent.is('a')) {
-    $parent.attr('href', $wrapper.attr('href'))
-    $parent.attr('target', $wrapper.attr('target'))
+    $parent
+      .attr('href', $wrapper.attr('href'))
+      .attr('target', $wrapper.attr('target'))
     return res($.html())
   }
 

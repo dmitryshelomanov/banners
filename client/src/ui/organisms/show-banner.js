@@ -61,12 +61,9 @@ class ShowBanner extends Component {
       if (!canvas) return
 
       setTimeout(() => {
-        const inst = this.banner.contentWindow.window.exportRoot.instance
-          || this.banner.contentWindow.window.exportRoot.main
-
         this.registerEmiterListeners()
         this.props.onSetGifSize({ w: canvas.width, h: canvas.height })
-        inst.gotoAndStop(1)
+        this.getMethodFromTimeline().gotoAndStop(1)
         this.props.togglePlayerState(true)
         this.props.onSetFps(this.banner.contentWindow.lib.properties.fps)
         this.setVariables(
@@ -82,14 +79,14 @@ class ShowBanner extends Component {
     }
   }
 
-  componentDidMount() {
-    try {
-      this.getData()
-    }
-    catch (error) {
-      throw error
-    }
-  }
+  // componentDidMount() {
+  //   try {
+  //     this.getData()
+  //   }
+  //   catch (error) {
+  //     throw error
+  //   }
+  // }
 
   componentWillUpdate(nextProps) {
     if (nextProps.bodyColor !== this.props.bodyColor) {
@@ -154,6 +151,25 @@ class ShowBanner extends Component {
     return doc.getElementById('canvas')
   }
 
+  getIntance = () => this.banner.contentWindow.window.exportRoot.instance
+    || this.banner.contentWindow.window.exportRoot.main
+
+  getMethodFromTimeline = () => {
+    const { exportRoot } = this.banner.contentWindow.window
+    const instance = this.getIntance()
+
+    if ('instance_1' in exportRoot) {
+      return {
+        gotoAndStop: exportRoot.gotoAndStop.bind(exportRoot),
+        gotoAndPlay: exportRoot.gotoAndPlay.bind(exportRoot),
+      }
+    }
+    return {
+      gotoAndStop: instance.gotoAndStop.bind(instance),
+      gotoAndPlay: instance.gotoAndPlay.bind(instance),
+    }
+  }
+
   registerEmiterListeners = () => {
     emitter.on('set-stub-gif', () => {
       this.props.setImageFromGif(
@@ -191,8 +207,8 @@ class ShowBanner extends Component {
           id="bannerFrame"
           title="banner"
           onLoad={this.getInitialState}
-          srcDoc={this.state.html}
-          // src={`${baseURL}/process/${this.props.nameFolder}/${this.props.nameHtml}`}
+          // srcDoc={this.state.html}
+          src={`${baseURL}process/${this.props.nameFolder}/${this.props.nameHtml}`}
           width={w}
           height={h}
           frameBorder="0"
@@ -202,11 +218,11 @@ class ShowBanner extends Component {
         />
         {playerReady && (
           <Controll
-            instance={this.banner.contentWindow.window.exportRoot.instance
-              || this.banner.contentWindow.window.exportRoot.main}
+            instance={this.getIntance()}
             exportRoot={this.banner.contentWindow.window.exportRoot}
             createjs={this.banner.contentWindow.window.createjs}
             wnd={this.banner.contentWindow.window}
+            methodsFromTimeline={this.getMethodFromTimeline}
           />
         )}
       </BnnerWrap>

@@ -48,7 +48,7 @@ export default (WrapClass) => {
         onUpdateData(carousel.ids, {
           ...data,
           base64: null,
-          delay: 200,
+          delay: 2000,
           quality: 100,
           info: {
             percentCompress: 0,

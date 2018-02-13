@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import InputRange from 'react-input-range'
 import {
   FlexWrap,
-  StoppedPoint,
 } from '../'
+import Timeline from '../../helpers/get-timeline'
 import { setBorderFromCanvas, setGifImage } from '../../redux/gif/actions'
 import { setJpgStub } from '../../redux/stub/actions'
 import { getMinimalSize } from '../../redux/resize/actions'
@@ -53,7 +53,7 @@ class Controll extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      duration: props.instance.timeline.duration,
+      duration: Timeline(props.exportRoot, props.instance).duration,
       isPlay: false,
     }
     this.registerEvent()
@@ -79,39 +79,46 @@ class Controll extends Component {
   }
 
   setInfoFromTimeline = () => {
-    const { instance } = this.props
+    const { instance, methodsFromTimeline, exportRoot } = this.props
     const { el, label, labelContainer } = this.getElements()
+    const { gotoAndStop } = methodsFromTimeline()
+    const { position } = Timeline(exportRoot, instance)
 
-    el.style.width = `${this.getComputedPecent(instance.timeline.position)}%`
-    labelContainer.style.left = `${this.getComputedPecent(instance.timeline.position)}%`
-    label.innerText = this.getComputedValue(instance.timeline.position)
-    instance.gotoAndStop(instance.timeline.position)
+    el.style.width = `${this.getComputedPecent(position)}%`
+    labelContainer.style.left = `${this.getComputedPecent(position)}%`
+    label.innerText = this.getComputedValue(position)
+    gotoAndStop(position)
   }
 
   animated = () => {
-    const { instance } = this.props
+    const { instance, exportRoot } = this.props
 
     if (!this.state.isPlay
-      || instance.timeline.position > this.state.duration) return
+      || Timeline(exportRoot, instance).position > this.state.duration) return
 
-    instance.timeline.position++
+    Timeline(exportRoot, instance).position++
     this.setInfoFromTimeline()
     requestAnimationFrame(this.animated)
   }
 
   changeTimeLine = (value) => {
-    const { instance } = this.props
+    const { instance, methodsFromTimeline, exportRoot } = this.props
+    const { gotoAndStop } = methodsFromTimeline()
 
-    instance.timeline.position = value
+    Timeline(exportRoot, instance).position = value
     this.setInfoFromTimeline()
-    instance.gotoAndStop(value)
+    gotoAndStop(value)
   }
 
   registerEvent = () => {
-    emitter.on('get:time:data', () => ({
-      time: (this.props.instance.timeline.position / this.props.fps) * 1000,
-      duration: (this.props.instance.timeline.duration / this.props.fps) * 1000,
-    }))
+    emitter.on('get:time:data', () => {
+      const { position, duration } = Timeline(this.props.exportRoot, this.props.instance)
+
+      return {
+        time: (position / this.props.fps) * 1000,
+        duration: (duration / this.props.fps) * 1000,
+      }
+    })
   }
 
   render() {

@@ -8,7 +8,7 @@ const {
 module.exports = {
   defaultQuality: 80,
   ext: 'png',
-  isDelete: false,
+  isDelete: true,
   db: dbConfig[NODE_ENV],
   minifyOpt: {
     collapseInlineTagWhitespace: true,
