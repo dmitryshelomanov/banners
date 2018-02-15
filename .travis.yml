@@ -7,3 +7,9 @@ install:
   - npm install
   - cd ../client
   - npm install
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/<dir> deploy@banner.goldditp.beget.tech:/var/www/html/banners
+  on:
+    branch: master
