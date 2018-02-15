@@ -11,7 +11,9 @@
     "eject": "react-scripts eject",
     "test:lint:client": "eslint . ",
     "precommit": "npm run test:lint:client",
-    "prepush": "npm run test:lint:client"
+    "prepush": "npm run test:lint:client",
+    "postbuild": "node ./srcipts/post-build.js",
+    "postpull": "node ./scripts/post-pull.js"
   },
   "dependencies": {
     "axios": "^0.17.1",
