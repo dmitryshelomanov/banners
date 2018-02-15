@@ -45,7 +45,6 @@ sequelize
   .authenticate()
   .then(() => {
     debug('db connected')
-
     server.listen(8000, () => {
       debug('server run!')
     })

@@ -8,11 +8,10 @@ before_script:
   - git config --global user.email $GIT_EMAIL 
   - git config --global user.name $GIT_NAME
 before_install:
-  - openssl aes-256-cbc -K $encrypted_e1b8b15efbe7_key -iv $encrypted_e1b8b15efbe7_iv-in id_rsa.enc -out ~/.ssh/id_rsa -d
+- openssl aes-256-cbc -K $encrypted_e1b8b15efbe7_key -iv $encrypted_e1b8b15efbe7_iv-in travis_key.enc -out travis_key -d
 after_success:
-  - chmod 600 ~/.ssh/id_rsa
-  - eval "$(ssh-agent)" 
-  - ssh-add
+  - chmod 600 travis_key
+  - ssh-add travis_key
 script:
   - echo "hi"
 env:
