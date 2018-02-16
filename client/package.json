@@ -12,8 +12,8 @@
     "test:lint:client": "eslint . ",
     "precommit": "npm run test:lint:client",
     "prepush": "npm run test:lint:client",
-    "postbuild": "node ./srcipts/post-build.js",
-    "postpull": "node ./scripts/post-pull.js"
+    "postbuild": "node ../scripts/post-build.js",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "axios": "^0.17.1",
