@@ -2,6 +2,7 @@
   "scripts": {
     "dev": "cross-env DEBUG=banner:* nodemon index.js",
     "start": "cross-env PORT=8000 NODE_ENV=production pm2 start  index.js",
+    "pm2:kill": "node_modules/.bin/pm2 delete all",
     "test": "npm run test:lint && npm run test:code",
     "test:lint": "eslint . ",
     "test:code": "ava",
@@ -52,6 +53,7 @@
     "babel-eslint": "^8.2.1",
     "eslint": "^4.16.0",
     "husky": "^0.14.3",
+    "pm2": "^2.9.3",
     "sequelize-cli": "^3.2.0",
     "sinon": "^4.1.3"
   },
