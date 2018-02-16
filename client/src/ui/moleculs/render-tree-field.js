@@ -63,7 +63,7 @@ export class RenderTree extends Component {
           w="100%"
         >
           {
-            folders.children && deep < 1 && folders.children.map((item, key) => (
+            folders.children && folders.children.map((item, key) => (
               <RenderTree
                 folders={item}
                 archiveName={archiveName}
