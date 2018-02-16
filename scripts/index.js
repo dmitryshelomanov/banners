@@ -1,6 +1,8 @@
 const exec = require('./promisify-exec')
 const path = require('path')
 const command = [
+  'git fetch',
+  'git pull',
   'cd client && npm install',
   'cd client && npm run build',
   'cd server && npm install',
