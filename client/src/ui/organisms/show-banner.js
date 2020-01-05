@@ -79,14 +79,14 @@ class ShowBanner extends Component {
     }
   }
 
-  // componentDidMount() {
-  //   try {
-  //     this.getData()
-  //   }
-  //   catch (error) {
-  //     throw error
-  //   }
-  // }
+  componentDidMount() {
+    try {
+      this.getData()
+    }
+    catch (error) {
+      throw error
+    }
+  }
 
   componentWillUpdate(nextProps) {
     if (nextProps.bodyColor !== this.props.bodyColor) {
@@ -207,8 +207,8 @@ class ShowBanner extends Component {
           id="bannerFrame"
           title="banner"
           onLoad={this.getInitialState}
-          // srcDoc={this.state.html}
-          src={`${baseURL}process/${this.props.nameFolder}/${this.props.nameHtml}`}
+          srcDoc={this.state.html}
+          // src={`${baseURL}process/${this.props.nameFolder}/${this.props.nameHtml}`}
           width={w}
           height={h}
           frameBorder="0"

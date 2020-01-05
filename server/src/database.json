@@ -3,14 +3,14 @@
     "username": "root",
     "password": "1111111",
     "database": "service_development",
-    "host": "localhost",
-    "dialect": "mysql"
+    "dialect": "sqlite",
+    "storage": "./src/db/database.sqlite"
   },
   "production": {
     "username": "root",
     "password": "1111111",
     "database": "service_production",
-    "host": "localhost",
-    "dialect": "mysql"
+    "dialect": "sqlite",
+    "storage": "./src/db/database.sqlite"
   }
 }

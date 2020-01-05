@@ -6,14 +6,15 @@ const config = require('../config').db
 
 const basename = path.basename(__filename)
 const db = {}
-let sequelize = null
 
-sequelize = new Sequelize(
+const sequelize = new Sequelize(
   config.database,
   config.username,
   config.password, {
     dialect: config.dialect,
     host: config.host,
+    // TODO: change if need
+    storage: path.resolve(__dirname, '..', 'db/database.sqlite'),
   }
 )
 

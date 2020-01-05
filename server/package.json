@@ -43,6 +43,7 @@
     "neuquant": "^1.0.2",
     "sequelize": "^4.31.2",
     "socket.io": "^2.0.4",
+    "sqlite3": "^4.1.1",
     "uglify-js": "^3.3.8",
     "webpage": "^0.3.0",
     "zip-folder": "^1.0.0"
